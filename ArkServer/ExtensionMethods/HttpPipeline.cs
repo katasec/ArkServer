@@ -10,9 +10,21 @@ namespace ArkServer.ExtensionMethods
         /// <returns></returns>
         public static WebApplication ConfigureMiddlewarePipeline(this WebApplication app)
         {
+            app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI();
-            app.UseHttpsRedirection();
+
+            
+
+            //app.UseReDoc(options =>
+            //{
+            //    options.DocumentTitle = "Swagger Demo Documentation";
+            //    options.SpecUrl = "/swagger/v1/swagger.json";
+            //});
+
+
+            
+            
 
             return app;
         }

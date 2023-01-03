@@ -45,6 +45,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Azure.Messaging.ServiceBus": {
+              "target": "Package",
+              "version": "[7.11.1, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.1, )"
@@ -52,6 +56,14 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "Swashbuckle.AspNetCore.ReDoc": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "YamlDotNet": {
+              "target": "Package",
+              "version": "[12.3.1, )"
             }
           },
           "imports": [

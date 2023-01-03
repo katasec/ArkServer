@@ -31,3 +31,12 @@ C:\progs\ArkServer\ArkServer\obj\Debug\net7.0\refint\ArkServer.dll
 C:\progs\ArkServer\ArkServer\obj\Debug\net7.0\ArkServer.pdb
 C:\progs\ArkServer\ArkServer\obj\Debug\net7.0\ArkServer.genruntimeconfig.cache
 C:\progs\ArkServer\ArkServer\obj\Debug\net7.0\ref\ArkServer.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Swashbuckle.AspNetCore.ReDoc.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Content\theme-muted.css
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\YamlDotNet.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Azure.Core.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Azure.Core.Amqp.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Azure.Messaging.ServiceBus.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Microsoft.Azure.Amqp.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\progs\ArkServer\ArkServer\bin\Debug\net7.0\System.Memory.Data.dll

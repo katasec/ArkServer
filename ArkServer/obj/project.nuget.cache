@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3273lUW+0kQ5IQfryx2zGCPuLpeSaj/ffgyao60fuz5u5cLb2aQG/DdjdADfL0m9Sz0oA383xwIai7fPoMmIMQ==",
+  "dgSpecHash": "CXvdKNrJjGmvtgQ+/ByfIcIzzazHwL4ZqAkySLK8W391uEFhsZTLwwc8iYTY5ApQroyisH7GgSMN5+QikIftLQ==",
   "success": true,
   "projectFilePath": "C:\\progs\\ArkServer\\ArkServer\\ArkServer.csproj",
   "expectedPackageFiles": [
@@ -24,7 +24,10 @@
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\yamldotnet\\12.3.1\\yamldotnet.12.3.1.nupkg.sha512"
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\yamldotnet\\12.3.1\\yamldotnet.12.3.1.nupkg.sha512",
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\7.0.1\\microsoft.aspnetcore.app.runtime.win-x64.7.0.1.nupkg.sha512",
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\7.0.1\\microsoft.windowsdesktop.app.runtime.win-x64.7.0.1.nupkg.sha512",
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\7.0.1\\microsoft.netcore.app.runtime.win-x64.7.0.1.nupkg.sha512"
   ],
   "logs": []
 }

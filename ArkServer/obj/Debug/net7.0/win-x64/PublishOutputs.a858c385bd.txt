@@ -1,0 +1,12 @@
+C:\progs\ArkServer\ArkServer\publish\publish\publish\web.config
+C:\progs\ArkServer\ArkServer\publish\publish\web.config
+C:\progs\ArkServer\ArkServer\publish\appsettings.Development.json
+C:\progs\ArkServer\ArkServer\publish\appsettings.json
+C:\progs\ArkServer\ArkServer\publish\publish\appsettings.Development.json
+C:\progs\ArkServer\ArkServer\publish\publish\appsettings.json
+C:\progs\ArkServer\ArkServer\publish\publish\publish\appsettings.Development.json
+C:\progs\ArkServer\ArkServer\publish\publish\publish\appsettings.json
+C:\progs\ArkServer\ArkServer\publish\ArkServer.pdb
+C:\progs\ArkServer\ArkServer\publish\Content\theme-muted.css
+C:\progs\ArkServer\ArkServer\publish\aspnetcorev2_inprocess.dll
+C:\progs\ArkServer\ArkServer\publish\ArkServer.exe

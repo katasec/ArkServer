@@ -27,8 +27,8 @@ public class Server
     public void RegisterRoutes()
     {
         
-        App.Get(HandlerFunc.WeatherHandler, "/weatherforecast",description:"My description");
-        App.Get(HandlerFunc.HelloHandler, "/hello", description:"The friendliest service in the world");
+        App.Get(HandlerFunc.WeatherHandler, "/weatherforecast");
+        App.Get(HandlerFunc.HelloHandler, "/hello");
 
     }
 

@@ -12,6 +12,7 @@ public class Server
     {
         // Create App Builder and Register Services
         var builder = WebApplication.CreateBuilder(args);
+        
         builder.Services.RegisterServices();
 
         // Build App
@@ -26,10 +27,8 @@ public class Server
 
     public void RegisterRoutes()
     {
-        
         App.Get(HandlerFunc.WeatherHandler, "/weatherforecast");
         App.Get(HandlerFunc.HelloHandler, "/hello");
-
     }
 
     public void Start()

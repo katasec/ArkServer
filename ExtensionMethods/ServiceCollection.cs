@@ -11,7 +11,7 @@
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
+            
             return services;
         }
     }

@@ -1,7 +1,6 @@
 ﻿using ArkServer.ExtensionMethods;
 using ArkServer.Handlers;
 
-
 namespace ArkServer;
 
 public class Server
@@ -20,16 +19,9 @@ public class Server
 
         // Configure Middleware pipelines
         App.ConfigureMiddlewarePipeline();
-
-        // Register Routes
-        RegisterRoutes();
     }
 
-    public void RegisterRoutes()
-    {
-        App.Get(HandlerFunc.WeatherHandler, "/weatherforecast");
-        App.Get(HandlerFunc.HelloHandler, "/hello");
-    }
+
 
     public void Start()
     {

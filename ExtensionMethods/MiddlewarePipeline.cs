@@ -1,7 +1,7 @@
 ﻿
 namespace ArkServer.ExtensionMethods
 {
-    public static class HttpPipeline
+    public static class MiddlewarePipeline
     {
         /// <summary>
         /// ConfigureMiddlewarePipeline registers the sequence of middleware to use for our web application
@@ -10,22 +10,9 @@ namespace ArkServer.ExtensionMethods
         /// <returns></returns>
         public static WebApplication ConfigureMiddlewarePipeline(this WebApplication app)
         {
-            app.UseStaticFiles();
+            app.MapControllers();
             app.UseSwagger();
             app.UseSwaggerUI();
-
-            
-
-            //app.UseReDoc(options =>
-            //{
-            //    options.DocumentTitle = "Swagger Demo Documentation";
-            //    options.SpecUrl = "/swagger/v1/swagger.json";
-            //});
-
-
-            
-            
-
             return app;
         }
     }

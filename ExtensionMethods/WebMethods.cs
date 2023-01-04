@@ -11,7 +11,7 @@ public static class WebMethods
     /// <returns></returns>
     public static WebApplication Get(this WebApplication app, Delegate handler, string pattern, string description="", string displayName="", string summary="" )
     {
-        app.MapGet(pattern, handler)
+        app.MapGet(pattern, handler )
             .WithName(pattern)
             .WithDescription(description)
             .WithDisplayName(displayName)
@@ -27,9 +27,14 @@ public static class WebMethods
     /// <param name="pattern">URI pattern used for this HTTP request</param>
     /// <param name="handler"></param>
     /// <returns></returns>
-    public static WebApplication Post(this WebApplication app, string pattern, Delegate handler)
+    public static WebApplication Post(this WebApplication app, Delegate handler, string pattern, string description="", string displayName="", string summary="")
     {
-        app.MapPost(pattern, handler).WithName(pattern).WithOpenApi();
+        app.MapPost(pattern, handler)
+            .WithName(pattern)
+            .WithDescription(description)
+            .WithDisplayName(displayName)
+            .WithSummary(summary)
+            .WithOpenApi();
         return app;
     }
 
@@ -40,9 +45,14 @@ public static class WebMethods
     /// <param name="pattern">URI pattern used for this HTTP request</param>
     /// <param name="handler"></param>
     /// <returns></returns>
-    public static WebApplication Delete(this WebApplication app, string pattern, Delegate handler)
+    public static WebApplication Delete(this WebApplication app, Delegate handler, string pattern, string description="", string displayName="", string summary="")
     {
-        app.MapDelete(pattern, handler).WithName(pattern).WithOpenApi();
+        app.MapDelete(pattern, handler)
+            .WithName(pattern)
+            .WithDescription(description)
+            .WithDisplayName(displayName)
+            .WithSummary(summary)
+            .WithOpenApi();
         return app;
     }
 }

@@ -1,43 +1,9 @@
-﻿using Azure.Messaging.ServiceBus;
-using System.Data.SqlTypes;
-using YamlDotNet.Serialization;
+﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ArkServer.Handlers;
+namespace ArkServer;
 
-public static partial class HandlerFunc
-{
-    public static Func<string> HelloHandler =  () =>
-    {
-        var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .Build();
-
-        var homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var arkConfigFile = Path.Join(homeFolder, ".ark", "config");
-
-        var config = File.ReadAllText(arkConfigFile);
-
-        var c = deserializer.Deserialize<Config>(config);
-
-        var clientOptions = new ServiceBusClientOptions()
-        {
-            TransportType = ServiceBusTransportType.AmqpWebSockets
-        };
-        
-        var client = new ServiceBusClient(c.AzureConfig.MqConfig.MqConnectionString, clientOptions);
-        var sender = client.CreateSender(c.AzureConfig.MqConfig.MqName);
-
-        /*
-        var message = new ServiceBusMessage("Hello from Ark");
-        sender.SendMessageAsync(message).Wait();
-        */
-
-        return $"Hello {c.AzureConfig.MqConfig.MqConnectionString}";
-    };
-}
-
-public struct Config
+public struct ArkConfig
 {
     [YamlMember(Alias = "cloudid")]
     public string CloudId { get; set; }
@@ -50,6 +16,25 @@ public struct Config
 
     [YamlMember(Alias = "logfile")]
     public string LogFile { get; set; }
+
+
+    public static readonly string HomeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    public static readonly string ConfigFile = Path.Join(HomeFolder, ".ark", "config");
+
+    public static ArkConfig Read()
+    {
+
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .Build();
+
+        var configTxt = File.ReadAllText(ConfigFile);
+
+        var config = deserializer.Deserialize<ArkConfig>(configTxt);
+
+        return config;
+    }
+
 }
 
 public struct AwsConfig

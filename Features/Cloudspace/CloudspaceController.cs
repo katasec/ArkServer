@@ -24,9 +24,8 @@ namespace ArkServer.Features.Cloudspace
 
             // Send message
             await _asbService.Sender.SendMessageAsync(message);
-            
 
-            return Results.Ok("Everything is OK");
+            return Results.Accepted("/blah");
         }
     }
 }

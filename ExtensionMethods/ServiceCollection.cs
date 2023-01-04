@@ -1,4 +1,9 @@
-﻿namespace ArkServer.ExtensionMethods
+﻿using ArkServer.Features.Cloudspace;
+using ArkServer.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
+namespace ArkServer.ExtensionMethods
 {
     public static class ServiceCollection
     {
@@ -9,10 +14,17 @@
         /// <returns></returns>
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+            // Configure controllers and swagger
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            // Adding custom services
+            services.AddSingleton<AsbService>();
             
+            // Model Validators
+            services.AddFluentValidationAutoValidation();
+            services.AddScoped<IValidator<CloudspaceRequest>, CloudspaceRequestValidator>();
 
             return services;
         }

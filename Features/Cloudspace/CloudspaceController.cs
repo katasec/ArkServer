@@ -1,5 +1,5 @@
-﻿using Azure.Messaging.ServiceBus;
-using Microsoft.AspNetCore.Http;
+﻿using ArkServer.Services;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArkServer.Features.Cloudspace
@@ -7,30 +7,25 @@ namespace ArkServer.Features.Cloudspace
     [ApiController]
     public class CloudspaceController : ControllerBase
     {
+        private readonly AsbService _asbService;
+        
+        public CloudspaceController(AsbService asbService)
+        {
+            _asbService = asbService;
+        }
+
         [HttpPost]
         [Route("/azure/cloudspace")]
         public async Task<IResult> Post(CloudspaceRequest req)
         {
-            // Read Ark ArkConfig
-            var config = ArkConfig.Read();
 
-            // Create service bus client
-            var client = new ServiceBusClient(config.AzureConfig.MqConfig.MqConnectionString, new ServiceBusClientOptions()
-            {
-                TransportType = ServiceBusTransportType.AmqpWebSockets
-            });
-
-            // Create service bus sender
-            var sender = client.CreateSender(config.AzureConfig.MqConfig.MqName);
+            // Create message
+            var message = new ServiceBusMessage(req.ToString()) { Subject = "CloudSpaceRequest" };
 
             // Send message
-            var message = new ServiceBusMessage("Hello from Ark")
-            {
-                Subject = "CloudSpaceRequest"
-            };
-            await sender.SendMessageAsync(message);
+            await _asbService.Sender.SendMessageAsync(message);
+            
 
-            Console.WriteLine(req.ProjectName);
             return Results.Ok("Everything is OK");
         }
     }

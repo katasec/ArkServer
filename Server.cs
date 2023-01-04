@@ -1,5 +1,5 @@
 ﻿using ArkServer.ExtensionMethods;
-using ArkServer.Handlers;
+using ArkServer.Services;
 
 namespace ArkServer;
 
@@ -11,9 +11,8 @@ public class Server
     {
         // Create App Builder and Register Services
         var builder = WebApplication.CreateBuilder(args);
-        
         builder.Services.RegisterServices();
-
+        
         // Build App
         App = builder.Build();
 

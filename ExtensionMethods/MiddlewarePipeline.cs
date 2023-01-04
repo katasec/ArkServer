@@ -1,4 +1,6 @@
 ﻿
+using ArkServer.Services;
+
 namespace ArkServer.ExtensionMethods
 {
     public static class MiddlewarePipeline
@@ -13,6 +15,7 @@ namespace ArkServer.ExtensionMethods
             app.MapControllers();
             app.UseSwagger();
             app.UseSwaggerUI();
+
             return app;
         }
     }

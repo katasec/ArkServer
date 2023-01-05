@@ -18,8 +18,10 @@ public struct ArkConfig
     public string LogFile { get; set; }
 
 
-    public static readonly string HomeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-    public static readonly string ConfigFile = Path.Join(HomeFolder, ".ark", "config");
+    public static readonly string UserHomeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    public static readonly string ArkHome = Path.Join(UserHomeDir, ".ark");
+    public static readonly string ConfigFile = Path.Join(ArkHome , "config");
+
 
     public static ArkConfig Read()
     {

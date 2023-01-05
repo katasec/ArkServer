@@ -28,6 +28,7 @@ public class AzureCloudspace : ICloudspace
 {
     public int? Id { get; set; }
     public string? Name { get; set; }
+    public string? ProjectName { get; set; }
 
     public VnetInfo? Hub { get; set; }
     public List<VnetInfo>? Spokes { get; set; }

@@ -21,6 +21,7 @@ namespace ArkServer.ExtensionMethods
 
             // Adding custom services
             services.AddSingleton<AsbService>();
+            services.AddSingleton<IAzureCsRepo, CloudspaceJsonRepository>();
             
             // Model Validators
             services.AddFluentValidationAutoValidation();

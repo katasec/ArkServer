@@ -25,7 +25,9 @@ namespace ArkServer.Features.Cloudspace
             // Send message
             await _asbService.Sender.SendMessageAsync(message);
 
-            return Results.Accepted("/blah");
+            var url = $"https://{Request.Host}/projects/{req.ProjectName}";
+
+            return Results.Accepted(url);
         }
     }
 }

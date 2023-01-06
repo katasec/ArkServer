@@ -1,4 +1,5 @@
-﻿using ArkServer.Features.Cloudspace;
+﻿using ArkServer.Entities.Azure;
+using ArkServer.Features.Cloudspace;
 using ArkServer.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -21,8 +22,11 @@ namespace ArkServer.ExtensionMethods
 
             // Adding custom services
             services.AddSingleton<AsbService>();
+            services.AddSingleton<Ark>();
             services.AddSingleton<IAzureCsRepo, CloudspaceJsonRepository>();
-            
+            services.AddSingleton<IArkRepo, ArkJsonRepo>();
+            services.AddSingleton<ArkService>();
+
             // Model Validators
             services.AddFluentValidationAutoValidation();
             services.AddScoped<IValidator<CloudspaceRequest>, CloudspaceRequestValidator>();

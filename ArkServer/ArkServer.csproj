@@ -5,8 +5,8 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<OutputType>Exe</OutputType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
 		<!--
 		<PublishTrimmed>true</PublishTrimmed>
 		-->

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkServer", "ArkServer\ArkS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15FFEEBE-92CC-4F30-A6C9-FD9CC31F508F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArkServer.Test", "ArkServer.Test\ArkServer.Test.csproj", "{392E839C-FA47-4B7B-84BA-626337B57001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkServer.Test", "ArkServer.Test\ArkServer.Test.csproj", "{392E839C-FA47-4B7B-84BA-626337B57001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

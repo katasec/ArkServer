@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ArkServer.Entities.Azure;
+using FluentValidation;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -7,8 +8,10 @@ namespace ArkServer.Features.Cloudspace;
 
 public class CloudspaceRequest
 {
-    public required string Name {get; set; }
     public required string ProjectName { get; set; }
+    public VnetInfo Hub { get; set; }
+    public List<VnetInfo> Spokes { get; set; }
+
     public DateTime DtTimeStamp { get; }
     public override string ToString()
     {
@@ -29,9 +32,6 @@ public class CloudspaceRequestValidator : AbstractValidator<CloudspaceRequest>
             .Must(HaveNoSpecialChars).WithMessage("Must have not special characters")
             .Must(StartWithChar).WithMessage("Must start with characters");
 
-        RuleFor(x => x.Name).Length(3, 30)
-            .Must(HaveNoSpecialChars).WithMessage("Must have not special characters")
-            .Must(StartWithChar).WithMessage("Must start with characters");
     }
 
     private bool StartWithChar(string input)

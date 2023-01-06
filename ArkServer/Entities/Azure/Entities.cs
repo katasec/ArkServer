@@ -1,36 +1,19 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace ArkServer.Entities.Azure;
 
 
-public interface ICloudspace
+public class Ark
 {
-
+    public List<AzureCloudspace> AzureCloudspace {get; set; } = new List<AzureCloudspace>();
 }
 
 
-public class VnetInfo
-{
-    public string? Name { get; set; }
-    public string? AddressPrefix { get; set; }
-    public SubnetInfo[]? SubnetsInfo { get; set; }
-}
 
-public class SubnetInfo
-{
-    public string? Name { get; set; }
-    public string? AddressPrefix { get; set; }
-    public string? Description { get; set; }
-    public KeyValuePair<string, string>? Tags { get; set; }
-}
+public record VnetInfo(string Name, string AddressPrefix, List<SubnetInfo> SubnetsInfo);
 
-public class AzureCloudspace : ICloudspace
-{
-    public int? Id { get; set; }
-    public string? Name { get; set; }
-    public string? ProjectName { get; set; }
+public record SubnetInfo(string Name, string AddressPrefix, string Description, KeyValuePair<string,string> Tags = new KeyValuePair<string,string>());
 
-    public VnetInfo? Hub { get; set; }
-    public List<VnetInfo>? Spokes { get; set; }
-}
+public record AzureCloudspace(string ProjectName, VnetInfo Hub, List<VnetInfo> Spokes);
 

@@ -11,7 +11,7 @@ public class Ark
 
 
 
-public record VnetInfo(string Name, string AddressPrefix, List<SubnetInfo> SubnetsInfo);
+public record VnetInfo(string Name, string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo);
 
 public record SubnetInfo(string Name, string AddressPrefix, string Description, KeyValuePair<string,string> Tags = new KeyValuePair<string,string>());
 

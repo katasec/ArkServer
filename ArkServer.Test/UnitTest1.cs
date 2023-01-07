@@ -9,7 +9,7 @@ namespace ArkServer.Test
     public class Tests
     {
         private readonly Ark ark;
-        private readonly ArkRepo db;
+        private readonly IArkRepo db;
         private readonly ArkService svc;
 
         public Tests()

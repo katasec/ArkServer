@@ -3,43 +3,41 @@ using ArkServer.Features.Cloudspace;
 
 namespace ArkServer.Services
 {
-    public class ArkService : IHostedService
+    public class ArkService //: IHostedService
     {
-        private Ark _ark {get; set; }
+        private Ark Ark {get; set; }
 
-        private IArkRepo _db;
+        private readonly IArkRepo _db;
 
         public ArkService(IArkRepo db, Ark ark)
         {
             _db = db;
-            _ark = db.Get();
+            Ark = db.Get();
         }
 
-
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            await Task.Run( ()=> {
-                _ark = _db.Get();
-            });
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool AddCloudSpace(AzureCloudspace cs) {
+        public async Task<bool> AddCloudSpace(AzureCloudspace cs) {
+            
+            var status = false;
 
             // Skip if project already exists
-            if (_ark.AzureCloudspace.Any( x=> x.ProjectName == cs.ProjectName))
+            if (Ark.AzureCloudspace.Any( x=> x.ProjectName == cs.ProjectName))
             {
                 Console.WriteLine("Project already exists");
-                return false;
+                status = false;
             } 
+            else
+            {
+                Ark.AzureCloudspace.Add(cs);
+                await Task.Run(() =>
+                {
+                    _db.Save(Ark);
+                });
+                status = true;
+            }
 
-            _ark.AzureCloudspace.Add(cs);
-            _db.Save(_ark);
-            return true;
+
+            return status;
+
         }
     }
 }

@@ -34,23 +34,6 @@ namespace ArkServer.Features.Cloudspace
 
             _arkService.AddCloudSpace(cs);
 
-            //_ark.AzureCloudspace.Add(req.)
-            //// Create cloudspace in DB
-            //var azureCloudspace = new AzureCloudspace
-            //{
-            //    ProjectName = req.ProjectName,
-            //};
-
-            //if (_db.Create(azureCloudspace) == null)
-            //    return Results.Problem("Could not save to DB", null, 500);
-
-            //// Create message
-            //var message = new ServiceBusMessage(req.ToString()) { Subject = "CloudSpaceRequest" };
-
-            //// Send message
-            //await _asbService.Sender.SendMessageAsync(message);
-            //var url = $"https://{Request.Host}/projects/{req.ProjectName}";
-
             return Results.Accepted("Hello");
 
         }

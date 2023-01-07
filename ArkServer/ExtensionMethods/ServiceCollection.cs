@@ -23,7 +23,6 @@ namespace ArkServer.ExtensionMethods
             // Adding custom services
             services.AddSingleton<AsbService>();
             services.AddSingleton<Ark>();
-            services.AddSingleton<IAzureCsRepo, CloudspaceJsonRepository>();
             services.AddSingleton<IArkRepo, ArkJsonRepo>();
             services.AddSingleton<ArkService>();
 

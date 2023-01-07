@@ -1,4 +1,6 @@
 using ArkServer.Entities.Azure;
+using ArkServer.Features.Cloudspace;
+using ArkServer.Services;
 
 namespace ArkServer.Test
 {
@@ -7,10 +9,15 @@ namespace ArkServer.Test
     public class Tests
     {
         private readonly Ark ark;
+        private readonly ArkRepo db;
+        private readonly ArkService svc;
 
         public Tests()
         {
             ark = new Ark();
+            db = new ArkJsonRepo();
+            svc = new ArkService(db,ark);
+
         }
         [SetUp]
         public void Setup()
@@ -18,20 +25,11 @@ namespace ArkServer.Test
         }
 
         [Test]
-        public void OutputAzureCloudSpace()
+        public void AddCloudSpace()
         {
-
-            //var subnet1 = new SubnetInfo(Name:"snet-tier2-vm", AddressPrefix:"10.0.1.0/24", Description:"VMs");
-            //var subnets = new HashSet<SubnetInfo> {subnet1};
-
-            //var a = new AzureCloudspace
-            //(
-            //    ProjectName:"Something",
-            //    Hub:new VnetInfo("snet-tier2-vm","10.0.1.0/24",subnets),
-            //    Spokes:new HashSet<VnetInfo>()
-            //);
-            
-            //Console.WriteLine(a);
+            //var hub = new VnetInfo()
+            ////var cs = new AzureCloudspace("Hello",)
+          
 
 
         }

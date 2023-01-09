@@ -6,7 +6,7 @@ using FluentValidation.AspNetCore;
 
 namespace ArkServer.ExtensionMethods
 {
-    public static class ServiceCollection
+    public static class ServiceRegistration
     {
         /// <summary>
         /// RegisterServices Add services to the DI container. 

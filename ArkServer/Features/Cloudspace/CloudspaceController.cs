@@ -3,6 +3,7 @@ using ArkServer.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace ArkServer.Features.Cloudspace
 {
@@ -10,15 +11,12 @@ namespace ArkServer.Features.Cloudspace
     public class CloudspaceController : ControllerBase
     {
         private readonly AsbService _asbService;
-        private readonly IArkRepo _db;
-        
         private readonly ArkService _arkService;
         private ILogger<CloudspaceController> _logger;
 
         public CloudspaceController(AsbService asbService, IArkRepo db, ArkService arkService, ILogger<CloudspaceController> logger)
         {
             _asbService = asbService;
-            _db = db;
             _arkService = arkService;
             _logger = logger;
         }
@@ -35,14 +33,23 @@ namespace ArkServer.Features.Cloudspace
             );
 
             
-            var added = await _arkService.AddCloudSpace(cs);
-            if (added)
+            var host= HttpContext.Request.Host.ToString();
+            var uri = $"https://{host}/azure/cloudspace/{req.ProjectName}";
+            var notExists = await _arkService.AddCloudSpace(cs);
+            if (notExists)
             {
                 await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()){Subject =  req.GetType().Name});
+                return Results.Accepted(uri);
+            }
+            else
+            {
+                HttpContext.Response.Headers.Location= uri;
+                return Results.Conflict();
+
             }
 
-            var uri = $"/azure/cloudspace/{req.ProjectName}";
-            return Results.Accepted(uri);
+            
+            
 
         }
     }

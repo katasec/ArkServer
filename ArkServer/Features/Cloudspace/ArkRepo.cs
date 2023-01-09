@@ -17,9 +17,12 @@ public class ArkJsonRepo : IArkRepo
 {
     private string DbDir { get; }
     private string DbFile { get; }
+    private ILogger _logger;
 
-    public ArkJsonRepo()
+    public ArkJsonRepo(ILogger<ArkJsonRepo> logger)
     {
+        _logger = logger;
+
         // Define DB path & File
         DbDir = Path.Join(ArkConfig.ArkHome, "db");
         if (!Directory.Exists(DbDir))
@@ -31,10 +34,13 @@ public class ArkJsonRepo : IArkRepo
     }
     public Ark Get()
     {
+        _logger.Log(LogLevel.Information,"Reading DB");
+
         Ark emptyArk = new();
 
-        if (!Directory.Exists(DbFile))
+        if (!File.Exists(DbFile))
         {
+            _logger.Log(LogLevel.Information, $"{DbFile} doesn't exist!");
             return emptyArk;
         }
 

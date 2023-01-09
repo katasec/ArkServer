@@ -11,9 +11,12 @@ public class Ark
 
 
 
-public record VnetInfo(string Name, string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo);
+public record Env(string Name, string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo);
 
-public record SubnetInfo(string Name, string AddressPrefix, string Description, KeyValuePair<string,string> Tags = new KeyValuePair<string,string>());
+public record SubnetInfo(
+    string Name, string AddressPrefix, string Description, 
+    KeyValuePair<string,string> Tags = new KeyValuePair<string,string>()
+);
 
-public record AzureCloudspace(string ProjectName, VnetInfo Hub, List<VnetInfo> Spokes);
+public record AzureCloudspace(string ProjectName, Env Hub, List<Env> Spokes);
 

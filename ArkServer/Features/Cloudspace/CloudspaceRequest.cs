@@ -9,8 +9,8 @@ namespace ArkServer.Features.Cloudspace;
 public class CloudspaceRequest
 {
     public required string ProjectName { get; set; }
-    public VnetInfo Hub { get; set; }
-    public List<VnetInfo> Spokes { get; set; }
+    public required Env Hub { get; set; } 
+    public required List<Env> Spokes { get; set; }
 
     public DateTime DtTimeStamp { get; }
     public override string ToString()
@@ -31,7 +31,6 @@ public class CloudspaceRequestValidator : AbstractValidator<CloudspaceRequest>
         RuleFor(x => x.ProjectName).Length(3, 30)
             .Must(HaveNoSpecialChars).WithMessage("Must have not special characters")
             .Must(StartWithChar).WithMessage("Must start with characters");
-
     }
 
     private bool StartWithChar(string input)

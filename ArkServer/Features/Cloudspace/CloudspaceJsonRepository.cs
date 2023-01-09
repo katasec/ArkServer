@@ -20,8 +20,9 @@ public class CloudspaceJsonRepository : IAzureCsRepo
     private DataStore Store { get; }
 
     private IDocumentCollection<AzureCloudspace> Collection { get; }
+    private ILogger<CloudspaceJsonRepository> Logger { get; }
 
-    public CloudspaceJsonRepository()
+    public CloudspaceJsonRepository(ILogger<CloudspaceJsonRepository> logger)
     {
         // Define DB path & File
         DbDir = Path.Join(ArkConfig.ArkHome, "db");
@@ -36,7 +37,7 @@ public class CloudspaceJsonRepository : IAzureCsRepo
 
         // Get employee collection
         Collection = Store.GetCollection<AzureCloudspace>();
-
+        Logger = logger;
     }
 
     public IEnumerable<AzureCloudspace> GetClouspaces()
@@ -68,7 +69,7 @@ public class CloudspaceJsonRepository : IAzureCsRepo
 
             if (results != null)
             {
-                Console.WriteLine("Item already exists");
+                Logger.Log(LogLevel.Information, "Item already exists");
                 return cloudspace;
             }
 

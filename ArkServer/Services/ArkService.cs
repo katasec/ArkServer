@@ -1,5 +1,6 @@
 ﻿using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
+using Azure.Messaging.ServiceBus;
 
 namespace ArkServer.Services
 {
@@ -8,11 +9,13 @@ namespace ArkServer.Services
         private Ark Ark {get; set; }
 
         private readonly IArkRepo _db;
+        private readonly ILogger _logger;
 
-        public ArkService(IArkRepo db, Ark ark)
+        public ArkService(IArkRepo db, Ark ark, ILogger<ArkService> logger)
         {
             _db = db;
-            Ark = db.Get();
+            Ark = _db.Get();
+            _logger = logger;
         }
 
         public async Task<bool> AddCloudSpace(AzureCloudspace cs) {
@@ -22,22 +25,26 @@ namespace ArkServer.Services
             // Skip if project already exists
             if (Ark.AzureCloudspace.Any( x=> x.ProjectName == cs.ProjectName))
             {
-                Console.WriteLine("Project already exists");
+                _logger.Log(LogLevel.Information,"Project already exists");
                 status = false;
             } 
             else
             {
+                 _logger.Log(LogLevel.Information,"New Project! Adding the cloudspace");
                 Ark.AzureCloudspace.Add(cs);
                 await Task.Run(() =>
                 {
                     _db.Save(Ark);
                 });
+
                 status = true;
-            }
+            }   
 
 
             return status;
 
         }
+
+
     }
 }

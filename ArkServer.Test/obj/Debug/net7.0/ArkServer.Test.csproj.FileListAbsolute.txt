@@ -122,3 +122,5 @@ C:\progs\ArkServer\ArkServer.Test\obj\Debug\net7.0\refint\ArkServer.Test.dll
 C:\progs\ArkServer\ArkServer.Test\obj\Debug\net7.0\ArkServer.Test.pdb
 C:\progs\ArkServer\ArkServer.Test\obj\Debug\net7.0\ArkServer.Test.genruntimeconfig.cache
 C:\progs\ArkServer\ArkServer.Test\obj\Debug\net7.0\ref\ArkServer.Test.dll
+C:\progs\ArkServer\ArkServer.Test\bin\Debug\net7.0\Castle.Core.dll
+C:\progs\ArkServer\ArkServer.Test\bin\Debug\net7.0\Moq.dll

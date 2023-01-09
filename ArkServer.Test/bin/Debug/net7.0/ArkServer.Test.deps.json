@@ -10,6 +10,7 @@
         "dependencies": {
           "ArkServer": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.3.2",
+          "Moq": "4.18.4",
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.3.0",
           "NUnit3TestAdapter": "4.2.1",
@@ -59,6 +60,17 @@
           "lib/netstandard2.0/Azure.Messaging.ServiceBus.dll": {
             "assemblyVersion": "7.11.1.0",
             "fileVersion": "7.1100.122.55803"
+          }
+        }
+      },
+      "Castle.Core/5.1.1": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Castle.Core.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.1.1.0"
           }
         }
       },
@@ -407,6 +419,17 @@
           }
         }
       },
+      "Moq/4.18.4": {
+        "dependencies": {
+          "Castle.Core": "5.1.1"
+        },
+        "runtime": {
+          "lib/net6.0/Moq.dll": {
+            "assemblyVersion": "4.18.0.0",
+            "fileVersion": "4.18.4.0"
+          }
+        }
+      },
       "NETStandard.Library/2.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -488,6 +511,7 @@
         }
       },
       "System.Diagnostics.DiagnosticSource/4.6.0": {},
+      "System.Diagnostics.EventLog/6.0.0": {},
       "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
@@ -558,6 +582,13 @@
       "sha512": "sha512-ioGedXeH8KK4HdTDEyOzdgNbEXGstGItVljI1EKYsz08sgwej6LpODCZmwPR2ui1fjXBWt8Zea0RJT4d9LwlMg==",
       "path": "azure.messaging.servicebus/7.11.1",
       "hashPath": "azure.messaging.servicebus.7.11.1.nupkg.sha512"
+    },
+    "Castle.Core/5.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rpYtIczkzGpf+EkZgDr9CClTdemhsrwA/W5hMoPjLkRFnXzH44zDLoovXeKtmxb1ykXK9aJVODSpiJml8CTw2g==",
+      "path": "castle.core/5.1.1",
+      "hashPath": "castle.core.5.1.1.nupkg.sha512"
     },
     "coverlet.collector/3.1.2": {
       "type": "package",
@@ -678,6 +709,13 @@
       "path": "microsoft.testplatform.testhost/17.3.2",
       "hashPath": "microsoft.testplatform.testhost.17.3.2.nupkg.sha512"
     },
+    "Moq/4.18.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IOo+W51+7Afnb0noltJrKxPBSfsgMzTKCw+Re5AMx8l/vBbAbMDOynLik4+lBYIWDJSO0uV7Zdqt7cNb6RZZ+A==",
+      "path": "moq/4.18.4",
+      "hashPath": "moq.4.18.4.nupkg.sha512"
+    },
     "NETStandard.Library/2.0.0": {
       "type": "package",
       "serviceable": true,
@@ -761,6 +799,13 @@
       "sha512": "sha512-mbBgoR0rRfl2uimsZ2avZY8g7Xnh1Mza0rJZLPcxqiMWlkGukjmRkuMJ/er+AhQuiRIh80CR/Hpeztr80seV5g==",
       "path": "system.diagnostics.diagnosticsource/4.6.0",
       "hashPath": "system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512"
+    },
+    "System.Diagnostics.EventLog/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lcyUiXTsETK2ALsZrX+nWuHSIQeazhqPphLfaRxzdGaG93+0kELqpgEHtwWOlQe7+jSFnKwaCAgL4kjeZCQJnw==",
+      "path": "system.diagnostics.eventlog/6.0.0",
+      "hashPath": "system.diagnostics.eventlog.6.0.0.nupkg.sha512"
     },
     "System.Memory/4.5.4": {
       "type": "package",

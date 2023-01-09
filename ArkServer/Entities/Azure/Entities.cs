@@ -18,5 +18,5 @@ public record SubnetInfo(
     KeyValuePair<string,string> Tags = new KeyValuePair<string,string>()
 );
 
-public record AzureCloudspace(string ProjectName, Env Hub, List<Env> Spokes);
+public record AzureCloudspace(string Name, Env Hub, List<Env> Spokes);
 

@@ -64,7 +64,7 @@ public class CloudspaceJsonRepository : IAzureCsRepo
         }
         else
         {
-            var results = Collection.AsQueryable().Where(x => x.ProjectName == cloudspace.ProjectName).First();
+            var results = Collection.AsQueryable().Where(x => x.Name == cloudspace.Name).First();
 
 
             if (results != null)

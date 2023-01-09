@@ -29,28 +29,20 @@ namespace ArkServer.Features.Cloudspace
         {
             //var spokes = req.Spokes.ToList();
             var cs = new AzureCloudspace(
-                ProjectName: req.ProjectName,
+                Name: req.ProjectName,
                 Hub: req.Hub,
                 Spokes: req.Spokes
             );
 
             
-            var status = await _arkService.AddCloudSpace(cs);
-
-            _logger.Log(LogLevel.Information,"status was:" + status);
-            _logger.Log(LogLevel.Information,"The request type was:" + req.GetType().Name);
-
-            if (status)
+            var added = await _arkService.AddCloudSpace(cs);
+            if (added)
             {
-                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString())
-                {
-                    Subject =  req.GetType().Name
-                });
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()){Subject =  req.GetType().Name});
             }
-            
-            
 
-            return Results.Accepted("Hello");
+            var uri = $"/azure/cloudspace/{req.ProjectName}";
+            return Results.Accepted(uri);
 
         }
     }

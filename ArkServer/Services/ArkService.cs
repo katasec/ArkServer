@@ -23,14 +23,14 @@ namespace ArkServer.Services
             var status = false;
 
             // Skip if project already exists
-            if (Ark.AzureCloudspace.Any( x=> x.ProjectName == cs.ProjectName))
+            if (Ark.AzureCloudspace.Any( x=> x.Name == cs.Name))
             {
-                _logger.Log(LogLevel.Information,"Project already exists");
+                _logger.Log(LogLevel.Information,"Cloudspace already exists");
                 status = false;
             } 
             else
             {
-                 _logger.Log(LogLevel.Information,"New Project! Adding the cloudspace");
+                 _logger.Log(LogLevel.Information,"New Cloudspace! Adding the cloudspace");
                 Ark.AzureCloudspace.Add(cs);
                 await Task.Run(() =>
                 {

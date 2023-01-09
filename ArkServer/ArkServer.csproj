@@ -13,6 +13,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CustomConverters\**" />
+	  <Content Remove="CustomConverters\**" />
+	  <EmbeddedResource Remove="CustomConverters\**" />
+	  <None Remove="CustomConverters\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Remove="data.json" />
 	</ItemGroup>
 
@@ -33,10 +40,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.4.0" />
 		<PackageReference Include="YamlDotNet" Version="12.3.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="CustomConverters\" />
 	</ItemGroup>
 
 

@@ -13,7 +13,8 @@ namespace ArkServer.Features.Cloudspace
         private readonly AsbService _asbService;
         private readonly ArkService _arkService;
         private ILogger<CloudspaceController> _logger;
-
+        private string ApiHost => HttpContext.Request.Host.ToString();
+        
         public CloudspaceController(AsbService asbService, IArkRepo db, ArkService arkService, ILogger<CloudspaceController> logger)
         {
             _asbService = asbService;
@@ -25,18 +26,10 @@ namespace ArkServer.Features.Cloudspace
         [Route("/azure/cloudspace")]
         public async Task<IResult> Post(CloudspaceRequest req)
         {
-            //var spokes = req.Spokes.ToList();
-            var cs = new AzureCloudspace(
-                Name: req.ProjectName,
-                Hub: req.Hub,
-                Spokes: req.Spokes
-            );
+            var uri = $"https://{ApiHost}/azure/cloudspace/{req.ProjectName}";
 
-            
-            var host= HttpContext.Request.Host.ToString();
-            var uri = $"https://{host}/azure/cloudspace/{req.ProjectName}";
-            var notExists = await _arkService.AddCloudSpace(cs);
-            if (notExists)
+            var cs = new AzureCloudspace(Name: req.ProjectName, Hub: req.Hub,Spokes: req.Spokes);
+            if (await _arkService.AddCloudSpace(cs))
             {
                 await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()){Subject =  req.GetType().Name});
                 return Results.Accepted(uri);
@@ -45,12 +38,7 @@ namespace ArkServer.Features.Cloudspace
             {
                 HttpContext.Response.Headers.Location= uri;
                 return Results.Conflict();
-
             }
-
-            
-            
-
         }
     }
 }

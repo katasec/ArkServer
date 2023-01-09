@@ -1,10 +1,9 @@
 ﻿using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
-using Azure.Messaging.ServiceBus;
 
 namespace ArkServer.Services
 {
-    public class ArkService //: IHostedService
+    public class ArkService
     {
         private Ark Ark {get; set; }
 

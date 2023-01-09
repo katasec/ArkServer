@@ -18,31 +18,20 @@ namespace ArkServer.Services
             _logger = logger;
         }
 
-        public async Task<bool> AddCloudSpace(AzureCloudspace cs) {
-            
-            var status = false;
-
-            // Skip if project already exists
-            if (Ark.AzureCloudspace.Any( x=> x.Name == cs.Name))
+        public async Task<bool> AddCloudSpace(AzureCloudspace cs) 
+        {
+            // Skip cloudspace if exists
+            var exists = Ark.AzureCloudspace.Any( x=> x.Name == cs.Name);
+            if (exists)
             {
-                _logger.Log(LogLevel.Information,"Cloudspace already exists");
-                status = false;
-            } 
-            else
-            {
-                 _logger.Log(LogLevel.Information,"New Cloudspace! Adding the cloudspace");
-                Ark.AzureCloudspace.Add(cs);
-                await Task.Run(() =>
-                {
-                    _db.Save(Ark);
-                });
+                return false;
+            }
 
-                status = true;
-            }   
+            // Else add cloudspace to DB
+            Ark.AzureCloudspace.Add(cs);
+            await Task.Run(() =>_db.Save(Ark));
 
-
-            return status;
-
+            return true;
         }
 
 

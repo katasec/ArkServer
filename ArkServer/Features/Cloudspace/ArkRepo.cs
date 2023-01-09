@@ -60,12 +60,13 @@ public class ArkJsonRepo : IArkRepo
     public bool Save(Ark ark)
     {
 
-        var jsonString = JsonSerializer.Serialize(ark,new JsonSerializerOptions(){
-         WriteIndented = true
-        });
+        // Generate JSON from Ark object
+        var jsonString = JsonSerializer.Serialize(ark,new JsonSerializerOptions(){WriteIndented = true});
 
+        // Save to disk
         try
         {
+            _logger.Log(LogLevel.Information, "Saving data to " + DbFile);
             File.WriteAllText(DbFile, jsonString);
         }
         catch (Exception e)

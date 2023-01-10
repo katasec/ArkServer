@@ -2,7 +2,7 @@
 
 namespace ArkServer.Entities.Azure;
 
-public class ReferenceNetwork
+public class NetworkGenerator
 {
 
     /// <summary>
@@ -17,7 +17,7 @@ public class ReferenceNetwork
     private readonly string HubPrefix = "10.16";
     private readonly string SpokePrefix = "10.x";
     private readonly static int spokeStart = 17;
-    public ReferenceNetwork(string hubPrefix="10.0", string spokePrefix="10.x")
+    public NetworkGenerator(string hubPrefix="10.0", string spokePrefix="10.x")
     {
         HubPrefix = hubPrefix;
         SpokePrefix = spokePrefix;
@@ -28,11 +28,6 @@ public class ReferenceNetwork
             SubnetsInfo: HubSubnets()
         );
 
-        //Spoke = new Env(
-        //    Name: "vnet-nprod",
-        //    AddressPrefix: $"{spokePrefix}.0.0/16",
-        //    SubnetsInfo: Spoke()
-        //);
     }
 
     private IEnumerable<SubnetInfo> HubSubnets()

@@ -18,12 +18,12 @@ public class AzureCloudspaceService
 
 		Console.WriteLine(JsonSerializer.Serialize(_request, options));
 
-		var referenceNetwork = new ReferenceNetwork();
+		var generator = new NetworkGenerator();
         var cs = new AzureCloudspace
         {
             Name = _request.Name,
-			Hub = referenceNetwork.Hub,
-            Env = referenceNetwork.Spokes(_request.Environments)
+			Hub = generator.Hub,
+            Env = generator.Spokes(_request.Environments)
         };
 
 

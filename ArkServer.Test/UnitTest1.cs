@@ -40,7 +40,7 @@ namespace ArkServer.Test
         [Test]
         public void ListHubCidrs()
         {
-            var hub = new ReferenceNetwork().Hub;
+            var hub = new NetworkGenerator().Hub;
 
             Console.WriteLine("Name:" + hub.Name);
             Console.WriteLine("Hub CIDR:" + hub.AddressPrefix);
@@ -57,7 +57,7 @@ namespace ArkServer.Test
         {
             var envs = new List<string>{"prod","dev"};
 
-            var spokes = new ReferenceNetwork().Spokes(envs);
+            var spokes = new NetworkGenerator().Spokes(envs);
 
             foreach(var spoke in spokes)
             {

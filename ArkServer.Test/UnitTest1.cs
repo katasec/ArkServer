@@ -1,20 +1,22 @@
 using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
+using ArkServer.Repositories;
 using ArkServer.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Text.Json;
 
 namespace ArkServer.Test
 {
 
-    
-    public class Tests
+
+    public class ScratchPad
     {
         private readonly Ark ark;
         private readonly IArkRepo db;
         private readonly ArkService svc;
 
-        public Tests()
+        public ScratchPad()
         {
             ILogger<ArkJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<ArkJsonRepo>>()).Object;
             ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
@@ -53,14 +55,19 @@ namespace ArkServer.Test
         [Test]
         public void ListSpokeCidrs()
         {
-            var spoke = new ReferenceNetwork().Spoke;
+            var envs = new List<string>{"prod","dev"};
 
-            Console.WriteLine("Name:" + spoke.Name);
-            Console.WriteLine("Spoke CIDR:" + spoke.AddressPrefix);
+            var spokes = new ReferenceNetwork().Spokes(envs);
 
-            foreach( var subnet in spoke.SubnetsInfo)
+            foreach(var spoke in spokes)
             {
-                Console.WriteLine(subnet.Name + ": " + subnet.AddressPrefix);
+                Console.WriteLine(spoke.AddressPrefix);
+                var subnets = spoke.SubnetsInfo;
+
+                foreach(var subnet in subnets)
+                {
+                    Console.WriteLine($"{subnet.Name}: {subnet.AddressPrefix}");
+                }
             }
 
         }
@@ -73,7 +80,20 @@ namespace ArkServer.Test
             var message = asbService.Receiver.ReceiveMessageAsync().Result;
             
             Console.WriteLine(message.Body);
+        }
 
+        [Test] 
+        public void Cloudspace_Dto_To_Entity()
+        {
+
+            var req = new AzureCloudspaceRequest
+            {
+                Name = "coolspace",
+                Environments = new List<string> {"Prod","Dev"}
+            };
+           
+            var svc = new AzureCloudspaceService(req);
+            svc.GenAzureCloudspace();
         }
     }
 }

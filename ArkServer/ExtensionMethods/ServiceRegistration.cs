@@ -1,5 +1,6 @@
 ﻿using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
+using ArkServer.Repositories;
 using ArkServer.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -28,7 +29,7 @@ namespace ArkServer.ExtensionMethods
 
             // Model Validators
             services.AddFluentValidationAutoValidation();
-            services.AddScoped<IValidator<CloudspaceRequest>, CloudspaceRequestValidator>();
+            services.AddScoped<IValidator<AzureCloudspaceRequest>, CloudspaceRequestValidator>();
 
             return services;
         }

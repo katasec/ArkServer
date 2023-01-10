@@ -13,16 +13,16 @@ public interface IAzureCsRepo
     AzureCloudspace? Create(AzureCloudspace cloudspace);
 }
 
-public class CloudspaceJsonRepository : IAzureCsRepo
+public class AzureCloudspaceJsonRepository : IAzureCsRepo
 {
     private string DbDir { get; }
     private string DbFile { get; }
     private DataStore Store { get; }
 
     private IDocumentCollection<AzureCloudspace> Collection { get; }
-    private ILogger<CloudspaceJsonRepository> Logger { get; }
+    private ILogger<AzureCloudspaceJsonRepository> Logger { get; }
 
-    public CloudspaceJsonRepository(ILogger<CloudspaceJsonRepository> logger)
+    public AzureCloudspaceJsonRepository(ILogger<AzureCloudspaceJsonRepository> logger)
     {
         // Define DB path & File
         DbDir = Path.Join(ArkConfig.ArkHome, "db");

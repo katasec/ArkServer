@@ -5,7 +5,7 @@ using System.Collections;
 using System.Text.Json;
 using YamlDotNet.Core;
 
-namespace ArkServer.Features.Cloudspace;
+namespace ArkServer.Repositories;
 
 public interface IArkRepo
 {
@@ -34,7 +34,7 @@ public class ArkJsonRepo : IArkRepo
     }
     public Ark Get()
     {
-        _logger.Log(LogLevel.Information,"Reading DB");
+        _logger.Log(LogLevel.Information, "Reading DB");
 
         Ark emptyArk = new();
 
@@ -44,11 +44,12 @@ public class ArkJsonRepo : IArkRepo
             return emptyArk;
         }
 
-        
-        try {
+
+        try
+        {
             var jsonString = File.ReadAllText(DbFile);
             var arkFromFile = JsonSerializer.Deserialize<Ark>(jsonString);
-            return arkFromFile != null ? arkFromFile : emptyArk ;
+            return arkFromFile != null ? arkFromFile : emptyArk;
         }
         catch (Exception ex)
         {
@@ -61,7 +62,7 @@ public class ArkJsonRepo : IArkRepo
     {
 
         // Generate JSON from Ark object
-        var jsonString = JsonSerializer.Serialize(ark,new JsonSerializerOptions(){WriteIndented = true});
+        var jsonString = JsonSerializer.Serialize(ark, new JsonSerializerOptions() { WriteIndented = true });
 
         // Save to disk
         try
@@ -74,7 +75,7 @@ public class ArkJsonRepo : IArkRepo
             Console.WriteLine(e.Message);
             return false;
         }
-        
+
 
         return true;
     }

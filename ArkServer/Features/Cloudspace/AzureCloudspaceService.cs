@@ -12,13 +12,13 @@ public class AzureCloudspaceService
 		_request= request;
 	}
 
-	public AzureCloudspace GenAzureCloudspace()
+	public AzureCloudspace GenAzureCloudspace(int octet1=10, int octet2=16)
 	{
 		var options = new JsonSerializerOptions { WriteIndented=true};
 
 		Console.WriteLine(JsonSerializer.Serialize(_request, options));
 
-		var generator = new NetworkGenerator();
+		var generator = new CIDRGenerator();
         var cs = new AzureCloudspace
         {
             Name = _request.Name,

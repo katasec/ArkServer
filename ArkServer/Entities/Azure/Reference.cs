@@ -1,8 +1,9 @@
-﻿using System.Security.Cryptography.Xml;
+﻿using Microsoft.Extensions.Primitives;
+using System.Security.Cryptography.Xml;
 
 namespace ArkServer.Entities.Azure;
 
-public class NetworkGenerator
+public class CIDRGenerator
 {
 
     /// <summary>
@@ -14,17 +15,37 @@ public class NetworkGenerator
     /// <summary>
     ///  We used to use 172.16 but it's to close to the Docker bridge CIDR and the spokes create an overlap. Hance switching to 10.x
     /// </summary>
-    private readonly string HubPrefix = "10.16";
-    private readonly string SpokePrefix = "10.x";
-    private readonly static int spokeStart = 17;
-    public NetworkGenerator(string hubPrefix="10.0", string spokePrefix="10.x")
+    private readonly string HubPrefix;
+
+
+    /// <summary>
+    /// The first octet used by the CIDRs for all networks. This defaults to 10. For e.g. 10.16.0.0/24
+    /// </summary>
+    private readonly int _octet1;
+
+    /// <summary>
+    /// The second octet used by the CIDRs for the Hub Subnet. This defaults to 16. For e.g. 10.16.0.0/24
+    /// </summary>
+    private readonly int _octet2Hub;
+
+    /// <summary>
+    /// The second octet used by the CIDRs for the Spoke Subnet. This defaults to 17. For e.g. 10.17.0.0/24
+    /// </summary>
+    private readonly int _octet2Spoke;
+
+    public CIDRGenerator(int octet1=10, int octet2=16)
     {
-        HubPrefix = hubPrefix;
-        SpokePrefix = spokePrefix;
+        _octet1 = octet1;
+
+        // Choose 2nd Octet for Hub and Spoke CIDRs
+        _octet2Hub = octet2;
+        _octet2Spoke = _octet2Hub +1;
+
+        HubPrefix = $"{octet1}.{_octet2Hub}";
 
         Hub = new VNetInfo(
             Name: "vnet-hub",
-            AddressPrefix: $"{hubPrefix}.0.0/24",
+            AddressPrefix: $"{HubPrefix}.0.0/24",
             SubnetsInfo: HubSubnets()
         );
 
@@ -61,8 +82,6 @@ public class NetworkGenerator
             ),
          };
     }
-    ////VnetInfo Hub = new VnetInfo("hub","172.17.0.0/24",)
-
 
     public List<VNetInfo> Spokes(List<string> Environments)
     {
@@ -73,7 +92,7 @@ public class NetworkGenerator
         {
             var env = new VNetInfo(
                 Name: name,
-                AddressPrefix: GenPrefix(offset),
+                AddressPrefix: $"{_octet1}.{_octet2Spoke + offset}.0.0/16",
                 SubnetsInfo: SubnetsInfo(offset)
             );
             envs.Add(env);
@@ -83,14 +102,9 @@ public class NetworkGenerator
         return envs;
     }
 
-    private static string GenPrefix(int offset)
-    {
-        return $"10.{spokeStart + offset}.0.0/16";
-    }
-
     private IEnumerable<SubnetInfo> SubnetsInfo(int offset=0)
     {
-        var prefix = $"10.{spokeStart + offset}";
+        var prefix = $"{_octet1}.{_octet2Spoke + offset}";
         return new List<SubnetInfo>
         {
             new SubnetInfo(

@@ -40,7 +40,7 @@ namespace ArkServer.Test
         [Test]
         public void ListHubCidrs()
         {
-            var hub = new NetworkGenerator().Hub;
+            var hub = new CIDRGenerator().Hub;
 
             Console.WriteLine("Name:" + hub.Name);
             Console.WriteLine("Hub CIDR:" + hub.AddressPrefix);
@@ -57,7 +57,7 @@ namespace ArkServer.Test
         {
             var envs = new List<string>{"prod","dev"};
 
-            var spokes = new NetworkGenerator().Spokes(envs);
+            var spokes = new CIDRGenerator().Spokes(envs);
 
             foreach(var spoke in spokes)
             {
@@ -94,6 +94,24 @@ namespace ArkServer.Test
            
             var svc = new AzureCloudspaceService(req);
             svc.GenAzureCloudspace();
+        }
+
+        [Test]
+        public void HubIsNotNull()
+        {
+            // Create Generator that uses 172 as first octet
+            var generator = new CIDRGenerator(octet1:172);
+
+            // Generate Hub and test CIDR prefixes
+            var hub = generator.Hub;
+            Assert.True(hub.AddressPrefix.StartsWith("172.16"));
+
+            // Generate 2 environments and test
+            // CIDR prefixes generated for prod and dev
+            var envList = new List<string>{"prod","dev"};
+            var envs = generator.Spokes(envList);
+            Assert.True(envs[0].AddressPrefix.StartsWith("172.17"));
+            Assert.True(envs[1].AddressPrefix.StartsWith("172.18"));
         }
     }
 }

@@ -1,0 +1,302 @@
+    {
+        "Name": "coolspace",
+        "Hub": {
+            "Name": "vnet-hub",
+            "AddressPrefix": "172.16.0.0/24",
+            "SubnetsInfo": [
+                {
+                    "Name": "AzureFirewallSubnet",
+                    "AddressPrefix": "172.16.0.0/26",
+                    "Description": "Subnet for Azure Firewall",
+                    "Tags": {
+                        "Key": null,
+                        "Value": null
+                    }
+                },
+                {
+                    "Name": "AzureBastionSubnet",
+                    "AddressPrefix": "172.16.0.64/26",
+                    "Description": "Subnet for Bastion",
+                    "Tags": {
+                        "Key": null,
+                        "Value": null
+                    }
+                },
+                {
+                    "Name": "AzureFirewallManagementSubnet",
+                    "AddressPrefix": "172.16.0.128/26",
+                    "Description": "Subnet for VPN Gateway",
+                    "Tags": {
+                        "Key": null,
+                        "Value": null
+                    }
+                },
+                {
+                    "Name": "GatewaySubnet",
+                    "AddressPrefix": "172.16.0.192/27",
+                    "Description": "Subnet for VPN Gateway",
+                    "Tags": {
+                        "Key": null,
+                        "Value": null
+                    }
+                },
+                {
+                    "Name": "snet-test",
+                    "AddressPrefix": "172.16.0.224/27",
+                    "Description": "Subnet for Testing purposes",
+                    "Tags": {
+                        "Key": null,
+                        "Value": null
+                    }
+                }
+            ]
+        },
+        "Env": [
+            {
+                "Name": "Prod",
+                "AddressPrefix": "172.17.0.0/16",
+                "SubnetsInfo": [
+                    {
+                        "Name": "snet-tier1-agw",
+                        "AddressPrefix": "172.17.1.0/24",
+                        "Description": "Subnet for AGW",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-webin",
+                        "AddressPrefix": "172.17.2.0/24",
+                        "Description": "Subnet for other LBs",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-rsvd1",
+                        "AddressPrefix": "172.17.3.0/25",
+                        "Description": "Tier 1 reserved subnet",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-rsvd2",
+                        "AddressPrefix": "172.17.3.128/25",
+                        "Description": "Tier 1 reserved subnet",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-pckr",
+                        "AddressPrefix": "172.17.7.0/24",
+                        "Description": "Subnet for packer",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-vm",
+                        "AddressPrefix": "172.17.8.0/21",
+                        "Description": "Subnet for VMs",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-aks",
+                        "AddressPrefix": "172.17.16.0/20",
+                        "Description": "Subnet for AKS",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-mi",
+                        "AddressPrefix": "172.17.32.0/26",
+                        "Description": "Subnet for managed instance",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dbaz",
+                        "AddressPrefix": "172.17.32.64/26",
+                        "Description": "Subnet for SQL Azure",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dblb",
+                        "AddressPrefix": "172.17.32.128/25",
+                        "Description": "Subnet for LB for SQL VM",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dbvm",
+                        "AddressPrefix": "172.17.33.0/25",
+                        "Description": "Subnet for SQL VM",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-strg",
+                        "AddressPrefix": "172.17.33.128/25",
+                        "Description": "Subnet for storage account/fileshares",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-redis",
+                        "AddressPrefix": "172.17.34.0/25",
+                        "Description": "Subnet for redis cache",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    }
+                ]
+            },
+            {
+                "Name": "Dev",
+                "AddressPrefix": "172.18.0.0/16",
+                "SubnetsInfo": [
+                    {
+                        "Name": "snet-tier1-agw",
+                        "AddressPrefix": "172.18.1.0/24",
+                        "Description": "Subnet for AGW",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-webin",
+                        "AddressPrefix": "172.18.2.0/24",
+                        "Description": "Subnet for other LBs",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-rsvd1",
+                        "AddressPrefix": "172.18.3.0/25",
+                        "Description": "Tier 1 reserved subnet",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "1"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier1-rsvd2",
+                        "AddressPrefix": "172.18.3.128/25",
+                        "Description": "Tier 1 reserved subnet",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-pckr",
+                        "AddressPrefix": "172.18.7.0/24",
+                        "Description": "Subnet for packer",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-vm",
+                        "AddressPrefix": "172.18.8.0/21",
+                        "Description": "Subnet for VMs",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier2-aks",
+                        "AddressPrefix": "172.18.16.0/20",
+                        "Description": "Subnet for AKS",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "2"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-mi",
+                        "AddressPrefix": "172.18.32.0/26",
+                        "Description": "Subnet for managed instance",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dbaz",
+                        "AddressPrefix": "172.18.32.64/26",
+                        "Description": "Subnet for SQL Azure",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dblb",
+                        "AddressPrefix": "172.18.32.128/25",
+                        "Description": "Subnet for LB for SQL VM",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-dbvm",
+                        "AddressPrefix": "172.18.33.0/25",
+                        "Description": "Subnet for SQL VM",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-strg",
+                        "AddressPrefix": "172.18.33.128/25",
+                        "Description": "Subnet for storage account/fileshares",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    },
+                    {
+                        "Name": "snet-tier3-redis",
+                        "AddressPrefix": "172.18.34.0/25",
+                        "Description": "Subnet for redis cache",
+                        "Tags": {
+                            "Key": "ark:tier",
+                            "Value": "3"
+                        }
+                    }
+                ]
+            }
+        ]
+    }

@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Primitives;
-using System.Security.Cryptography.Xml;
-
-namespace ArkServer.Entities.Azure;
+﻿namespace ArkServer.Entities.Azure;
 
 public class CIDRGenerator
 {
@@ -35,14 +32,19 @@ public class CIDRGenerator
 
     public CIDRGenerator(int octet1=10, int octet2=16)
     {
+        // Choose 1st from parameter or default
         _octet1 = octet1;
 
-        // Choose 2nd Octet for Hub and Spoke CIDRs
+        // Choose 2nd Octet for Hub from parameter or default
         _octet2Hub = octet2;
+
+        // Set 2nd Octet of spoke to be hub + 1
         _octet2Spoke = _octet2Hub +1;
 
+        // Generate Hub prefix
         HubPrefix = $"{octet1}.{_octet2Hub}";
 
+        // Generate Hub CIDRs
         Hub = new VNetInfo(
             Name: "vnet-hub",
             AddressPrefix: $"{HubPrefix}.0.0/24",
@@ -50,7 +52,35 @@ public class CIDRGenerator
         );
 
     }
+    
+    /// <summary>
+    /// Takes a list of 'environments' to create such as Dev, QA, Prod and generates the subnets for those environments
+    /// </summary>
+    /// <param name="Environments">List of environments for e.g. Dev, Prod</param>
+    /// <returns></returns>
+    public List<VNetInfo> Spokes(List<string> Environments)
+    {
+        var envs = new List<VNetInfo>();
 
+        int offset=0;
+        foreach(var name in Environments)
+        {
+            var env = new VNetInfo(
+                Name: name,
+                AddressPrefix: $"{_octet1}.{_octet2Spoke + offset}.0.0/16",
+                SubnetsInfo: SpokeSubnets(offset)
+            );
+            envs.Add(env);
+
+            offset++;
+        }
+        return envs;
+    }
+
+    /// <summary>
+    /// Returns a list of subnets for creation for the hub
+    /// </summary>
+    /// <returns></returns>
     private IEnumerable<SubnetInfo> HubSubnets()
     {
          return new List<SubnetInfo>
@@ -83,26 +113,12 @@ public class CIDRGenerator
          };
     }
 
-    public List<VNetInfo> Spokes(List<string> Environments)
-    {
-        var envs = new List<VNetInfo>();
-
-        int offset=0;
-        foreach(var name in Environments)
-        {
-            var env = new VNetInfo(
-                Name: name,
-                AddressPrefix: $"{_octet1}.{_octet2Spoke + offset}.0.0/16",
-                SubnetsInfo: SubnetsInfo(offset)
-            );
-            envs.Add(env);
-
-            offset++;
-        }
-        return envs;
-    }
-
-    private IEnumerable<SubnetInfo> SubnetsInfo(int offset=0)
+    /// <summary>
+    /// Return a list of subnets for creatin for a spoke network
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    private IEnumerable<SubnetInfo> SpokeSubnets(int offset=0)
     {
         var prefix = $"{_octet1}.{_octet2Spoke + offset}";
         return new List<SubnetInfo>

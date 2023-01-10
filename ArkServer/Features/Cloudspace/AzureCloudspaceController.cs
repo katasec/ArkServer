@@ -13,14 +13,17 @@ namespace ArkServer.Features.Cloudspace
     {
         private readonly AsbService _asbService;
         private readonly ArkService _arkService;
+        private readonly AzureCloudspaceService _cloudspaceSvc;
+
         private ILogger<AzureCloudspaceController> _logger;
         private string ApiHost => HttpContext.Request.Host.ToString();
         
-        public AzureCloudspaceController(AsbService asbService, IArkRepo db, ArkService arkService, ILogger<AzureCloudspaceController> logger)
+        public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService, ArkService arkService, AzureCloudspaceService cloudspaceSvc)
         {
             _asbService = asbService;
             _arkService = arkService;
             _logger = logger;
+            _cloudspaceSvc = cloudspaceSvc;
         }
 
         [HttpPost]
@@ -29,19 +32,21 @@ namespace ArkServer.Features.Cloudspace
         {
             var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name}";
 
-            //var cs = new AzureCloudspace(Name: req.ProjectName, Envs: req.Spokes);
-            //if (await _arkService.AddCloudSpace(cs))
-            //{
-            //    await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()){Subject =  req.GetType().Name});
-            //    return Results.Accepted(uri);
-            //}
-            //else
-            //{
-            //    HttpContext.Response.Headers.Location= uri;
-            //    return Results.Conflict();
-            //}
 
-            return Results.Accepted(uri);
+            var cs = _cloudspaceSvc.GenAzureCloudspace();
+
+
+            if (await _arkService.AddCloudSpace(cs))
+            {
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()) { Subject = req.GetType().Name });
+                return Results.Accepted(uri);
+            }
+            else
+            {
+                HttpContext.Response.Headers.Location = uri;
+                return Results.Conflict();
+            }
+
         }
     }
 }

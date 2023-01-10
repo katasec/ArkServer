@@ -10,6 +10,7 @@ public class AzureCloudspaceService
 	public AzureCloudspaceService(AzureCloudspaceRequest request)
 	{
 		_request= request;
+
 	}
 
 	public AzureCloudspace GenAzureCloudspace(int octet1=10, int octet2=16)
@@ -18,7 +19,7 @@ public class AzureCloudspaceService
 
 		Console.WriteLine(JsonSerializer.Serialize(_request, options));
 
-		var generator = new CIDRGenerator();
+		var generator = new CIDRGenerator(octet1, octet2);
         var cs = new AzureCloudspace
         {
             Name = _request.Name,

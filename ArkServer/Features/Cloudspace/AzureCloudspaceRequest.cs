@@ -1,12 +1,17 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
-
+using System.Text.Json;
 namespace ArkServer.Features.Cloudspace;
 
 public class AzureCloudspaceRequest : BaseRequest
 {
     public required string  Name { get; set; }
     public required List<string> Environments { get; set; }
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
+    }
 }
 
 public class CloudspaceRequestValidator : AbstractValidator<AzureCloudspaceRequest>
@@ -35,7 +40,7 @@ public class CloudspaceRequestValidator : AbstractValidator<AzureCloudspaceReque
         var status = false;
         foreach (var item in items)
         {
-            if (!item.Any(ch => char.IsLetterOrDigit(ch))) {
+            if (item.Any(ch => char.IsLetterOrDigit(ch))) {
                 status = true;
             }
         }

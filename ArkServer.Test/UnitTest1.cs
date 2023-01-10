@@ -93,7 +93,8 @@ namespace ArkServer.Test
             };
            
             var svc = new AzureCloudspaceService(req);
-            svc.GenAzureCloudspace();
+            var cloudspace = svc.GenAzureCloudspace();
+            Console.WriteLine(cloudspace.ToString());
         }
 
         [Test]

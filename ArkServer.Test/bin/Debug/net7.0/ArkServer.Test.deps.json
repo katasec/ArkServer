@@ -719,6 +719,7 @@
       },
       "ArkServer/1.0.0": {
         "dependencies": {
+          "ArkServer.Entities": "0.0.1",
           "Azure.Messaging.ServiceBus": "7.11.1",
           "FluentValidation": "11.4.0",
           "FluentValidation.AspNetCore": "11.2.2",
@@ -733,6 +734,11 @@
         },
         "runtime": {
           "ArkServer.dll": {}
+        }
+      },
+      "ArkServer.Entities/0.0.1": {
+        "runtime": {
+          "ArkServer.Entities.dll": {}
         }
       }
     }
@@ -1192,6 +1198,11 @@
       "hashPath": "yamldotnet.12.3.1.nupkg.sha512"
     },
     "ArkServer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ArkServer.Entities/0.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

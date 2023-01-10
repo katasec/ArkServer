@@ -66,7 +66,7 @@ public class CIDRGenerator
         foreach(var name in Environments)
         {
             var env = new VNetInfo(
-                Name: name,
+                Name: $"vnet-{name}",
                 AddressPrefix: $"{_octet1}.{_octet2Spoke + offset}.0.0/16",
                 SubnetsInfo: SpokeSubnets(offset)
             );

@@ -1182,6 +1182,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "ArkServer.Entities": "0.0.1",
           "Azure.Messaging.ServiceBus": "7.11.1",
           "FluentValidation": "11.4.0",
           "FluentValidation.AspNetCore": "11.2.2",
@@ -1203,6 +1204,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "ArkServer.Entities/0.0.1": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/ArkServer.Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ArkServer.Entities.dll": {}
+        }
       }
     }
   },
@@ -3418,6 +3429,11 @@
       "type": "project",
       "path": "../ArkServer/ArkServer.csproj",
       "msbuildProject": "../ArkServer/ArkServer.csproj"
+    },
+    "ArkServer.Entities/0.0.1": {
+      "type": "project",
+      "path": "../ArkServer.Entities/ArkServer.Entities.csproj",
+      "msbuildProject": "../ArkServer.Entities/ArkServer.Entities.csproj"
     }
   },
   "projectFileDependencyGroups": {

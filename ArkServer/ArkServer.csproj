@@ -42,6 +42,10 @@
 		<PackageReference Include="YamlDotNet" Version="12.3.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
+	</ItemGroup>
+
 
 
 </Project>

@@ -13,17 +13,15 @@ namespace ArkServer.Features.Cloudspace
     {
         private readonly AsbService _asbService;
         private readonly ArkService _arkService;
-        private readonly AzureCloudspaceService _cloudspaceSvc;
 
         private ILogger<AzureCloudspaceController> _logger;
         private string ApiHost => HttpContext.Request.Host.ToString();
         
-        public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService, ArkService arkService, AzureCloudspaceService cloudspaceSvc)
+        public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService, ArkService arkService)
         {
             _asbService = asbService;
             _arkService = arkService;
             _logger = logger;
-            _cloudspaceSvc = cloudspaceSvc;
         }
 
         [HttpPost]
@@ -33,12 +31,15 @@ namespace ArkServer.Features.Cloudspace
             var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name}";
 
 
-            var cs = _cloudspaceSvc.GenAzureCloudspace();
+            // Transform user request to an equivalent cloudpsace spec
+            var svc = new AzureCloudspaceService(req);
+            var cs = svc.GenAzureCloudspace();
 
 
+            // Add the cloudspace to Ark DB and send the worker a message to create it
             if (await _arkService.AddCloudSpace(cs))
             {
-                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()) { Subject = req.GetType().Name });
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = req.GetType().Name });
                 return Results.Accepted(uri);
             }
             else

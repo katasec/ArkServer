@@ -26,7 +26,6 @@ namespace ArkServer.ExtensionMethods
             services.AddSingleton<Ark>();
             services.AddSingleton<IArkRepo, ArkJsonRepo>();
             services.AddSingleton<ArkService>();
-            services.AddSingleton<AzureCloudspaceService>();
 
             // Model Validators
             services.AddFluentValidationAutoValidation();

@@ -12,7 +12,7 @@ public class AzureCloudspaceService
 		_request= request;
 	}
 
-	public void GenAzureCloudspace()
+	public AzureCloudspace GenAzureCloudspace()
 	{
 		var options = new JsonSerializerOptions { WriteIndented=true};
 
@@ -28,5 +28,7 @@ public class AzureCloudspaceService
 
 
 		Console.WriteLine(JsonSerializer.Serialize(cs, options));
+
+		return cs;
 	}
 }

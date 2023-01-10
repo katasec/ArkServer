@@ -14,35 +14,19 @@ public class AzureCloudspaceService
 
 	public void GenAzureCloudspace()
 	{
-		Console.WriteLine(JsonSerializer.Serialize(_request, new JsonSerializerOptions
-		{
-			WriteIndented=true
-		}));
+		var options = new JsonSerializerOptions { WriteIndented=true};
 
+		Console.WriteLine(JsonSerializer.Serialize(_request, options));
 
+		var referenceNetwork = new ReferenceNetwork();
         var cs = new AzureCloudspace
         {
             Name = _request.Name,
-			Hub = new ReferenceNetwork().Hub,
-            Env = new List<VNetInfo> { }
+			Hub = referenceNetwork.Hub,
+            Env = referenceNetwork.Spokes(_request.Environments)
         };
 
 
-        for (var i =0; i< _request.Environments.Count(); i++)
-		{
-			Console.WriteLine(_request.Environments[i]);
-		}
-
-
-		//var cs = new AzureCloudspace
-		//{
-		//	Name= _request.Name,
-		//};
-		//var azureCs = new AzureCloudspace(
-		//	Name: _request.ProjectName,
-		//	Envs: _request.Spokes
-		//);
-
-		//return azureCs;
+		Console.WriteLine(JsonSerializer.Serialize(cs, options));
 	}
 }

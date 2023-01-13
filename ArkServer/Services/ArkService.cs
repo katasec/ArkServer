@@ -20,11 +20,16 @@ namespace ArkServer.Services
         public async Task<bool> AddCloudSpace(AzureCloudspace cs) 
         {
             // Skip cloudspace if exists
-            var exists = Ark.AzureCloudspace.Any( x=> x.Name == cs.Name);
-            if (exists)
-            {
+            if (Ark.AzureCloudspace.Count > 0) {
+                _logger.Log(LogLevel.Information, "A cloudspace already exists in ark. Ark only allows one cloudspace at this time to reduce complexity.");
                 return false;
             }
+
+            //var exists = Ark.AzureCloudspace.Any( x=> x.Name == cs.Name);
+            //if (exists)
+            //{
+            //    return false;
+            //}
 
             // Else add cloudspace to DB
             Ark.AzureCloudspace.Add(cs);

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "caVBryh3kae1jmDL0dwOFUjcanmwxOJsK+OuGuKPZIkUkLJLxXhGB6XC8vThathScvXzDQLSzxo8lkElhmwKDw==",
+  "dgSpecHash": "AeRVUJu1UXzUjrCwmUbJUIjRx3ZGehL5rh7p4ZRjsIt6yaFYXP1kNkL9N8LVimWRsD7d2LJja/WkDfzcy8I6mg==",
   "success": true,
   "projectFilePath": "C:\\progs\\ArkServer\\ArkServer.Test\\ArkServer.Test.csproj",
   "expectedPackageFiles": [
@@ -67,7 +67,8 @@
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\write_eojd6fl\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\yamldotnet\\12.3.1\\yamldotnet.12.3.1.nupkg.sha512"
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\yamldotnet\\12.3.1\\yamldotnet.12.3.1.nupkg.sha512",
+    "C:\\Users\\write_eojd6fl\\.nuget\\packages\\arkserver.entities\\0.0.1\\arkserver.entities.0.0.1.nupkg.sha512"
   ],
   "logs": []
 }

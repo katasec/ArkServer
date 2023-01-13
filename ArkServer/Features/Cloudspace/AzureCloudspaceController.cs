@@ -34,16 +34,54 @@ namespace ArkServer.Features.Cloudspace
             // Transform user request to an equivalent cloudpsace spec
             var svc = new AzureCloudspaceService(req);
             var cs = svc.GenAzureCloudspace();
-
+            cs.Action = HttpContext.Request.Method.ToLower();  
 
             // Add the cloudspace to Ark DB and send the worker a message to create it
             if (await _arkService.AddCloudSpace(cs))
             {
-                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = req.GetType().Name });
+                // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = cs.GetType().Name });
                 return Results.Accepted(uri);
             }
             else
             {
+                // Send message to worker to run the pulumi handler program but return a 409 (Conflict) with Location header to resource
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = cs.GetType().Name });
+
+                HttpContext.Response.Headers.Location = uri;
+                return Results.Conflict();
+            }
+
+        }
+
+
+        [HttpDelete]
+        [Route("/azure/cloudspace")]
+        public async Task<IResult> Delete(AzureCloudspaceRequest req)
+        {
+            _logger.Log(LogLevel.Information,"Running delete");
+            var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name}";
+
+
+            // Transform user request to an equivalent cloudpsace spec
+            var svc = new AzureCloudspaceService(req);
+            var cs = svc.GenAzureCloudspace();
+            cs.Action = HttpContext.Request.Method.ToLower();  
+
+
+            // Add the cloudspace to Ark DB and send the worker a message to create it
+            var subject = cs.GetType().Name;
+            if (await _arkService.AddCloudSpace(cs))
+            {
+                // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = subject });
+                return Results.Accepted(uri);
+            }
+            else
+            {
+                // Send message to worker to run the pulumi handler program but return a 409 (Conflict) with Location header to resource
+                await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cs.ToString()) { Subject = subject });
+
                 HttpContext.Response.Headers.Location = uri;
                 return Results.Conflict();
             }

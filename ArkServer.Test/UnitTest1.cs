@@ -2,8 +2,10 @@ using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
 using ArkServer.Repositories;
 using ArkServer.Services;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework.Constraints;
 using System.Text.Json;
 
 namespace ArkServer.Test
@@ -35,6 +37,33 @@ namespace ArkServer.Test
         {
             //var hub = new VnetInfo()
             ////var cs = new AzureCloudspace("Hello",)
+            
+            var ark = db.Get();
+
+            foreach(var c in ark.AzureCloudspace)
+            {
+                foreach (var env in c.Env)
+                {
+                    Console.WriteLine(env.Name);
+                    Console.WriteLine(env.AddressPrefix);
+                }
+            }
+
+            ark.AzureCloudspace[0].Env?.Add(new VNetInfo
+            (
+                Name: "newthing",
+                AddressPrefix:"",
+                SubnetsInfo: new List<SubnetInfo>()
+            ));
+
+            var envs = ark.AzureCloudspace[0].Env;
+
+            envs?.ForEach(x => Console.WriteLine(x.Name));
+
+            var ark2 = db.Get();
+
+            Console.WriteLine("-------------");
+            ark2.AzureCloudspace[0].Env?.ForEach(x => Console.WriteLine(x.Name));
         }
 
         [Test]

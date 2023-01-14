@@ -5,7 +5,7 @@ namespace ArkServer.Features.Cloudspace;
 
 public class AzureCloudspaceRequest : BaseRequest
 {
-    public required string  Name { get; set; }
+    public string  Name { get; init; } = "default";
     public required List<string> Environments { get; set; }
 
     public override string ToString()

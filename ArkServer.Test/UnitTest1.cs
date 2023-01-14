@@ -8,140 +8,107 @@ using Moq;
 using NUnit.Framework.Constraints;
 using System.Text.Json;
 
-namespace ArkServer.Test
+namespace ArkServer.Test;
+
+
+
+public class ScratchPad
 {
+    private readonly Ark ark;
+    private readonly IArkRepo db;
+    private readonly ArkService svc;
 
-
-    public class ScratchPad
+    public ScratchPad()
     {
-        private readonly Ark ark;
-        private readonly IArkRepo db;
-        private readonly ArkService svc;
+        ILogger<ArkJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<ArkJsonRepo>>()).Object;
+        ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
 
-        public ScratchPad()
+        ark = new Ark();
+        db = new ArkJsonRepo(ArkJsonRepoLogger);
+        svc = new ArkService(db,ark,ArkServiceLogger);
+    }
+    [SetUp]
+    public void Setup()
+    {
+    }
+
+    [Test]
+    public void CheckSpokesNull()
+    {
+        var acs = new AzureCloudspace();
+        Console.WriteLine(acs.Spokes == null);
+    }
+
+    [Test]
+    public void GetFromDb()
+    {
+        // Create an empty azure cloudspace
+        var emptyAcs = new AzureCloudspace();
+
+        // Pass the cloudspace to a generator to generate CIDRs
+        var hub = CidrGenerator.GetHub(emptyAcs);
+        var spokes = CidrGenerator.GetSpokes(new HashSet<string>{"dev","prod"},emptyAcs);
+
+        var acs = new AzureCloudspace
         {
-            ILogger<ArkJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<ArkJsonRepo>>()).Object;
-            ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
+            Hub = hub,
+            Spokes = spokes     
+        };
 
-            ark = new Ark();
-            db = new ArkJsonRepo(ArkJsonRepoLogger);
-            svc = new ArkService(db,ark,ArkServiceLogger);
-        }
-        [SetUp]
-        public void Setup()
+        acs.Spokes.ToList().ForEach(x => Console.WriteLine(x.AddressPrefix));
+    }
+
+    [Test]
+    public void Stuff()
+    {
+        var request = new AzureCloudspaceRequest
         {
-        }
+            Environments = new(){ "dev", "prod"}
+        };
 
-        [Test]
-        public void AddCloudSpace()
+        //var acs = new AzureCloudspace();
+
+
+		//var generator = new CidrGenerator(octet1, octet2);
+
+		
+   //     var cs = new AzureCloudspace
+   //     {
+			//Hub = generator.Hub,
+   //         Env = generator.Spokes(_request.Environments)
+   //     };
+
+		var emptyAcs = new AzureCloudspace();
+        
+        
+        //var hub = CidrGenerator.GetHub(emptyAcs);
+        // var spokes = CidrGenerator.GetSpokes(emptyAcs);
+
+        var spokes1 = new List<VNetInfo>()
         {
-            //var hub = new VnetInfo()
-            ////var cs = new AzureCloudspace("Hello",)
-            
-            var ark = db.Get();
-
-            foreach(var c in ark.AzureCloudspace)
+            new VNetInfo("dev") { AddressPrefix="10.1.10.0/24" },
+            new VNetInfo("prod") { AddressPrefix="10.2.10.0/24"},
+            new VNetInfo("prod") { AddressPrefix="10.3.10.0/24"},
+            new VNetInfo("prod") { AddressPrefix="10.4.10.0/24"},
+            new VNetInfo("prod") { AddressPrefix="10.5.10.0/24"},
+            new VNetInfo("prod") { AddressPrefix="10.6.10.0/24"},
+            new VNetInfo("prod") { AddressPrefix="10.7.10.0/24"},
+        };
+        
+       var spokes2 = new List<VNetInfo>()
+        {
+            new VNetInfo("dev")
             {
-                foreach (var env in c.Env)
-                {
-                    Console.WriteLine(env.Name);
-                    Console.WriteLine(env.AddressPrefix);
-                }
-            }
+                AddressPrefix="10.2.10.0/24"
+            },
+        };
 
-            ark.AzureCloudspace[0].Env?.Add(new VNetInfo
-            (
-                Name: "newthing",
-                AddressPrefix:"",
-                SubnetsInfo: new List<SubnetInfo>()
-            ));
+        var allOctets= spokes1.Select(x => x.Octet2);
+        var octetsInUse = spokes2.Select(x => x.Octet2);
 
-            var envs = ark.AzureCloudspace[0].Env;
+        var availableOctets = allOctets.Except(octetsInUse);
 
-            envs?.ForEach(x => Console.WriteLine(x.Name));
-
-            var ark2 = db.Get();
-
-            Console.WriteLine("-------------");
-            ark2.AzureCloudspace[0].Env?.ForEach(x => Console.WriteLine(x.Name));
-        }
-
-        [Test]
-        public void ListHubCidrs()
-        {
-            var hub = new CIDRGenerator().Hub;
-
-            Console.WriteLine("Name:" + hub.Name);
-            Console.WriteLine("Hub CIDR:" + hub.AddressPrefix);
-
-            foreach( var subnet in hub.SubnetsInfo)
-            {
-                Console.WriteLine(subnet.Name + ": " + subnet.AddressPrefix);
-            }
-
-        }
-
-        [Test]
-        public void ListSpokeCidrs()
-        {
-            var envs = new List<string>{"prod","dev"};
-
-            var spokes = new CIDRGenerator().Spokes(envs);
-
-            foreach(var spoke in spokes)
-            {
-                Console.WriteLine(spoke.AddressPrefix);
-                var subnets = spoke.SubnetsInfo;
-
-                foreach(var subnet in subnets)
-                {
-                    Console.WriteLine($"{subnet.Name}: {subnet.AddressPrefix}");
-                }
-            }
-
-        }
-
-        [Test]
-        public void ReadAMessage()
-        {
-            var asbService = new AsbService();
-
-            var message = asbService.Receiver.ReceiveMessageAsync().Result;
-            
-            Console.WriteLine(message.Body);
-        }
-
-        [Test] 
-        public void Cloudspace_Dto_To_Entity()
-        {
-
-            var req = new AzureCloudspaceRequest
-            {
-                Name = "coolspace",
-                Environments = new List<string> {"Prod","Dev"}
-            };
-           
-            var svc = new AzureCloudspaceService(req);
-            var cloudspace = svc.GenAzureCloudspace();
-            Console.WriteLine(cloudspace.ToString());
-        }
-
-        [Test]
-        public void HubIsNotNull()
-        {
-            // Create Generator that uses 172 as first octet
-            var generator = new CIDRGenerator(octet1:172);
-
-            // Generate Hub and test CIDR prefixes
-            var hub = generator.Hub;
-            Assert.True(hub.AddressPrefix.StartsWith("172.16"));
-
-            // Generate 2 environments and test
-            // CIDR prefixes generated for prod and dev
-            var envList = new List<string>{"prod","dev"};
-            var envs = generator.Spokes(envList);
-            Assert.True(envs[0].AddressPrefix.StartsWith("172.17"));
-            Assert.True(envs[1].AddressPrefix.StartsWith("172.18"));
-        }
+        availableOctets.ToList().ForEach(Console.WriteLine);
     }
 }
+

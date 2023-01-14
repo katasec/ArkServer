@@ -17,10 +17,15 @@ namespace ArkServer.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Returns false if a cloudspace already exists.
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <returns></returns>
         public async Task<bool> AddCloudSpace(AzureCloudspace cs) 
         {
             // Skip cloudspace if exists
-            if (Ark.AzureCloudspace.Count > 0) {
+            if (Ark.AzureCloudspaces.Count > 0) {
                 _logger.Log(LogLevel.Information, "A cloudspace already exists in ark. Ark only allows one cloudspace at this time to reduce complexity.");
                 return false;
             }
@@ -32,7 +37,7 @@ namespace ArkServer.Services
             //}
 
             // Else add cloudspace to DB
-            Ark.AzureCloudspace.Add(cs);
+            Ark.AzureCloudspaces.Add(cs);
             await Task.Run(() =>_db.Save(Ark));
 
             return true;

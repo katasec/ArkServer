@@ -2,5 +2,5 @@
 
 public class Ark
 {
-    public List<AzureCloudspace> AzureCloudspace {get; set; } = new List<AzureCloudspace>();
+    public List<AzureCloudspace> AzureCloudspaces {get; set; } = new List<AzureCloudspace>();
 }

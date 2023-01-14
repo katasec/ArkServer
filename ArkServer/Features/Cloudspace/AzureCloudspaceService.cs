@@ -13,17 +13,19 @@ public class AzureCloudspaceService
 
 	}
 
-	public AzureCloudspace GenAzureCloudspace(int octet1=10, int octet2=16)
+	public AzureCloudspace GenAzureCloudspace(int hubOctet1=10, int hubOctet2=16)
 	{
-		var generator = new CIDRGenerator(octet1, octet2);
+		//var generator = new CidrGenerator(octet1, octet2);
 
-        var cs = new AzureCloudspace
-        {
-            Name = _request.Name,
-			Hub = generator.Hub,
-            Env = generator.Spokes(_request.Environments)
-        };
+		
+  //      var cs = new AzureCloudspace
+  //      {
+		//	Hub = generator.Hub,
+  //          Spokes = generator.Spokes(_request.Environments)
+  //      };
 
-		return cs;
+		//return cs;
+
+		return null;
 	}
 }

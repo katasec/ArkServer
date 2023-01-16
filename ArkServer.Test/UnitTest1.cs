@@ -33,10 +33,28 @@ public class ScratchPad
     }
 
     [Test]
+    public void CheckHub()
+    {
+        var acs = new AzureCloudspace()
+                    .AddSpoke("ameer")
+                    .AddSpoke("egal")
+                    .DelSpoke("ameer")
+                    .AddSpoke("alex");
+        
+        Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
+
+        acs.Spokes.ToList().ForEach(x =>
+        {
+            Console.WriteLine($"Name:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+        });
+
+    }
+
+    [Test]
     public void CheckSpokesNull()
     {
-        var acs = new AzureCloudspace();
-        Console.WriteLine(acs.Spokes == null);
+        //var acs = new AzureCloudspace();
+        //Console.WriteLine(acs.Spokes == null);
     }
 
     [Test]
@@ -47,62 +65,11 @@ public class ScratchPad
 
         // Pass the cloudspace to a generator to generate CIDRs
         acs = CidrGenerator.GenerateHub(acs);
-        acs = CidrGenerator.GenerateSpokes(new HashSet<string>{"dev","prod"}, acs);
+        acs = CidrGenerator.AddSpoke(acs,"prod");
+        acs = CidrGenerator.AddSpoke(acs,"dev");
         
         acs.Spokes.ToList().ForEach(x => Console.WriteLine(x.AddressPrefix));
     }
 
-    [Test]
-    public void Stuff()
-    {
-        var request = new AzureCloudspaceRequest
-        {
-            Environments = new(){ "dev", "prod"}
-        };
-
-        //var acs = new AzureCloudspace();
-
-
-		//var generator = new CidrGenerator(octet1, octet2);
-
-		
-   //     var cs = new AzureCloudspace
-   //     {
-			//Hub = generator.Hub,
-   //         Env = generator.Spokes(_request.Environments)
-   //     };
-
-		var emptyAcs = new AzureCloudspace();
-        
-        
-        //var hub = CidrGenerator.GetHub(emptyAcs);
-        // var spokes = CidrGenerator.GetSpokes(emptyAcs);
-
-        var spokes1 = new List<VNetSpec>()
-        {
-            new VNetSpec("dev") { AddressPrefix="10.1.10.0/24" },
-            new VNetSpec("prod") { AddressPrefix="10.2.10.0/24"},
-            new VNetSpec("prod") { AddressPrefix="10.3.10.0/24"},
-            new VNetSpec("prod") { AddressPrefix="10.4.10.0/24"},
-            new VNetSpec("prod") { AddressPrefix="10.5.10.0/24"},
-            new VNetSpec("prod") { AddressPrefix="10.6.10.0/24"},
-            new VNetSpec("prod") { AddressPrefix="10.7.10.0/24"},
-        };
-        
-       var spokes2 = new List<VNetSpec>()
-        {
-            new VNetSpec("dev")
-            {
-                AddressPrefix="10.2.10.0/24"
-            },
-        };
-
-        var allOctets= spokes1.Select(x => x.Octet2);
-        var octetsInUse = spokes2.Select(x => x.Octet2);
-
-        var availableOctets = allOctets.Except(octetsInUse);
-
-        availableOctets.ToList().ForEach(Console.WriteLine);
-    }
 }
 

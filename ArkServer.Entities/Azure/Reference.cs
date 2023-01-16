@@ -190,7 +190,120 @@ public static partial class CidrGenerator
         return acs;
     }
 
+    public static IEnumerable<SubnetInfo> GenerateSpokeSubnets(int Octet1, int Octet2)
+    {
+        var prefix = $"{Octet1}.{Octet2}";
+        return new List<SubnetInfo>
+        {
+            new SubnetInfo(
+	            Name:          "snet-tier1-agw",
+	            Description:   "Subnet for AGW",
+	            AddressPrefix: $"{prefix}.1.0/24",
+                Tags: new KeyValuePair<string,string>("ark:tier","1")   
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier1-webin",
+	            Description:   "Subnet for other LBs",
+	            AddressPrefix: $"{prefix}.2.0/24",
+                Tags: new KeyValuePair<string,string>("ark:tier","1")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier1-rsvd1",
+	            Description:   "Tier 1 reserved subnet",
+	            AddressPrefix: $"{prefix}.3.0/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","1")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier1-rsvd2",
+	            Description:   "Tier 1 reserved subnet",
+	            AddressPrefix: $"{prefix}.3.128/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","2")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier2-pckr",
+	            Description:   "Subnet for packer",
+	            AddressPrefix: $"{prefix}.7.0/24",
+                Tags: new KeyValuePair<string,string>("ark:tier","2")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier2-vm",
+	            Description:   "Subnet for VMs",
+	            AddressPrefix: $"{prefix}.8.0/21",
+                Tags: new KeyValuePair<string,string>("ark:tier","2")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier2-aks",
+	            Description:   "Subnet for AKS",
+	            AddressPrefix: $"{prefix}.16.0/20",
+                Tags: new KeyValuePair<string,string>("ark:tier","2")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-mi",
+	            Description:   "Subnet for managed instance",
+	            AddressPrefix: $"{prefix}.32.0/26",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-dbaz",
+	            Description:   "Subnet for SQL Azure",
+	            AddressPrefix: $"{prefix}.32.64/26",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-dblb",
+	            Description:   "Subnet for LB for SQL VM",
+	            AddressPrefix: $"{prefix}.32.128/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-dbvm",
+	            Description:   "Subnet for SQL VM",
+	            AddressPrefix: $"{prefix}.33.0/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-strg",
+	            Description:   "Subnet for storage account/fileshares",
+	            AddressPrefix: $"{prefix}.33.128/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+            new SubnetInfo(
+	            Name:          "snet-tier3-redis",
+	            Description:   "Subnet for redis cache",
+	            AddressPrefix: $"{prefix}.34.0/25",
+                Tags: new KeyValuePair<string,string>("ark:tier","3")
+            ),
+        };
+    }
 
 
+    public static AzureCloudspace AddSpoke(AzureCloudspace acs, string name)
+    {
+        int octet2;
+
+        // Find max 2nd octet in the cloudspace
+        if (acs.NoSpokes())
+        {
+            // If first spoke, get Octet2 from SpokeOctet2Start
+            octet2 = acs.SpokeOctet2Start;
+        } else
+        {
+            // Eles Get Max Octet2 from existing spokes
+            octet2 = acs.Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1])).Max();
+
+            // Add 1
+            octet2 = octet2 + 1;
+        }
+
+
+        var newSpoke = new VNetSpec(
+            Name: name, 
+            AddressPrefix: $"{acs.Octet1}.{octet2}.0.0/16",
+            SubnetsInfo: GenerateSpokeSubnets(acs.Octet1,octet2)
+        );
+
+        acs.Spokes.Add(newSpoke);
+        return acs;
+    }
 }
 

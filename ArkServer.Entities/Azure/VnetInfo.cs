@@ -2,7 +2,7 @@
 
 public record VNetSpec(
     string Name, 
-    string AddressPrefix = "", 
+    string AddressPrefix, 
     IEnumerable<SubnetInfo>? SubnetsInfo = null
 )
 {

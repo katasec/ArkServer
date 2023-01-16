@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace ArkServer.Entities.Azure;
 
@@ -14,12 +15,12 @@ public class AzureCloudspace
     /// <summary>
     /// One hub per cloudspace
     /// </summary>
-    public VNetSpec? Hub { get;set;}
+    public VNetSpec Hub { get;set;}
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
     /// </summary>
-    public HashSet<VNetSpec> Spokes { get; set; }
+    public HashSet<VNetSpec> Spokes { get; set; } = new HashSet<VNetSpec>();
 
     /// <summary>
     /// Creation status
@@ -60,28 +61,63 @@ public class AzureCloudspace
         return JsonSerializer.Serialize(this, new JsonSerializerOptions{WriteIndented = true});
     }
 
-    public AzureCloudspace(int Octet1 = 0, int Octet2=0)
+    public AzureCloudspace(int octet1 = 0, int octet2=0)
     {
-        this.Octet1 = Octet1 == 0 ? DefaultOctet1 : Octet1;
-        this.HubOctet2 = Octet2 == 0 ? DefaultOctet2 : Octet2;
-        this.SpokeOctet2Start = HubOctet2 +1;
+        Octet1 = octet1 == 0 ? DefaultOctet1 : octet1;
+        HubOctet2 = octet2 == 0 ? DefaultOctet2 : octet2;
+        SpokeOctet2Start = HubOctet2 +1;
 
-        Hub = new VNetSpec("vnet-hub");
+        Hub = new VNetSpec("vnet-hub", $"{Octet1}.{HubOctet2}.0.0/16");
     }
 
-    public bool IsEmpty()
+    public AzureCloudspace AddSpoke(string name)
     {
-        if (this == null)
+        // Return if spoke already exists
+        if (Spokes.Any(s => s.Name == name)) return this;
+
+        // Throw exception if number of spokes more than 30
+        // Artificial limit
+        if (Spokes.Count > 30)
+            throw new ApplicationException("Can't have more than 30 Envs.");
+
+        // Find max 2nd octet in the cloudspace
+        int octet2;
+        if (NoSpokes())
         {
-            return true;
-        } 
-        else if (this.Spokes == null)
-        {
-            return true;
+            // If first spoke, get Octet2 from SpokeOctet2Start
+            octet2 = SpokeOctet2Start;
         } 
         else
         {
-            return false;
+            // Eles Get Max Octet2 from existing spokes
+            octet2 = Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1])).Max();
+
+            // Add 1
+            octet2 = octet2 + 1;
         }
+
+        var newSpoke = new VNetSpec(
+            Name: name, 
+            AddressPrefix: $"{Octet1}.{octet2}.0.0/16",
+            SubnetsInfo: CidrGenerator.GenerateSpokeSubnets(Octet1,octet2)
+        );
+
+        Spokes.Add(newSpoke);
+        return this;
+    }
+
+    public AzureCloudspace DelSpoke(string name)
+    {
+        if (NoSpokes())
+        {
+            return this;
+        }
+
+        Spokes.RemoveWhere(x => x.Name.ToLower() == name);
+        return this;
+    }
+    public bool NoSpokes()
+    {
+        return Spokes.Count == 0;
     }
 }

@@ -40,21 +40,15 @@ public class ScratchPad
     }
 
     [Test]
-    public void GetFromDb()
+    public void PlayingWithAcs()
     {
         // Create an empty azure cloudspace
-        var emptyAcs = new AzureCloudspace();
+        var acs = new AzureCloudspace();
 
         // Pass the cloudspace to a generator to generate CIDRs
-        var hub = CidrGenerator.GetHub(emptyAcs);
-        var spokes = CidrGenerator.GetSpokes(new HashSet<string>{"dev","prod"},emptyAcs);
-
-        var acs = new AzureCloudspace
-        {
-            Hub = hub,
-            Spokes = spokes     
-        };
-
+        acs = CidrGenerator.GenerateHub(acs);
+        acs = CidrGenerator.GenerateSpokes(new HashSet<string>{"dev","prod"}, acs);
+        
         acs.Spokes.ToList().ForEach(x => Console.WriteLine(x.AddressPrefix));
     }
 
@@ -84,20 +78,20 @@ public class ScratchPad
         //var hub = CidrGenerator.GetHub(emptyAcs);
         // var spokes = CidrGenerator.GetSpokes(emptyAcs);
 
-        var spokes1 = new List<VNetInfo>()
+        var spokes1 = new List<VNetSpec>()
         {
-            new VNetInfo("dev") { AddressPrefix="10.1.10.0/24" },
-            new VNetInfo("prod") { AddressPrefix="10.2.10.0/24"},
-            new VNetInfo("prod") { AddressPrefix="10.3.10.0/24"},
-            new VNetInfo("prod") { AddressPrefix="10.4.10.0/24"},
-            new VNetInfo("prod") { AddressPrefix="10.5.10.0/24"},
-            new VNetInfo("prod") { AddressPrefix="10.6.10.0/24"},
-            new VNetInfo("prod") { AddressPrefix="10.7.10.0/24"},
+            new VNetSpec("dev") { AddressPrefix="10.1.10.0/24" },
+            new VNetSpec("prod") { AddressPrefix="10.2.10.0/24"},
+            new VNetSpec("prod") { AddressPrefix="10.3.10.0/24"},
+            new VNetSpec("prod") { AddressPrefix="10.4.10.0/24"},
+            new VNetSpec("prod") { AddressPrefix="10.5.10.0/24"},
+            new VNetSpec("prod") { AddressPrefix="10.6.10.0/24"},
+            new VNetSpec("prod") { AddressPrefix="10.7.10.0/24"},
         };
         
-       var spokes2 = new List<VNetInfo>()
+       var spokes2 = new List<VNetSpec>()
         {
-            new VNetInfo("dev")
+            new VNetSpec("dev")
             {
                 AddressPrefix="10.2.10.0/24"
             },

@@ -14,12 +14,12 @@ public class AzureCloudspace
     /// <summary>
     /// One hub per cloudspace
     /// </summary>
-    public VNetInfo? Hub { get;set;}
+    public VNetSpec? Hub { get;set;}
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
     /// </summary>
-    public HashSet<VNetInfo>? Spokes { get; set; }
+    public HashSet<VNetSpec> Spokes { get; set; }
 
     /// <summary>
     /// Creation status
@@ -66,6 +66,22 @@ public class AzureCloudspace
         this.HubOctet2 = Octet2 == 0 ? DefaultOctet2 : Octet2;
         this.SpokeOctet2Start = HubOctet2 +1;
 
-        Hub = new VNetInfo("vnet-hub");
+        Hub = new VNetSpec("vnet-hub");
+    }
+
+    public bool IsEmpty()
+    {
+        if (this == null)
+        {
+            return true;
+        } 
+        else if (this.Spokes == null)
+        {
+            return true;
+        } 
+        else
+        {
+            return false;
+        }
     }
 }

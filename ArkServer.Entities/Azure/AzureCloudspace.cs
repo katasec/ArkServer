@@ -8,8 +8,9 @@ namespace ArkServer.Entities.Azure;
 /// </summary>
 public class AzureCloudspace
 {
-
-    //TODO: Add support for additional cloudspaces. Only 'default' supported for MVP
+    /// <summary>
+    /// Name of cloudspace. Defaulting to 'default'
+    /// </summary>
     public string Name { get; set; } = "default";
 
     /// <summary>
@@ -67,7 +68,11 @@ public class AzureCloudspace
         HubOctet2 = octet2 == 0 ? DefaultOctet2 : octet2;
         SpokeOctet2Start = HubOctet2 +1;
 
-        Hub = new VNetSpec("vnet-hub", $"{Octet1}.{HubOctet2}.0.0/16");
+        Hub = new VNetSpec(
+            Name: "vnet-hub", 
+            AddressPrefix: $"{Octet1}.{HubOctet2}.0.0/16",
+            SubnetsInfo: CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
+        );
     }
 
     public AzureCloudspace AddSpoke(string name)
@@ -80,11 +85,11 @@ public class AzureCloudspace
         if (Spokes.Count > 30)
             throw new ApplicationException("Can't have more than 30 Envs.");
 
-        // Find max 2nd octet in the cloudspace
+        // Determine 2nd octet ti use for new spoke
         int octet2;
         if (NoSpokes())
         {
-            // If first spoke, get Octet2 from SpokeOctet2Start
+            // If this is the 1st spoke, then Octet2 is SpokeOctet2Start
             octet2 = SpokeOctet2Start;
         } 
         else
@@ -96,6 +101,7 @@ public class AzureCloudspace
             octet2 = octet2 + 1;
         }
 
+        // Generate spoke with octet2
         var newSpoke = new VNetSpec(
             Name: name, 
             AddressPrefix: $"{Octet1}.{octet2}.0.0/16",

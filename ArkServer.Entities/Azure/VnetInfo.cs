@@ -1,10 +1,6 @@
 ﻿namespace ArkServer.Entities.Azure;
 
-public record VNetSpec(
-    string Name, 
-    string AddressPrefix, 
-    IEnumerable<SubnetInfo>? SubnetsInfo = null
-)
+public record VNetSpec( string Name,  string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo)
 {
     internal int SpokeOctet2Offset = 0;
     public string Octet2{

@@ -43,33 +43,27 @@ public class ScratchPad
         
         Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
 
-        acs.Spokes.ToList().ForEach(x =>
+        acs.Hub.SubnetsInfo.ToList().ForEach((x) =>
         {
-            Console.WriteLine($"Name:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+            Console.WriteLine($"Hub Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+        });
+        Console.WriteLine();
+
+
+        acs.Spokes.ToList().ForEach(spoke =>
+        {
+            Console.WriteLine($"Name:{spoke.Name}, AddressPrefix:{spoke.AddressPrefix}");
+
+            spoke.SubnetsInfo.ToList().ForEach((x) =>
+            {
+                Console.WriteLine($"Spoke Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+            });
+            Console.WriteLine();
         });
 
     }
 
-    [Test]
-    public void CheckSpokesNull()
-    {
-        //var acs = new AzureCloudspace();
-        //Console.WriteLine(acs.Spokes == null);
-    }
 
-    [Test]
-    public void PlayingWithAcs()
-    {
-        // Create an empty azure cloudspace
-        var acs = new AzureCloudspace();
-
-        // Pass the cloudspace to a generator to generate CIDRs
-        acs = CidrGenerator.GenerateHub(acs);
-        acs = CidrGenerator.AddSpoke(acs,"prod");
-        acs = CidrGenerator.AddSpoke(acs,"dev");
-        
-        acs.Spokes.ToList().ForEach(x => Console.WriteLine(x.AddressPrefix));
-    }
 
 }
 

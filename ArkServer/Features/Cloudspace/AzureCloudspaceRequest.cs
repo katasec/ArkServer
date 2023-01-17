@@ -3,18 +3,39 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 namespace ArkServer.Features.Cloudspace;
 
-public class AzureCloudspaceRequest : BaseRequest
+public class CreateAzureCloudspaceRequest : BaseRequest
 {
+    
     public string  Name { get; init; } = "default";
     public required List<string> Environments { get; set; }
 
+    public CreateAzureCloudspaceRequest()
+    {
+        RequestType = GetType().Name;
+    }
     public override string ToString()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
     }
 }
 
-public class CloudspaceRequestValidator : AbstractValidator<AzureCloudspaceRequest>
+
+public class DeleteAzureCloudspaceRequest : BaseRequest
+{
+    public DeleteAzureCloudspaceRequest()
+    {
+        RequestType = GetType().Name;
+    }
+
+    public string  Name { get; init; } = "default";
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
+    }
+}
+
+
+public class CloudspaceRequestValidator : AbstractValidator<CreateAzureCloudspaceRequest>
 {
     public CloudspaceRequestValidator()
     {
@@ -47,4 +68,5 @@ public class CloudspaceRequestValidator : AbstractValidator<AzureCloudspaceReque
 
         return status;
     }
+
 }

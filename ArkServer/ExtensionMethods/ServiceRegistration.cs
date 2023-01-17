@@ -29,7 +29,7 @@ namespace ArkServer.ExtensionMethods
 
             // Model Validators
             services.AddFluentValidationAutoValidation();
-            services.AddScoped<IValidator<AzureCloudspaceRequest>, CloudspaceRequestValidator>();
+            services.AddScoped<IValidator<CreateAzureCloudspaceRequest>, CloudspaceRequestValidator>();
 
             return services;
         }

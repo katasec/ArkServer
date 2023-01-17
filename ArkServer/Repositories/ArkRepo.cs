@@ -34,7 +34,7 @@ public class ArkJsonRepo : IArkRepo
     }
     public Ark Get()
     {
-        _logger.Log(LogLevel.Information, "Reading DB");
+        
 
         Ark emptyArk = new();
 
@@ -42,6 +42,10 @@ public class ArkJsonRepo : IArkRepo
         {
             _logger.Log(LogLevel.Information, $"{DbFile} doesn't exist!");
             return emptyArk;
+        }
+        else
+        {
+            _logger.Log(LogLevel.Information, "Reading DB");
         }
 
 
@@ -53,7 +57,7 @@ public class ArkJsonRepo : IArkRepo
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.Log(LogLevel.Error,ex.Message);
             return emptyArk;
         }
     }

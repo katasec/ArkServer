@@ -87,6 +87,40 @@ public class ScratchPad
     }
 
 
+    [Test]
+    public void HashsetStuff()
+    {
+        var nets = new HashSet<VNetSpec>();
 
+        var spoke1 = new VNetSpec(
+            Name: "hi",
+            AddressPrefix:"1.1.1.1",
+            SubnetsInfo: new List<SubnetInfo>
+            {
+                new SubnetInfo("subnet1","10.0.0.0","cool subet")
+            }
+        );
+
+        Console.WriteLine(nets.Add(spoke1));
+        Console.WriteLine(nets.Add(spoke1));
+        Console.WriteLine(nets.Add(spoke1));
+
+
+    }
+
+    [Test]
+    public void PrintJson()
+    {
+        var acs = new CreateAzureCloudspaceRequest
+        {
+            Environments = new List<string>{"dev"}
+        };
+
+        Console.WriteLine(acs.ToString());
+
+        var dacs = new DeleteAzureCloudspaceRequest();
+        Console.WriteLine(dacs.ToString());
+
+    }
 }
 

@@ -6,8 +6,8 @@ namespace ArkServer.Features.Cloudspace;
 
 public class AzureCloudspaceService
 {
-	private readonly AzureCloudspaceRequest _request;
-	public AzureCloudspaceService(AzureCloudspaceRequest request)
+	private readonly CreateAzureCloudspaceRequest _request;
+	public AzureCloudspaceService(CreateAzureCloudspaceRequest request)
 	{
 		_request= request;
 

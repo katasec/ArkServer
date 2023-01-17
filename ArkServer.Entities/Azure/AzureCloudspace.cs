@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ArkServer.Entities.Azure;
 
@@ -30,7 +31,7 @@ public class AzureCloudspace
 
     // Default action is "POST" or create vs. delete
     // This is a hack - will change later
-    public string Action {get;set;} = "post"; 
+    //public string Action {get;set;} = "post"; 
 
 
     // Defult Octets
@@ -63,6 +64,13 @@ public class AzureCloudspace
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions{WriteIndented = true});
     }
+
+    /// <summary>
+    /// DO NOT REMOVE the JsonConstructor. Removing will cause issues with reading DB which 
+    /// can be dangerous.
+    /// </summary>
+    [JsonConstructor]
+    public AzureCloudspace() : this(0, 0) { }
 
     public AzureCloudspace(int octet1 = 0, int octet2=0)
     {

@@ -43,6 +43,9 @@ public class ScratchPad
         
         Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
 
+        //Assert.True(acs.Hub.SubnetsInfo.Count() == 5);
+        Assert.That(acs.Hub.SubnetsInfo.Count() >= 4,"Hub does not have 4 subnets");
+
         acs.Hub.SubnetsInfo.ToList().ForEach((x) =>
         {
             Console.WriteLine($"Hub Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");

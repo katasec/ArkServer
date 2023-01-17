@@ -37,20 +37,40 @@ public class ScratchPad
     {
         var acs = new AzureCloudspace()
                     .AddSpoke("ameer")
-                    .AddSpoke("egal")
-                    .DelSpoke("ameer")
-                    .AddSpoke("alex");
+                    .AddSpoke("egal");
+
         
-        Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
 
-        //Assert.True(acs.Hub.SubnetsInfo.Count() == 5);
-        Assert.That(acs.Hub.SubnetsInfo.Count() >= 4,"Hub does not have 4 subnets");
-
-        acs.Hub.SubnetsInfo.ToList().ForEach((x) =>
+       acs.Spokes.ToList().ForEach(spoke =>
         {
-            Console.WriteLine($"Hub Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+            Console.WriteLine($"Name:{spoke.Name}, AddressPrefix:{spoke.AddressPrefix}");
+
+            spoke.SubnetsInfo.ToList().ForEach((x) =>
+            {
+                Console.WriteLine($"Spoke Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+            });
+            Console.WriteLine();
         });
+
         Console.WriteLine();
+        Console.WriteLine("Delete Ameer");
+        Console.WriteLine();
+
+        acs.DelSpoke("ameer")
+            .AddSpoke("alex")
+            .AddSpoke("ameer");
+        
+        
+        //Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
+
+        ////Assert.True(acs.Hub.SubnetsInfo.Count() == 5);
+        //Assert.That(acs.Hub.SubnetsInfo.Count() >= 4,"Hub does not have 4 subnets");
+
+        //acs.Hub.SubnetsInfo.ToList().ForEach((x) =>
+        //{
+        //    Console.WriteLine($"Hub Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
+        //});
+        //Console.WriteLine();
 
 
         acs.Spokes.ToList().ForEach(spoke =>

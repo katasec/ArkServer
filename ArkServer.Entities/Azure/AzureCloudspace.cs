@@ -37,6 +37,8 @@ public class AzureCloudspace
     private static int DefaultOctet1 {get; } = 10;
     private static int DefaultOctet2 {get; } = 16;
 
+    private static HashSet<int> AllOctet2 =  Enumerable.Range(17,200).ToHashSet<int>();
+
     /// <summary>
     /// Octet1 is common for Hub & Spokes. It is used to generate the CIDRs for
     /// all the hubs and spokes. This defaults to the value of DefaultOctet1 
@@ -94,11 +96,13 @@ public class AzureCloudspace
         } 
         else
         {
-            // Eles Get Max Octet2 from existing spokes
-            octet2 = Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1])).Max();
+            // Get list of used octets
+            var usedOctet2= Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1]));
 
-            // Add 1
-            octet2 = octet2 + 1;
+            // Remove used octets from list off all octets
+            // Select the minimum octet from the list.           
+            octet2 = AllOctet2.Except(usedOctet2).Min();
+
         }
 
         // Generate spoke with octet2

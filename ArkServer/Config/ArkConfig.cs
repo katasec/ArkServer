@@ -28,6 +28,7 @@ public struct ArkConfig
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
             .Build();
 
         var configTxt = File.ReadAllText(ConfigFile);

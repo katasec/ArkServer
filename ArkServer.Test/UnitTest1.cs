@@ -60,18 +60,6 @@ public class ScratchPad
             .AddSpoke("alex")
             .AddSpoke("ameer");
         
-        
-        //Console.WriteLine($"Hub: {acs.Hub.AddressPrefix}");
-
-        ////Assert.True(acs.Hub.SubnetsInfo.Count() == 5);
-        //Assert.That(acs.Hub.SubnetsInfo.Count() >= 4,"Hub does not have 4 subnets");
-
-        //acs.Hub.SubnetsInfo.ToList().ForEach((x) =>
-        //{
-        //    Console.WriteLine($"Hub Subnet:{x.Name}, AddressPrefix:{x.AddressPrefix}");
-        //});
-        //Console.WriteLine();
-
 
         acs.Spokes.ToList().ForEach(spoke =>
         {
@@ -86,6 +74,12 @@ public class ScratchPad
 
     }
 
+    [Test]
+    public void ReadYamlConfig()
+    {
+        var arkConfig = ArkConfig.Read();
+        Console.WriteLine(arkConfig.AzureConfig.MqConfig.MqName);
+    }
 
     [Test]
     public void HashsetStuff()

@@ -2,27 +2,25 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<PublishSingleFile>true</PublishSingleFile>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OutputType>Exe</OutputType>
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<!--
-		<PublishTrimmed>true</PublishTrimmed>
-		-->
+		<ContainerImageName>ghcr.io/katasec/arkserver</ContainerImageName>
+		<ContainerImageTag>v0.0.1</ContainerImageTag>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="CustomConverters\**" />
-	  <Content Remove="CustomConverters\**" />
-	  <EmbeddedResource Remove="CustomConverters\**" />
-	  <None Remove="CustomConverters\**" />
+		<Compile Remove="CustomConverters\**" />
+		<Content Remove="CustomConverters\**" />
+		<EmbeddedResource Remove="CustomConverters\**" />
+		<None Remove="CustomConverters\**" />
 	</ItemGroup>
 
 
 	<ItemGroup>
-	  <None Remove=".gitignore" />
-	  <None Remove="ArkServer.csproj.DotSettings" />
+		<None Remove=".gitignore" />
+		<None Remove="ArkServer.csproj.DotSettings" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,6 +30,7 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
 		<PackageReference Include="JsonFlatFileDataStore" Version="2.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+		<PackageReference Include="Microsoft.NET.Build.Containers" Version="0.2.7" />
 		<PackageReference Include="PulumiApi" Version="0.0.2" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
@@ -41,11 +40,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
+		<ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\Environment\" />
+		<Folder Include="Features\Environment\" />
 	</ItemGroup>
 
 

@@ -28,13 +28,7 @@ public class AzureCloudspaceController : ControllerBase
     public async Task<IResult> Post(CreateAzureCloudspaceRequest req)
     {
         var exists = true;
-        var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name}";
-        
-        // Ensure cloudspace name is 'default' only
-        if (req.Name.ToLower() !=  "default")
-        {
-            return Results.Problem($"Cloudspace name was {req.Name}. Only 'default' is accepted as a cloudspace name");
-        }
+        var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
         
         // If Cloudspace doesn't exist, create it.
         if (Ark.AzureCloudspaces.Count == 0)
@@ -72,12 +66,7 @@ public class AzureCloudspaceController : ControllerBase
     [Route("/azure/cloudspace")]
     public async Task<IResult> Delete(DeleteAzureCloudspaceRequest req)
     {
-        // Ensure cloudspace name is 'default' only
-        if (req.Name.ToLower() != "default")
-        {
-            return Results.Problem($"Cloudspace name was {req.Name}. Only 'default' is accepted as a cloudspace name");
-        }
-        var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name}";
+        var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
 
         //If Cloudspace doesn't exist, return OK
         if (Ark.AzureCloudspaces.Count == 0)
@@ -92,8 +81,8 @@ public class AzureCloudspaceController : ControllerBase
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
 
         // Remove cloudspace and save in DB
-        Ark.AzureCloudspaces.RemoveAll(x => x.Name == req.Name.ToLower());
-        _arkRepo.Save(Ark);
+        //Ark.AzureCloudspaces.RemoveAll(x => x.Name == req.Name.ToLower());
+        //_arkRepo.Save(Ark);
 
         // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
         return Results.Accepted();

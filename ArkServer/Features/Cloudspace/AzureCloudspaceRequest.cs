@@ -42,6 +42,12 @@ public class CloudspaceRequestValidator : AbstractValidator<CreateAzureCloudspac
         RuleFor(x => x.Name).Length(3, 30)
             .Must(HaveNoSpecialChars).WithMessage("Must have not special characters")
             .Must(StartWithChar).WithMessage("Must start with characters");
+
+        // Name must be "default" for now
+        RuleFor(x => x.Name)
+            .Must(x => x.ToLower().Equals("default"))
+            .WithMessage("Only 'default' is accepted as a cloudspace name");
+
         RuleFor(x => x.Environments)
             .Must(HaveNoSpecialChars).WithMessage("Must have not special characters");
     }

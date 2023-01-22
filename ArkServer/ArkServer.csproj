@@ -12,9 +12,13 @@
 
 	<ItemGroup>
 		<Compile Remove="CustomConverters\**" />
+		<Compile Remove="Features\Environment\**" />
 		<Content Remove="CustomConverters\**" />
+		<Content Remove="Features\Environment\**" />
 		<EmbeddedResource Remove="CustomConverters\**" />
+		<EmbeddedResource Remove="Features\Environment\**" />
 		<None Remove="CustomConverters\**" />
+		<None Remove="Features\Environment\**" />
 	</ItemGroup>
 
 
@@ -41,10 +45,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Features\Environment\" />
 	</ItemGroup>
 
 

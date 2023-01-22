@@ -12,21 +12,25 @@ public class AzureCloudspace
     /// <summary>
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
+    [JsonPropertyName("name")]
     public string Name { get; set; } = "default";
 
     /// <summary>
     /// One hub per cloudspace
     /// </summary>
+    [JsonPropertyName("hub")]
     public VNetSpec Hub { get;set;}
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
     /// </summary>
+    [JsonPropertyName("spokes")]
     public HashSet<VNetSpec> Spokes { get; set; } = new HashSet<VNetSpec>();
 
     /// <summary>
     /// Creation status
     /// </summary>
+    [JsonPropertyName("status")]
     public string? Status {get;set;}
 
     // Default action is "POST" or create vs. delete
@@ -78,11 +82,11 @@ public class AzureCloudspace
         HubOctet2 = octet2 == 0 ? DefaultOctet2 : octet2;
         SpokeOctet2Start = HubOctet2 +1;
 
-        Hub = new VNetSpec(
-            Name: "vnet-hub", 
-            AddressPrefix: $"{Octet1}.{HubOctet2}.0.0/16",
-            SubnetsInfo: CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
-        );
+        Hub = new VNetSpec{
+            Name= "vnet-hub", 
+            AddressPrefix= $"{Octet1}.{HubOctet2}.0.0/16",
+            SubnetsInfo= CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
+        };
     }
 
     public AzureCloudspace AddSpoke(string name)
@@ -114,11 +118,11 @@ public class AzureCloudspace
         }
 
         // Generate spoke with octet2
-        var newSpoke = new VNetSpec(
-            Name: name, 
-            AddressPrefix: $"{Octet1}.{octet2}.0.0/16",
-            SubnetsInfo: CidrGenerator.GenerateSpokeSubnets(Octet1,octet2)
-        );
+        var newSpoke = new VNetSpec{
+            Name= name, 
+            AddressPrefix= $"{Octet1}.{octet2}.0.0/16",
+            SubnetsInfo= CidrGenerator.GenerateSpokeSubnets(Octet1,octet2)
+        };
 
         Spokes.Add(newSpoke);
         return this;

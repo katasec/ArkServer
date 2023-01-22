@@ -86,14 +86,18 @@ public class ScratchPad
     {
         var nets = new HashSet<VNetSpec>();
 
-        var spoke1 = new VNetSpec(
-            Name: "hi",
-            AddressPrefix:"1.1.1.1",
-            SubnetsInfo: new List<SubnetInfo>
+        var spoke1 = new VNetSpec{
+            Name= "hi",
+            AddressPrefix="1.1.1.1",
+            SubnetsInfo= new List<SubnetInfo>
             {
-                new SubnetInfo("subnet1","10.0.0.0","cool subet")
+                new SubnetInfo{
+                    Name="subnet1",
+                    AddressPrefix="10.0.0.0",
+                    Description="cool subet" 
+                }
             }
-        );
+        };
 
         Console.WriteLine(nets.Add(spoke1));
         Console.WriteLine(nets.Add(spoke1));

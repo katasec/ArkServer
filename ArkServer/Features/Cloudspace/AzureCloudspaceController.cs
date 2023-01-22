@@ -48,6 +48,7 @@ public class AzureCloudspaceController : ControllerBase
         var subject = req.GetType().Name;
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
 
+        acs.Spokes.ToList().ForEach(x => Console.WriteLine("Spoke:" + x));
         // Return status
         if (exists)
         {

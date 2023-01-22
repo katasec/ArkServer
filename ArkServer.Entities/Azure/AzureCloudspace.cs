@@ -84,7 +84,7 @@ public class AzureCloudspace
 
         Hub = new VNetSpec{
             Name= "vnet-hub", 
-            AddressPrefix= $"{Octet1}.{HubOctet2}.0.0/16",
+            AddressPrefix= $"{Octet1}.{HubOctet2}.0.0/24",
             SubnetsInfo= CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
         };
     }

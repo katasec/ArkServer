@@ -1,4 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ArkServer.Entities.Azure;
 
@@ -6,7 +9,6 @@ namespace ArkServer.Entities.Azure;
 //    string Name, string AddressPrefix, string Description,
 //    KeyValuePair<string, string> Tags = new KeyValuePair<string, string>()
 //);
-
 
 public class SubnetInfo
 {
@@ -21,4 +23,9 @@ public class SubnetInfo
 
     [JsonPropertyName("tags")]
     public KeyValuePair<string, string> Tags = new();
+
+    public void stuff()
+    {
+        
+    }
 }

@@ -9,6 +9,9 @@ namespace ArkServer.Entities.Azure;
 /// </summary>
 public class AzureCloudspace
 {
+    [JsonPropertyName("id")]
+    public string Id { get; set; }
+
     /// <summary>
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
@@ -32,11 +35,6 @@ public class AzureCloudspace
     /// </summary>
     [JsonPropertyName("status")]
     public string? Status {get;set;}
-
-    // Default action is "POST" or create vs. delete
-    // This is a hack - will change later
-    //public string Action {get;set;} = "post"; 
-
 
     // Defult Octets
     private static int DefaultOctet1 {get; } = 10;
@@ -78,6 +76,7 @@ public class AzureCloudspace
 
     public AzureCloudspace(int octet1 = 0, int octet2=0)
     {
+        Id = Guid.NewGuid().ToString();
         Octet1 = octet1 == 0 ? DefaultOctet1 : octet1;
         HubOctet2 = octet2 == 0 ? DefaultOctet2 : octet2;
         SpokeOctet2Start = HubOctet2 +1;

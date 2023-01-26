@@ -1,14 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="6.5.0" />
+  </ItemGroup>
+
 </Project>

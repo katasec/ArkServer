@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ArkServer.Entities.Azure;
@@ -20,7 +22,6 @@ namespace ArkServer.Entities.Azure;
 //        }
 //    }
 //};
-
 
 
 public class VNetSpec

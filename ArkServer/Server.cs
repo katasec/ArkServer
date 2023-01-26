@@ -1,5 +1,4 @@
 ﻿using ArkServer.ExtensionMethods;
-using ArkServer.Services;
 using Serilog;
 
 namespace ArkServer;
@@ -19,6 +18,7 @@ public class Server
         var builder = WebApplication.CreateBuilder(args);
         builder.Host.UseSerilog();
 
+        
         // Register Services
         builder.Services.RegisterServices();
 

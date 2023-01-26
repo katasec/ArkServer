@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+
 namespace ArkServer.Features.Cloudspace;
 
 public class CreateAzureCloudspaceRequest : BaseRequest
 {
-    
     public string  Name { get; init; } = "default";
+
     public required List<string> Environments { get; set; }
 
     public CreateAzureCloudspaceRequest()
@@ -17,21 +19,14 @@ public class CreateAzureCloudspaceRequest : BaseRequest
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
     }
+
+
 }
 
-
-public class DeleteAzureCloudspaceRequest : BaseRequest
+public class CreateAzureCloudspaceResponse
 {
-    public DeleteAzureCloudspaceRequest()
-    {
-        RequestType = GetType().Name;
-    }
-
+    public string Id { get; set;}
     public string  Name { get; init; } = "default";
-    public override string ToString()
-    {
-        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
-    }
 }
 
 

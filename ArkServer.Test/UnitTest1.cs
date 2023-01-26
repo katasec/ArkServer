@@ -11,20 +11,19 @@ using System.Text.Json;
 namespace ArkServer.Test;
 
 
-
 public class ScratchPad
 {
     private readonly Ark ark;
-    private readonly IArkRepo db;
+    private readonly ICloudspaceRepo db;
     private readonly ArkService svc;
 
     public ScratchPad()
     {
-        ILogger<ArkJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<ArkJsonRepo>>()).Object;
+        ILogger<CloudspaceJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<CloudspaceJsonRepo>>()).Object;
         ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
 
         ark = new Ark();
-        db = new ArkJsonRepo(ArkJsonRepoLogger);
+        db = new CloudspaceJsonRepo(ArkJsonRepoLogger);
         svc = new ArkService(db,ark,ArkServiceLogger);
     }
     [SetUp]

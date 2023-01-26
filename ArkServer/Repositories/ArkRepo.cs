@@ -1,25 +1,21 @@
 ﻿using ArkServer.Entities.Azure;
-using JsonFlatFileDataStore;
-using System.Collections.Generic;
-using System.Collections;
 using System.Text.Json;
-using YamlDotNet.Core;
 
 namespace ArkServer.Repositories;
 
-public interface IArkRepo
+public interface ICloudspaceRepo
 {
     Ark Get();
     bool Save(Ark ark);
 }
 
-public class ArkJsonRepo : IArkRepo
+public class CloudspaceJsonRepo : ICloudspaceRepo
 {
     private string DbDir { get; }
     private string DbFile { get; }
     private ILogger _logger;
 
-    public ArkJsonRepo(ILogger<ArkJsonRepo> logger)
+    public CloudspaceJsonRepo(ILogger<CloudspaceJsonRepo> logger)
     {
         _logger = logger;
 
@@ -34,10 +30,7 @@ public class ArkJsonRepo : IArkRepo
     }
     public Ark Get()
     {
-        
-
         Ark emptyArk = new();
-
         if (!File.Exists(DbFile))
         {
             _logger.Log(LogLevel.Information, $"{DbFile} doesn't exist!");

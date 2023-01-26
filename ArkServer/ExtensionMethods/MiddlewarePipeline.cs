@@ -1,8 +1,4 @@
-﻿using ArkServer.Services;
-using Serilog;
-
-
-namespace ArkServer.ExtensionMethods
+﻿namespace ArkServer.ExtensionMethods
 {
     public static class MiddlewarePipeline
     {

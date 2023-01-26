@@ -7,10 +7,10 @@ namespace ArkServer.Services
     {
         private Ark Ark {get; set; }
 
-        private readonly IArkRepo _db;
+        private readonly ICloudspaceRepo _db;
         private readonly ILogger _logger;
 
-        public ArkService(IArkRepo db, Ark ark, ILogger<ArkService> logger)
+        public ArkService(ICloudspaceRepo db, Ark ark, ILogger<ArkService> logger)
         {
             _db = db;
             Ark = _db.Get();

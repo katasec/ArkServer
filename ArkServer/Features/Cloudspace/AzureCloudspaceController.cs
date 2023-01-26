@@ -3,6 +3,8 @@ using ArkServer.Repositories;
 using ArkServer.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace ArkServer.Features.Cloudspace;
 
@@ -13,52 +15,52 @@ public class AzureCloudspaceController : ControllerBase
     private readonly Ark Ark;
     private ILogger<AzureCloudspaceController> _logger;
     private string ApiHost => HttpContext.Request.Host.ToString();
-    private IArkRepo _arkRepo;
+    private ICloudspaceRepo _repo;
+    private System.Data.IDbConnection _db;
 
-    public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService,IArkRepo arkRepo)
+    public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService,ICloudspaceRepo repo, OrmLiteConnectionFactory dbFactory)
     {
         _asbService = asbService;
         _logger = logger;
-        _arkRepo = arkRepo;
-        Ark= arkRepo.Get();
+        _repo = repo;
+        Ark= repo.Get();
+        _db = dbFactory.Open();
     }
 
     [HttpPost]
     [Route("/azure/cloudspace")]
-    public async Task<IResult> Post(CreateAzureCloudspaceRequest req)
+    public async Task<IResult> CreateCloudSpace(CreateAzureCloudspaceRequest req)
     {
-        var exists = true;
-        var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
-        
-        // If Cloudspace doesn't exist, create it.
+        //var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
+
+        // Generate a model for the AzureCloudSpace
+        // that needs to be created
         if (Ark.AzureCloudspaces.Count == 0)
         {
-            Ark.AzureCloudspaces = new List<AzureCloudspace> { new AzureCloudspace()};
-            exists= false;
-        } 
- 
-        // Get Azure Cloudspace from Ark
+            Ark.AzureCloudspaces = new List<AzureCloudspace> { new AzureCloudspace() };
+        }
+
+        
+        // Assign a request ID to the generated model
         var acs = Ark.AzureCloudspaces[0];
+        acs.Id = Guid.NewGuid().ToString();
 
-        // Add Environments to cloudspace and Save to DB
-        req.Environments.ToList().ForEach(x => acs.AddSpoke(x));
-        _arkRepo.Save(Ark);
 
-        // Send Message to queue
+        //// Add Environments to cloudspace and Save to DB
+        //req.Environments.ToList().ForEach(x => acs.AddSpoke(x));
+        //_arkRepo.Save(Ark);
+
+        // Send model to queue so worker can create it.
         var subject = req.GetType().Name;
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
 
-        acs.Spokes.ToList().ForEach(x => Console.WriteLine("Spoke:" + x));
-        // Return status
-        if (exists)
-        {
-            // Send message to worker to run the pulumi handler program but return a 409 (Conflict) with Location header to resource
-            HttpContext.Response.Headers.Location = uri;
-            return Results.Conflict();
-        }
 
-        // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
-        return Results.Accepted(uri);
+        // Respond with an Id
+        return Results.Accepted("ok",new CreateAzureCloudspaceResponse
+        {
+            Id= acs.Id,
+            Name= acs.Name,
+        });
 
     }
 
@@ -88,4 +90,32 @@ public class AzureCloudspaceController : ControllerBase
         // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
         return Results.Accepted();
     }
+
+    [HttpGet]
+    [Route("/azure/cloudspaces")]
+    public async Task<IResult> GetCloudspace()
+    {
+        //return Results.Ok(Ark.AzureCloudspaces);
+        return Results.Ok(_db.LoadSelect<AzureCloudspace>());
+    }
+
+    [HttpPost]
+    [Route("/azure/cloudspaces/{name}")]
+    public  IResult UpdateCloudspace(string name, [FromBody] AzureCloudspace azureCloudpace)
+    {
+        var cloudspace = Ark.AzureCloudspaces.Where(x => x.Name == name );
+        if (cloudspace != null)
+        {
+            return Results.Conflict(cloudspace);
+        }
+
+        
+        Ark.AzureCloudspaces.Add(azureCloudpace);
+        _repo.Save(Ark);
+
+        return Results.Ok(Ark.AzureCloudspaces);
+    }
 }
+
+
+

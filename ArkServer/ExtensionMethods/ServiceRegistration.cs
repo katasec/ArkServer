@@ -4,6 +4,10 @@ using ArkServer.Repositories;
 using ArkServer.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
+using System.Data;
 
 namespace ArkServer.ExtensionMethods
 {
@@ -24,12 +28,19 @@ namespace ArkServer.ExtensionMethods
             // Adding custom services
             services.AddSingleton<AsbService>();
             services.AddSingleton<Ark>();
-            services.AddSingleton<IArkRepo, ArkJsonRepo>();
+            services.AddSingleton<ICloudspaceRepo, CloudspaceJsonRepo>();
             services.AddSingleton<ArkService>();
 
             // Model Validators
             services.AddFluentValidationAutoValidation();
             services.AddScoped<IValidator<CreateAzureCloudspaceRequest>, CloudspaceRequestValidator>();
+
+            // Initalize OrmLite
+            var homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var dbFile = Path.Join(homeDir, ".ark", "db", "ark2.db");
+            var  dbFactory = new OrmLiteConnectionFactory(dbFile, SqliteDialect.Provider);
+            services.AddSingleton(dbFactory);
+            //services.AddScoped<IDbConnection>(db);
 
             return services;
         }

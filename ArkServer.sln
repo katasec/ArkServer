@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkServer.Test", "ArkServer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkWorker", "ArkWorker\ArkWorker.csproj", "{5EDBD2C3-AF5E-4589-8929-D29C61B2B85F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArkServer.Entities", "ArkServer.Entities\ArkServer.Entities.csproj", "{8A5030DD-9966-4A9A-BFCD-10E428B77F97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkServer.Entities", "ArkServer.Entities\ArkServer.Entities.csproj", "{8A5030DD-9966-4A9A-BFCD-10E428B77F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ark.Scratchpad", "Ark.Scratchpad\Ark.Scratchpad.csproj", "{7C03BD19-F500-45A1-AF56-FF676819E150}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{8A5030DD-9966-4A9A-BFCD-10E428B77F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A5030DD-9966-4A9A-BFCD-10E428B77F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A5030DD-9966-4A9A-BFCD-10E428B77F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C03BD19-F500-45A1-AF56-FF676819E150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C03BD19-F500-45A1-AF56-FF676819E150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C03BD19-F500-45A1-AF56-FF676819E150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C03BD19-F500-45A1-AF56-FF676819E150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

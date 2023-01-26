@@ -93,7 +93,7 @@ public class AzureCloudspaceController : ControllerBase
 
     [HttpGet]
     [Route("/azure/cloudspaces")]
-    public async Task<IResult> GetCloudspace()
+    public IResult GetCloudspace()
     {
         //return Results.Ok(Ark.AzureCloudspaces);
         return Results.Ok(_db.LoadSelect<AzureCloudspace>());

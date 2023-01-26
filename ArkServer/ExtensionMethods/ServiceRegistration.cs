@@ -42,6 +42,10 @@ namespace ArkServer.ExtensionMethods
             services.AddSingleton(dbFactory);
             //services.AddScoped<IDbConnection>(db);
 
+            // Create Tables if not exist
+            var db = dbFactory.Open();
+            db.CreateTableIfNotExists<AzureCloudspace>();
+
             return services;
         }
     }

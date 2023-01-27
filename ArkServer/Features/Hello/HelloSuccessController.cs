@@ -26,7 +26,6 @@ public class HelloSuccessController
         var hello = new HelloSuccess { Message= req.Message};
         
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(hello.ToString()) { Subject = req.GetType().Name });
-
-        return Results.Accepted("OK");
+        return Results.Accepted("OK",new HelloSuccessResponse{Id = req.Id});
     }
 }

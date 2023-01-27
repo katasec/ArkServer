@@ -45,6 +45,7 @@ namespace ArkServer.ExtensionMethods
             // Create Tables if not exist
             var db = dbFactory.Open();
             db.CreateTableIfNotExists<AzureCloudspace>();
+            db.CreateTableIfNotExists<HelloSuccess>();
 
             return services;
         }

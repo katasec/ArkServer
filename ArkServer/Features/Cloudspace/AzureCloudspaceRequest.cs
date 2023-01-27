@@ -11,10 +11,6 @@ public class CreateAzureCloudspaceRequest : BaseRequest
 
     public required List<string> Environments { get; set; }
 
-    public CreateAzureCloudspaceRequest()
-    {
-        RequestType = GetType().Name;
-    }
     public override string ToString()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
@@ -25,7 +21,7 @@ public class CreateAzureCloudspaceRequest : BaseRequest
 
 public class CreateAzureCloudspaceResponse
 {
-    public string Id { get; set;}
+    public string? Id { get; set;}
     public string  Name { get; init; } = "default";
 }
 

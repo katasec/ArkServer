@@ -119,5 +119,12 @@ public class ScratchPad
         Console.WriteLine(dacs.ToString());
 
     }
+
+    [Test]
+    public void HelloMsg()
+    {
+        var hello = new HelloSuccess { Message="sas" };
+        Console.WriteLine(hello.ToString());
+    }
 }
 

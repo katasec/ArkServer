@@ -3,10 +3,6 @@ namespace ArkServer.Features.Cloudspace;
 
 public class DeleteAzureCloudspaceRequest : BaseRequest
 {
-    public DeleteAzureCloudspaceRequest()
-    {
-        RequestType = GetType().Name;
-    }
 
     public string  Name { get; init; } = "default";
     public override string ToString()

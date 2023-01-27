@@ -1,21 +1,19 @@
-﻿using System.Security.Cryptography;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using ServiceStack.DataAnnotations;
 
 namespace ArkServer.Entities.Azure;
 
 /// <summary>
 /// An Azure Cloudspace has one hub and one or more 'Environments' or VNETs
 /// </summary>
-public class AzureCloudspace
-{
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
 
+public class AzureCloudspace : BaseEntity
+{
     /// <summary>
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
-    [JsonPropertyName("name")]
+    [JsonPropertyName("name")][PrimaryKey]
     public string Name { get; set; } = "default";
 
     /// <summary>
@@ -37,7 +35,10 @@ public class AzureCloudspace
     public string? Status {get;set;}
 
     // Defult Octets
+    [JsonIgnore]
     private static int DefaultOctet1 {get; } = 10;
+
+    [JsonIgnore]
     private static int DefaultOctet2 {get; } = 16;
 
     private static HashSet<int> AllOctet2 =  Enumerable.Range(17,200).ToHashSet<int>();

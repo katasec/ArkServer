@@ -30,7 +30,7 @@ public class AzureCloudspaceController : ControllerBase
 
     [HttpPost]
     [Route("/azure/cloudspace")]
-    public async Task<IResult> CreateCloudSpaceRequest(CreateAzureCloudspaceRequest req)
+    public async Task<IResult> CreateCloudSpace(CreateAzureCloudspaceRequest req)
     {
         //var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
 

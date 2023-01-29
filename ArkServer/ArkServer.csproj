@@ -40,7 +40,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
 		<PackageReference Include="Microsoft.NET.Build.Containers" Version="0.3.2" />
-		<PackageReference Include="PulumiApi" Version="0.0.2" />
+		<PackageReference Include="Katasec.PulumiApi" Version="0.0.4" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="6.5.0" />

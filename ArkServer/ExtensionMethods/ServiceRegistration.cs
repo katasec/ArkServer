@@ -37,7 +37,7 @@ namespace ArkServer.ExtensionMethods
 
             // Initalize OrmLite
             var homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var dbFile = Path.Join(homeDir, ".ark", "db", "ark2.db");
+            var dbFile = Path.Join(homeDir, ".ark", "db", "ark.db");
             var  dbFactory = new OrmLiteConnectionFactory(dbFile, SqliteDialect.Provider);
             services.AddSingleton(dbFactory);
             //services.AddScoped<IDbConnection>(db);

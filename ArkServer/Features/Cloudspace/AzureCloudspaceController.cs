@@ -48,6 +48,11 @@ public class AzureCloudspaceController : ControllerBase
         // Generate new cloudspace       
         var acs = new AzureCloudspace();
 
+        // Add vnets to cloudspace
+        req.Environments.ForEach(spoke => acs.AddSpoke(spoke));
+
+        
+
         // Queue it, so worker can create it.
         var subject = req.GetType().Name;
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });

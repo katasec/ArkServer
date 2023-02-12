@@ -113,8 +113,8 @@ public class AzureCloudspaceController : ControllerBase
         }
 
         // Insert new
-        _db.Insert(azureCloudpace);
-
+        _db.Save(azureCloudpace);
+        
         return Results.Ok(azureCloudpace);
     }
 

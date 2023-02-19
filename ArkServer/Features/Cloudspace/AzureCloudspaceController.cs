@@ -13,18 +13,14 @@ namespace ArkServer.Features.Cloudspace;
 public class AzureCloudspaceController : ControllerBase
 {
     private readonly AsbService _asbService;
-    private readonly Ark Ark;
     private ILogger<AzureCloudspaceController> _logger;
     private string ApiHost => HttpContext.Request.Host.ToString();
-    private ICloudspaceRepo _repo;
     private System.Data.IDbConnection _db;
 
-    public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService,ICloudspaceRepo repo, OrmLiteConnectionFactory dbFactory)
+    public AzureCloudspaceController(ILogger<AzureCloudspaceController> logger,AsbService asbService, OrmLiteConnectionFactory dbFactory)
     {
         _asbService = asbService;
         _logger = logger;
-        _repo = repo;
-        Ark= repo.Get();
         _db = dbFactory.Open();
     }
 
@@ -116,6 +112,31 @@ public class AzureCloudspaceController : ControllerBase
         _db.Save(azureCloudpace);
         
         return Results.Ok(azureCloudpace);
+    }
+
+    [HttpDelete]
+    [Route("/azure/cloudspaces/{name}")]
+    public IResult DeleteCloudspace(string name, [FromBody] AzureCloudspace azureCloudpace)
+    {
+        // Return if exists
+        var cloudspace = _db.LoadSelect<AzureCloudspace>(x => x.Name == name);
+        if (cloudspace.Count == 0)
+        {
+            return Results.NotFound(cloudspace[0]);
+        }
+
+        // Delete cloudspace
+        try
+        {
+            _db.Delete<AzureCloudspace>(x => x.Id == cloudspace[0].Id);
+            _db.Save(azureCloudpace);
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
+        }
+
+        return Results.NoContent();
     }
 
     [HttpPatch]

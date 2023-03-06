@@ -28,28 +28,13 @@ public class AzureCloudspaceController : ControllerBase
     [Route("/azure/cloudspace")]
     public async Task<IResult> CreateCloudSpace(CreateAzureCloudspaceRequest req)
     {
-        //var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
-
-        // Return if already exists
-        var cs = _db.LoadSelect<AzureCloudspace>(x => x.Name == req.Name);
-        if (cs.Count != 0)
-        {
-            return Results.Conflict(new CreateAzureCloudspaceResponse
-            {
-                Id= cs[0].Id,
-                Name= cs[0].Name,
-            });
-        }
-
-        // Generate new cloudspace       
+        // Generate new cloudspace model    
         var acs = new AzureCloudspace();
 
         // Add vnets to cloudspace
         req.Environments.ForEach(spoke => acs.AddSpoke(spoke));
 
-        
-
-        // Queue it, so worker can create it.
+        // Queue request with worker
         var subject = req.GetType().Name;
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
 

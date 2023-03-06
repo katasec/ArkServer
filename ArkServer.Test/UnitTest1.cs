@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework.Constraints;
+using PulumiApi;
+using PulumiApi.Models;
 using System.Text.Json;
 
 namespace ArkServer.Test;
@@ -13,6 +15,11 @@ namespace ArkServer.Test;
 
 public class ScratchPad
 {
+    private ApiClient client;
+    private string orgName;
+    private string projectName;
+    private string stackName;
+
     private readonly Ark ark;
     private readonly ICloudspaceRepo db;
     private readonly ArkService svc;
@@ -27,8 +34,11 @@ public class ScratchPad
         svc = new ArkService(db,ark,ArkServiceLogger);
     }
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
+        client = new ApiClient();
+        (orgName, projectName, stackName) = await GetStackInfo();
+        projectName = "azurecloudspace";
     }
 
     [Test]
@@ -125,6 +135,44 @@ public class ScratchPad
     {
         var hello = new HelloSuccess { Message="sas" };
         Console.WriteLine(hello.ToString());
+    }
+
+    public async Task<Tuple<string?, string?, string?>?> GetStackInfo()
+    {
+        var result = await client.ListStacks();
+        if (result.Stacks != null)
+        {
+            var myStack = result.Stacks[0];
+
+            var orgName = myStack.OrgName;
+            var projectName = myStack.ProjectName;
+            var stackName = myStack.StackName;
+
+            return Tuple.Create(orgName, projectName, stackName);
+        }
+        return null;
+    }
+
+    [Test]
+    public async Task GetDeploymentResource()
+    {
+        var result = await client.GetStackState(orgName, projectName, stackName);
+
+        if (result.Deployment != null)
+        {
+            var resource = result.GetResourceByName(
+                type: "azure-native:network:VirtualNetwork",
+                pulumiName: "vnet-hub"
+            );
+
+            var myjson = resource.ToJson();
+
+            //Console.Write(myjson);
+            var x = JsonSerializer.Deserialize<Something>(myjson);
+
+            var y = x.Outputs.AddressSpace.AddressPrefixes[0];
+            Console.WriteLine(y);
+        }
     }
 }
 

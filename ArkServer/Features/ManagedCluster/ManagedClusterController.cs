@@ -2,6 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ArkServer.Entities.Azure;
 using ServiceStack.OrmLite;
+using PulumiApi;
+using static ServiceStack.Diagnostics.Events;
+using System.Diagnostics;
+using YamlDotNet.Core;
+using Azure.Messaging.ServiceBus;
 
 namespace ArkServer.Features.ManagedCluster;
 
@@ -30,12 +35,16 @@ public class ManagedClusterController : ControllerBase
 
     [HttpPost]
     [Route("/azure/managedcluster")]
-    public IResult CreateManagedCluster(CreateManagedClusterRequest req)
+    public async Task<IResult> CreateManagedCluster(CreateManagedClusterRequest req)
     {
         // Generate new cloudspace model    
         var aks = new AzureManagedCluster();
 
         var csName = req.Args.Cloudspace.Name;
+
+        Console.WriteLine(req.ToString());
+
+        Console.WriteLine($"csName:{csName}");
 
         var cloudspace = _db.LoadSelect<AzureCloudspace>(x => x.Name == csName).FirstOrDefault();
         if (cloudspace == null)
@@ -49,25 +58,46 @@ public class ManagedClusterController : ControllerBase
             return Results.BadRequest($"Environment {req.Args.Cloudspace.Environment} does not exist in cloudspace {csName}");
         }
 
-        //var envName = vnet.Name;
+        var client = new ApiClient();
+        var arkConfig = ArkConfig.Read();
+        var orgName = arkConfig.PulumiDefaultOrg;
+        var projectName = "azurecloudspace";
+        var stackName = "dev";
 
-        //aks.VnetName = vnet.Name;
-        //aks.VnetResourceGroup = vnet.r;
+        var result = await client.GetStackState(orgName, projectName, stackName);
 
-        //// Add vnets to cloudspace
-        //req.Environments.ForEach(spoke => acs.AddSpoke(spoke));
+        if (result.Deployment == null)
+        {
+            return Results.BadRequest($"{csName} does not exist");
+        }
 
-        //// Queue request with worker
-        //var subject = req.GetType().Name;
-        //await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
+        var targetEnv = req.Args.Cloudspace.Environment;
 
-        //// Respond with an Id
-        //return Results.Accepted("ok", new CreateManagedClusterResponse
-        //{
-        //    Id = acs.Id,
-        //    Name = acs.Name,
-        //});
+        var targetVnet = result.Deployment.GetAzureVnet(targetEnv);
+        var targetRg = result.Deployment.GetAzureVnetRg(targetEnv);
 
-        return null;
+
+        var cluster = new AzureManagedCluster
+        {
+            VnetResourceGroup = targetRg,
+            VnetName = targetVnet,
+            SubNetName = "snet-tier2-aks",
+            Aks = new Aks
+            {
+                Name = "aks01",
+                ResourceGroup = "ark-rg-aks01",
+                ServicePrincipal = "ark-k8s-sp",
+                NetworkProfile = new NetworkProfile()
+            }
+        };
+
+
+        // Queue request with worker
+        var subject = req.GetType().Name;
+        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(cluster.ToString()) { Subject = subject });
+
+        // Respond with an Id
+        return Results.Accepted("ok", cluster);
+
     }
 }

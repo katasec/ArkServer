@@ -1,4 +1,7 @@
-﻿namespace ArkServer.Features;
+﻿using PulumiApi.Models;
+using System.Text.Json;
+
+namespace ArkServer.Features;
 
 public class BaseRequest
 {
@@ -11,3 +14,11 @@ public class BaseRequest
         DtTimeStamp = DateTime.UtcNow;
     }
 }
+
+//public static class BaseRequestExtensions
+//{
+//    public static string ToJson<T>(this T self) where T : BaseRequest?
+//    {
+//        return JsonSerializer.Serialize(self, new JsonSerializerOptions { WriteIndented = true });
+//    }
+//}

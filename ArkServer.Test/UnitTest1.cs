@@ -2,13 +2,12 @@ using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
 using ArkServer.Repositories;
 using ArkServer.Services;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using ArkServer.Features.ManagedCluster;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework.Constraints;
 using PulumiApi;
 using PulumiApi.Models;
-using System.Text.Json;
+using ServiceStack;
 
 namespace ArkServer.Test;
 
@@ -158,21 +157,42 @@ public class ScratchPad
     {
         var result = await client.GetStackState(orgName, projectName, stackName);
 
-        if (result.Deployment != null)
+        if (result.Deployment == null) throw new ApplicationException("Deployment was null");
+
+        var rg = result.Deployment.GetAzureResourceGroup("rg-ameer");
+        Console.WriteLine(rg);
+
+        var x = result.Deployment.GetAzureVnetSpec("ameer");
+
+        if (x.Outputs == null) throw new ApplicationException("VNET was null");
+
+        Console.WriteLine(x.Outputs?.AddressSpace?.AddressPrefixes[0]);
+
+        foreach (var subnet in x.Outputs.Subnets)
         {
-            var resource = result.GetResourceByName(
-                type: "azure-native:network:VirtualNetwork",
-                pulumiName: "vnet-hub"
-            );
-
-            var myjson = resource.ToJson();
-
-            //Console.Write(myjson);
-            var x = JsonSerializer.Deserialize<Something>(myjson);
-
-            var y = x.Outputs.AddressSpace.AddressPrefixes[0];
-            Console.WriteLine(y);
+            Console.WriteLine($"{subnet.Name} {subnet.AddressPrefix}");
         }
+
+    }
+
+    [Test]
+    public void CreateManagedClusterJson()
+    {
+        var x = new CreateManagedClusterRequest
+        {
+            Name = "myaks01",
+            Args = new ManagedClusterArgs
+            {
+                Cloudspace = new CloudspaceArgs
+                {
+                    Name = "ameer",
+                    Environment = "dev"
+                }
+            }
+        };
+
+        Console.WriteLine(x.ToJson());
+        
     }
 }
 

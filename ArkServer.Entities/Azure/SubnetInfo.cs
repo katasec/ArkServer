@@ -22,7 +22,7 @@ public class SubnetInfo
     public required string Description { get; set; }
 
     [JsonPropertyName("tags")]
-    public KeyValuePair<string, string> Tags = new();
+    public List<KeyValuePair<string, string>> Tags = new();
 
     public void stuff()
     {

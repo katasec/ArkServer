@@ -17,6 +17,8 @@ public struct ArkConfig
     [YamlMember(Alias = "logfile")]
     public string LogFile { get; set; }
 
+    [YamlMember(Alias = "pulumidefultorg")]
+    public string PulumiDefaultOrg { get; set; }
 
     public static readonly string UserHomeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     public static readonly string ArkHome = Path.Join(UserHomeDir, ".ark");

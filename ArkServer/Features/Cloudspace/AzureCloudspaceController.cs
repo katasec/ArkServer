@@ -1,4 +1,5 @@
-﻿using ArkServer.Entities.Azure;
+﻿using ArkServer.Entities;
+using ArkServer.Entities;
 using ArkServer.Repositories;
 using ArkServer.Services;
 using Azure.Messaging.ServiceBus;
@@ -79,6 +80,7 @@ public class AzureCloudspaceController : ControllerBase
     public IResult GetCloudspace()
     {
         //return Results.Ok(Ark.AzureCloudspaces);
+        //return new HttpResult(_db.LoadSelect<AzureCloudspace>());
         return Results.Ok(_db.LoadSelect<AzureCloudspace>());
     }
 
@@ -139,6 +141,13 @@ public class AzureCloudspaceController : ControllerBase
         _db.Update(azureCloudpace);
 
         return Results.Ok(azureCloudpace);
+    }
+
+    [HttpPost]
+    [Route("/hello")]
+    public List<string> Hello(CreateAzureCloudspaceRequest request)
+    {
+        return request.Environments;
     }
 }
 

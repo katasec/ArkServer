@@ -1,7 +1,7 @@
 ﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ArkServer;
+namespace ArkServer.Config;
 
 public struct ArkConfig
 {
@@ -22,7 +22,7 @@ public struct ArkConfig
 
     public static readonly string UserHomeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     public static readonly string ArkHome = Path.Join(UserHomeDir, ".ark");
-    public static readonly string ConfigFile = Path.Join(ArkHome , "config");
+    public static readonly string ConfigFile = Path.Join(ArkHome, "config");
 
 
     public static ArkConfig Read()
@@ -60,7 +60,7 @@ public struct AzureConfig
     public StorageConfig StorageConfig { get; set; }
 
     [YamlMember(Alias = "mqconfig")]
-    public MqConfig MqConfig{ get; set; }
+    public MqConfig MqConfig { get; set; }
 
 }
 

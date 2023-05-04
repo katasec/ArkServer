@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using ServiceStack.DataAnnotations;
 
-namespace ArkServer.Entities.Azure;
+namespace ArkServer.Entities;
 
 /// <summary>
 /// An Azure Cloudspace has one hub and one or more 'Environments' or VNETs
@@ -13,14 +13,15 @@ public class AzureCloudspace : BaseEntity
     /// <summary>
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
-    [JsonPropertyName("name")][PrimaryKey]
+    [JsonPropertyName("name")]
+    [PrimaryKey]
     public string Name { get; set; } = "default";
 
     /// <summary>
     /// One hub per cloudspace
     /// </summary>
     [JsonPropertyName("hub")]
-    public VNetSpec Hub { get;set;}
+    public VNetSpec Hub { get; set; }
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
@@ -32,40 +33,40 @@ public class AzureCloudspace : BaseEntity
     /// Creation status
     /// </summary>
     [JsonPropertyName("status")]
-    public string? Status {get;set;}
+    public string? Status { get; set; }
 
     // Defult Octets
     [JsonIgnore]
-    private static int DefaultOctet1 {get; } = 10;
+    private static int DefaultOctet1 { get; } = 10;
 
     [JsonIgnore]
-    private static int DefaultOctet2 {get; } = 16;
+    private static int DefaultOctet2 { get; } = 16;
 
-    private static HashSet<int> AllOctet2 =  Enumerable.Range(17,200).ToHashSet<int>();
+    private static HashSet<int> AllOctet2 = Enumerable.Range(17, 200).ToHashSet();
 
     /// <summary>
     /// Octet1 is common for Hub & Spokes. It is used to generate the CIDRs for
     /// all the hubs and spokes. This defaults to the value of DefaultOctet1 
     /// unless overridden via the constructor
     /// </summary>
-    internal int Octet1 {get;init;}
+    internal int Octet1 { get; init; }
 
     /// <summary>
     /// Used to generate the CIDRs for hub. This defaults to the value 
     /// of DefaultOctet2 unless overridden via the constructor
     /// </summary>
-    internal int HubOctet2 {get;init;}
+    internal int HubOctet2 { get; init; }
 
     /// <summary>
     /// SpokeOctet2Start is used to generate the CIDRs for the spokes. The second Octet of the first 
     /// spoke will be SpokeOctet2Start (Calculated from HubOctet2 + 1). Every subsequent spoke will 
     /// have a 2nd Octet >  SpokeOctet2Start
     /// </summary>
-    internal int SpokeOctet2Start {get;init;}
+    internal int SpokeOctet2Start { get; init; }
 
     public override string ToString()
     {
-        return JsonSerializer.Serialize(this, new JsonSerializerOptions{WriteIndented = true});
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
     }
 
     /// <summary>
@@ -75,17 +76,18 @@ public class AzureCloudspace : BaseEntity
     [JsonConstructor]
     public AzureCloudspace() : this(0, 0) { }
 
-    public AzureCloudspace(int octet1 = 0, int octet2=0)
+    public AzureCloudspace(int octet1 = 0, int octet2 = 0)
     {
         Id = Guid.NewGuid().ToString();
         Octet1 = octet1 == 0 ? DefaultOctet1 : octet1;
         HubOctet2 = octet2 == 0 ? DefaultOctet2 : octet2;
-        SpokeOctet2Start = HubOctet2 +1;
+        SpokeOctet2Start = HubOctet2 + 1;
 
-        Hub = new VNetSpec{
-            Name= "vnet-hub", 
-            AddressPrefix= $"{Octet1}.{HubOctet2}.0.0/24",
-            SubnetsInfo= CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
+        Hub = new VNetSpec
+        {
+            Name = "vnet-hub",
+            AddressPrefix = $"{Octet1}.{HubOctet2}.0.0/24",
+            SubnetsInfo = CidrGenerator.GenerateHubSubnets(Octet1, HubOctet2)
         };
     }
 
@@ -105,11 +107,11 @@ public class AzureCloudspace : BaseEntity
         {
             // If this is the 1st spoke, then Octet2 is SpokeOctet2Start
             octet2 = SpokeOctet2Start;
-        } 
+        }
         else
         {
             // Get list of used octets
-            var usedOctet2= Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1]));
+            var usedOctet2 = Spokes.Select(x => int.Parse(x.AddressPrefix.Split(".")[1]));
 
             // Remove used octets from list off all octets
             // Select the minimum octet from the list.           
@@ -118,10 +120,11 @@ public class AzureCloudspace : BaseEntity
         }
 
         // Generate spoke with octet2
-        var newSpoke = new VNetSpec{
-            Name= name, 
-            AddressPrefix= $"{Octet1}.{octet2}.0.0/16",
-            SubnetsInfo= CidrGenerator.GenerateSpokeSubnets(Octet1,octet2)
+        var newSpoke = new VNetSpec
+        {
+            Name = name,
+            AddressPrefix = $"{Octet1}.{octet2}.0.0/16",
+            SubnetsInfo = CidrGenerator.GenerateSpokeSubnets(Octet1, octet2)
         };
 
         Spokes.Add(newSpoke);

@@ -1,4 +1,4 @@
-﻿using ArkServer.Entities.Azure;
+﻿using ArkServer.Entities;
 using ArkServer.Features.Cloudspace;
 using ArkServer.Repositories;
 using ArkServer.Services;
@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Data;
+using Katasec.AspNet.YamlFormatter;
+using ArkServer.Entities;
 
 namespace ArkServer.ExtensionMethods
 {
@@ -21,15 +23,18 @@ namespace ArkServer.ExtensionMethods
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             // Configure controllers and swagger
-            services.AddControllers();
+            services.AddControllers(x =>
+            {
+                x.InputFormatters.Clear();
+                x.InputFormatters.Add(new YamlInputFormatter());
+                x.OutputFormatters.Add(new YamlOutputFormatter());
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
             // Adding custom services
             services.AddSingleton<AsbService>();
             services.AddSingleton<Ark>();
-            services.AddSingleton<ICloudspaceRepo, CloudspaceJsonRepo>();
-            services.AddSingleton<ArkService>();
 
             // Model Validators
             services.AddFluentValidationAutoValidation();
@@ -40,12 +45,14 @@ namespace ArkServer.ExtensionMethods
             var dbFile = Path.Join(homeDir, ".ark", "db", "ark.db");
             var  dbFactory = new OrmLiteConnectionFactory(dbFile, SqliteDialect.Provider);
             services.AddSingleton(dbFactory);
-            //services.AddScoped<IDbConnection>(db);
+
+            
 
             // Create Tables if not exist
             var db = dbFactory.Open();
             db.CreateTableIfNotExists<AzureCloudspace>();
             db.CreateTableIfNotExists<HelloSuccess>();
+
 
             return services;
         }

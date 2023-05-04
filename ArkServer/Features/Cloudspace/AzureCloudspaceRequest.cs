@@ -2,21 +2,22 @@
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using YamlDotNet.Serialization;
 
 namespace ArkServer.Features.Cloudspace;
 
 public class CreateAzureCloudspaceRequest : BaseRequest
 {
+    [YamlMember(Alias = "name")]
     public string  Name { get; init; } = "default";
 
+    [YamlMember(Alias = "environments")]
     public required List<string> Environments { get; set; }
 
     public override string ToString()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
     }
-
-
 }
 
 public class CreateAzureCloudspaceResponse

@@ -1,4 +1,5 @@
-﻿using Azure.Messaging.ServiceBus;
+﻿using ArkServer.Config;
+using Azure.Messaging.ServiceBus;
 
 namespace ArkServer.Services;
 

@@ -1,21 +1,19 @@
 ﻿using ArkServer.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using ArkServer.Entities.Azure;
-using ServiceStack.Messaging;
 using ServiceStack.OrmLite;
+using ArkServer.Entities;
 
-namespace ArkServer.Features;
+namespace ArkServer.Features.Hello;
 
 [ApiController]
 public class HelloSuccessController
 {
     AsbService _asbService;
     private System.Data.IDbConnection _db;
-    public HelloSuccessController(AsbService asbService,OrmLiteConnectionFactory dbFactory)
+    public HelloSuccessController(AsbService asbService, OrmLiteConnectionFactory dbFactory)
     {
-        _asbService= asbService;
+        _asbService = asbService;
         _db = dbFactory.Open();
     }
 
@@ -23,10 +21,10 @@ public class HelloSuccessController
     [Route("/azure/hellosuccess")]
     public async Task<IResult> CreateHelloGood(HelloSuccessRequest req)
     {
-        var hello = new HelloSuccess { Message= req.Message};
+        var hello = new HelloSuccess { Message = req.Message };
         _db.Insert(hello);
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(hello.ToString()) { Subject = req.GetType().Name });
-        return Results.Accepted("OK",new HelloSuccessResponse{Id = req.Id});
+        return Results.Accepted("OK", new HelloSuccessResponse { Id = req.Id });
     }
 
 
@@ -45,6 +43,14 @@ public class HelloSuccessController
             var x = _db.LoadSingleById<HelloSuccess>(item.Id);
             return Results.Accepted("OK", x);
         }
-        
+
+    }
+
+    [HttpGet]
+    [Route("/azure/hi")]
+    public IResult Get()
+    {
+        return Results.Ok("hi");
+
     }
 }

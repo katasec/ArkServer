@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace ArkServer.Entities.Azure;
+namespace ArkServer.Entities;
 
 //public record SubnetInfo(
 //    string Name, string AddressPrefix, string Description,
@@ -26,6 +26,6 @@ public class SubnetInfo
 
     public void stuff()
     {
-        
+
     }
 }

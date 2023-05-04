@@ -33,6 +33,7 @@
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
 		<PackageReference Include="JsonFlatFileDataStore" Version="2.4.1" />
+		<PackageReference Include="Katasec.AspNet.YamlFormatter" Version="0.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -45,11 +46,7 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		<PackageReference Include="YamlDotNet" Version="12.3.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\ArkServer.Entities\ArkServer.Entities.csproj" />
+		<PackageReference Include="YamlDotNet" Version="13.1.0" />
 	</ItemGroup>
 
 

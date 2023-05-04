@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ArkServer.Entities.Azure;
+namespace ArkServer.Entities;
 
 //public record VNetSpec(string Name,  string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo)
 //{
@@ -27,22 +27,24 @@ namespace ArkServer.Entities.Azure;
 public class VNetSpec
 {
     [JsonPropertyName("name")]
-    public required string Name {get;set;}
+    public required string Name { get; set; }
 
     [JsonPropertyName("addressprefix")]
-    public required string AddressPrefix {get;set;}
+    public required string AddressPrefix { get; set; }
 
     [JsonPropertyName("subnetsInfo")]
-    public required IEnumerable<SubnetInfo> SubnetsInfo {get;set;}
+    public required IEnumerable<SubnetInfo> SubnetsInfo { get; set; }
 
-    public string Octet2{
+    public string Octet2
+    {
         get
         {
             return AddressPrefix.Split(".")[1];
         }
     }
 
-    public string Octet1{
+    public string Octet1
+    {
         get
         {
             return AddressPrefix.Split(".")[0];

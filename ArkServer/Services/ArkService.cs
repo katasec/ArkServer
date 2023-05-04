@@ -1,16 +1,17 @@
-﻿using ArkServer.Entities.Azure;
+﻿using ArkServer.Entities;
+using ArkServer.Entities.Azure;
 using ArkServer.Repositories;
 
 namespace ArkServer.Services
 {
     public class ArkService
     {
-        private Ark Ark {get; set; }
+        private Entities.Azure.Ark Ark {get; set; }
 
         private readonly ICloudspaceRepo _db;
         private readonly ILogger _logger;
 
-        public ArkService(ICloudspaceRepo db, Ark ark, ILogger<ArkService> logger)
+        public ArkService(ICloudspaceRepo db, Entities.Azure.Ark ark, ILogger<ArkService> logger)
         {
             _db = db;
             Ark = _db.Get();
@@ -22,7 +23,7 @@ namespace ArkServer.Services
         /// </summary>
         /// <param name="cs"></param>
         /// <returns></returns>
-        public async Task<bool> AddCloudSpace(AzureCloudspace cs) 
+        public async Task<bool> AddCloudSpace(Entities.Azure.AzureCloudspace cs) 
         {
             // Skip cloudspace if exists
             if (Ark.AzureCloudspaces.Count > 0) {

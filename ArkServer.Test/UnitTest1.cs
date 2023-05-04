@@ -1,4 +1,3 @@
-using ArkServer.Entities.Azure;
 using ArkServer.Features.Cloudspace;
 using ArkServer.Repositories;
 using ArkServer.Services;
@@ -8,6 +7,9 @@ using Moq;
 using PulumiApi;
 using PulumiApi.Models;
 using ServiceStack;
+using ArkServer.Entities.Azure;
+using ArkServer.Entities;
+using ArkServer.Config;
 
 namespace ArkServer.Test;
 
@@ -19,7 +21,7 @@ public class ScratchPad
     private string projectName;
     private string stackName;
 
-    private readonly Ark ark;
+    private readonly Entities.Azure.Ark ark;
     private readonly ICloudspaceRepo db;
     private readonly ArkService svc;
 
@@ -28,7 +30,7 @@ public class ScratchPad
         ILogger<CloudspaceJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<CloudspaceJsonRepo>>()).Object;
         ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
 
-        ark = new Ark();
+        ark = new Entities.Azure.Ark();
         db = new CloudspaceJsonRepo(ArkJsonRepoLogger);
         svc = new ArkService(db,ark,ArkServiceLogger);
     }
@@ -43,7 +45,7 @@ public class ScratchPad
     [Test]
     public void CheckHub()
     {
-        var acs = new AzureCloudspace()
+        var acs = new Entities.Azure.AzureCloudspace()
                     .AddSpoke("ameer")
                     .AddSpoke("egal");
 
@@ -92,14 +94,14 @@ public class ScratchPad
     [Test]
     public void HashsetStuff()
     {
-        var nets = new HashSet<VNetSpec>();
+        var nets = new HashSet<Entities.Azure.VNetSpec>();
 
-        var spoke1 = new VNetSpec{
+        var spoke1 = new Entities.Azure.VNetSpec{
             Name= "hi",
             AddressPrefix="1.1.1.1",
-            SubnetsInfo= new List<SubnetInfo>
+            SubnetsInfo= new List<Entities.Azure.SubnetInfo>
             {
-                new SubnetInfo{
+                new Entities.Azure.SubnetInfo{
                     Name="subnet1",
                     AddressPrefix="10.0.0.0",
                     Description="cool subet" 

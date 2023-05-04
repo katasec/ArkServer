@@ -1,12 +1,14 @@
-﻿using ArkServer.Entities.Azure;
+﻿using ArkServer.Config;
+using ArkServer.Entities;
+using ArkServer.Entities.Azure;
 using System.Text.Json;
 
 namespace ArkServer.Repositories;
 
 public interface ICloudspaceRepo
 {
-    Ark Get();
-    bool Save(Ark ark);
+    Entities.Azure.Ark Get();
+    bool Save(Entities.Azure.Ark ark);
 }
 
 public class CloudspaceJsonRepo : ICloudspaceRepo
@@ -28,9 +30,9 @@ public class CloudspaceJsonRepo : ICloudspaceRepo
         DbFile = Path.Join(DbDir, "ark.json");
 
     }
-    public Ark Get()
+    public Entities.Azure.Ark Get()
     {
-        Ark emptyArk = new();
+        Entities.Azure.Ark emptyArk = new();
         if (!File.Exists(DbFile))
         {
             _logger.Log(LogLevel.Information, $"{DbFile} doesn't exist!");
@@ -45,7 +47,7 @@ public class CloudspaceJsonRepo : ICloudspaceRepo
         try
         {
             var jsonString = File.ReadAllText(DbFile);
-            var arkFromFile = JsonSerializer.Deserialize<Ark>(jsonString);
+            var arkFromFile = JsonSerializer.Deserialize<Entities.Azure.Ark>(jsonString);
             return arkFromFile != null ? arkFromFile : emptyArk;
         }
         catch (Exception ex)
@@ -55,7 +57,7 @@ public class CloudspaceJsonRepo : ICloudspaceRepo
         }
     }
 
-    public bool Save(Ark ark)
+    public bool Save(Entities.Azure.Ark ark)
     {
 
         // Generate JSON from Ark object

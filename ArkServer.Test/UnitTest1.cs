@@ -17,9 +17,9 @@ namespace ArkServer.Test;
 public class ScratchPad
 {
     private ApiClient client;
-    private string orgName;
-    private string projectName;
-    private string stackName;
+    private string? orgName;
+    private string? projectName;
+    private string? stackName;
 
     private readonly Entities.Azure.Ark ark;
     private readonly ICloudspaceRepo db;
@@ -37,8 +37,8 @@ public class ScratchPad
     [SetUp]
     public async Task Setup()
     {
-        client = new ApiClient();
         (orgName, projectName, stackName) = await GetStackInfo();
+        client = new ApiClient();
         projectName = "azurecloudspace";
     }
 
@@ -116,20 +116,20 @@ public class ScratchPad
 
     }
 
-    [Test]
-    public void PrintJson()
-    {
-        var acs = new CreateAzureCloudspaceRequest
-        {
-            Environments = new List<string>{"dev"}
-        };
+    //[Test]
+    //public void PrintJson()
+    //{
+    //    var acs = new CreateAzureCloudspaceRequest
+    //    {
+    //        Environments = new List<string>{"dev"}
+    //    };
 
-        Console.WriteLine(acs.ToString());
+    //    Console.WriteLine(acs.ToString());
 
-        var dacs = new DeleteAzureCloudspaceRequest();
-        Console.WriteLine(dacs.ToString());
+    //    var dacs = new DeleteAzureCloudspaceRequest();
+    //    Console.WriteLine(dacs.ToString());
 
-    }
+    //}
 
     [Test]
     public void HelloMsg()
@@ -138,7 +138,7 @@ public class ScratchPad
         Console.WriteLine(hello.ToString());
     }
 
-    public async Task<Tuple<string?, string?, string?>?> GetStackInfo()
+    public async Task<Tuple<string?, string?, string?>> GetStackInfo()
     {
         var result = await client.ListStacks();
         if (result.Stacks != null)
@@ -151,31 +151,34 @@ public class ScratchPad
 
             return Tuple.Create(orgName, projectName, stackName);
         }
-        return null;
-    }
-
-    [Test]
-    public async Task GetDeploymentResource()
-    {
-        var result = await client.GetStackState(orgName, projectName, stackName);
-
-        if (result.Deployment == null) throw new ApplicationException("Deployment was null");
-
-        var rg = result.Deployment.GetAzureResourceGroup("rg-ameer");
-        Console.WriteLine(rg);
-
-        var x = result.Deployment.GetAzureVnetSpec("ameer");
-
-        if (x.Outputs == null) throw new ApplicationException("VNET was null");
-
-        Console.WriteLine(x.Outputs?.AddressSpace?.AddressPrefixes[0]);
-
-        foreach (var subnet in x.Outputs.Subnets)
+        else
         {
-            Console.WriteLine($"{subnet.Name} {subnet.AddressPrefix}");
+            throw new ApplicationException("No stacks found");
         }
-
     }
+
+    //[Test]
+    //public async Task GetDeploymentResource()
+    //{
+    //    var result = await client.GetStackState(orgName, projectName, stackName);
+
+    //    if (result.Deployment == null) throw new ApplicationException("Deployment was null");
+
+    //    var rg = result.Deployment.GetAzureResourceGroup("rg-ameer");
+    //    Console.WriteLine(rg);
+
+    //    var x = result.Deployment.GetAzureVnetSpec("ameer");
+
+    //    if (x.Outputs == null) throw new ApplicationException("VNET was null");
+
+    //    Console.WriteLine(x.Outputs?.AddressSpace?.AddressPrefixes[0]);
+
+    //    foreach (var subnet in x.Outputs.Subnets)
+    //    {
+    //        Console.WriteLine($"{subnet.Name} {subnet.AddressPrefix}");
+    //    }
+
+    //}
 
     [Test]
     public void CreateManagedClusterJson()

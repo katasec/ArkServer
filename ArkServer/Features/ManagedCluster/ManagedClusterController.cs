@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ArkServer.Entities;
 using ServiceStack.OrmLite;
 using PulumiApi;
-using static ServiceStack.Diagnostics.Events;
-using System.Diagnostics;
-using YamlDotNet.Core;
 using Azure.Messaging.ServiceBus;
-using ArkServer.Entities;
 using ArkServer.Config;
 
 namespace ArkServer.Features.ManagedCluster;
@@ -74,9 +70,14 @@ public class ManagedClusterController : ControllerBase
         }
 
         var targetEnv = req.Args.Cloudspace.Environment;
+        string targetVnet="";
+        string targetRg = "";
+        if (targetEnv != null)
+        {
 
-        var targetVnet = result.Deployment.GetAzureVnet(targetEnv);
-        var targetRg = result.Deployment.GetAzureVnetRg(targetEnv);
+            targetVnet = result.Deployment.GetAzureVnet(targetEnv);
+            targetRg = result.Deployment.GetAzureVnetRg(targetEnv);
+        }
 
 
         var cluster = new AzureManagedCluster

@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArkServer\ArkServer.csproj" />
+    <ProjectReference Include="..\Ark.ServiceModel\Ark.ServiceModel.csproj" />
+    <ProjectReference Include="..\ArkServer\Ark.Server.csproj" />
   </ItemGroup>
 
 </Project>

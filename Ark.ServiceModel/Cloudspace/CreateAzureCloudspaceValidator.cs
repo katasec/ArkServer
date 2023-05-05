@@ -1,35 +1,11 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
-using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
-using YamlDotNet.Serialization;
 
-namespace ArkServer.Features.Cloudspace;
+namespace Ark.ServiceModel.Cloudspace;
 
-public class CreateAzureCloudspaceRequest : BaseRequest
+public class CreateAzureCloudspaceValidator : AbstractValidator<CreateAzureCloudspaceRequest>
 {
-    [YamlMember(Alias = "name")]
-    public string  Name { get; init; } = "default";
-
-    [YamlMember(Alias = "environments")]
-    public required List<string> Environments { get; set; }
-
-    public override string ToString()
-    {
-        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
-    }
-}
-
-public class CreateAzureCloudspaceResponse
-{
-    public string? Id { get; set;}
-    public string  Name { get; init; } = "default";
-}
-
-
-public class CloudspaceRequestValidator : AbstractValidator<CreateAzureCloudspaceRequest>
-{
-    public CloudspaceRequestValidator()
+    public CreateAzureCloudspaceValidator()
     {
         RuleFor(x => x.Name).Length(3, 30)
             .Must(HaveNoSpecialChars).WithMessage("Must have not special characters")

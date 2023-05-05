@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
-namespace ArkServer.Features.Cloudspace;
+
+namespace Ark.ServiceModel.Cloudspace;
 
 public class DeleteAzureCloudspaceRequest : BaseRequest
 {
@@ -9,4 +10,9 @@ public class DeleteAzureCloudspaceRequest : BaseRequest
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true});
     }
+}
+
+public class DeleteAzureCloudspaceResponse: BaseRequest
+{
+
 }

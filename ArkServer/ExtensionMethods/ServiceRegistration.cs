@@ -1,15 +1,11 @@
 ﻿using ArkServer.Entities;
 using ArkServer.Features.Cloudspace;
-using ArkServer.Repositories;
 using ArkServer.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.Extensions.DependencyInjection;
-using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using System.Data;
 using Katasec.AspNet.YamlFormatter;
-using ArkServer.Entities;
+using Ark.ServiceModel.Cloudspace;
 
 namespace ArkServer.ExtensionMethods
 {
@@ -34,11 +30,10 @@ namespace ArkServer.ExtensionMethods
 
             // Adding custom services
             services.AddSingleton<AsbService>();
-            services.AddSingleton<Ark>();
 
             // Model Validators
             services.AddFluentValidationAutoValidation();
-            services.AddScoped<IValidator<CreateAzureCloudspaceRequest>, CloudspaceRequestValidator>();
+            services.AddScoped<IValidator<CreateAzureCloudspaceRequest>, CreateAzureCloudspaceValidator>();
 
             // Initalize OrmLite
             var homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

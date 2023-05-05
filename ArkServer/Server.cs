@@ -19,19 +19,14 @@ public class Server
         var builder = WebApplication.CreateBuilder(args);
         //builder.Host.UseSerilog();
 
-        
         // Register Services
         builder.Services.RegisterServices();
-
-
 
         // Build App
         App = builder.Build();
 
         // Configure Middleware pipelines
         App.ConfigureMiddlewarePipeline();
-
-
 
     }
 

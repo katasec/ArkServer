@@ -1,7 +1,11 @@
-﻿namespace Ark.ServiceModel;
+﻿using YamlDotNet.Serialization;
+
+namespace Ark.ServiceModel;
 
 public class BaseRequest
 {
+    [YamlMember(Alias = "kind")]
+    public string Kind { get; set; } = "";
     public string Id { get; set; }
     public string? UpdateId { get; set; }
     public DateTime DtTimeStamp { get; }
@@ -12,10 +16,3 @@ public class BaseRequest
     }
 }
 
-//public static class BaseRequestExtensions
-//{
-//    public static string ToJson<T>(this T self) where T : BaseRequest?
-//    {
-//        return JsonSerializer.Serialize(self, new JsonSerializerOptions { WriteIndented = true });
-//    }
-//}

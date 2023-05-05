@@ -21,7 +21,9 @@ public class Server
 
         // Create App Builder and Register Services
         var builder = WebApplication.CreateBuilder(args);
-        //builder.Host.UseSerilog();
+
+        builder.Host.UseSerilog();
+        builder.WebHost.UseUrls(new string[] { "http://0.0.0.0:5067" });
 
         // Register Services
         builder.Services.RegisterServices();
@@ -29,23 +31,17 @@ public class Server
         // Build App
         App = builder.Build();
 
+        
+
         // Configure Middleware pipelines
         App.ConfigureMiddlewarePipeline();
 
 
     }
 
-
-
-    public void Start()
-    {
-        CheckConfig();
-        App.Run();
-    }
-
     public void CheckConfig()
     {
-        
+
         var config = Config.Read();
         var validator = new ConfigValidator();
 
@@ -61,5 +57,14 @@ public class Server
             Environment.Exit(0);
         }
     }
+
+
+    public void Start()
+    {
+        CheckConfig();
+        App.Run();
+    }
+
+
 }
 

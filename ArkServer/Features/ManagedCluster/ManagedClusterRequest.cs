@@ -1,4 +1,4 @@
-﻿namespace ArkServer.Features.ManagedCluster;
+﻿namespace Ark.Server.Features.ManagedCluster;
 
 public class ManagedClusterRequest
 {

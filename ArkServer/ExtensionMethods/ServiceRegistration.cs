@@ -1,13 +1,12 @@
-﻿using ArkServer.Entities;
-using ArkServer.Features.Cloudspace;
-using ArkServer.Services;
+﻿using Ark.Server.Entities;
+using Ark.Server.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using ServiceStack.OrmLite;
 using Katasec.AspNet.YamlFormatter;
 using Ark.ServiceModel.Cloudspace;
 
-namespace ArkServer.ExtensionMethods
+namespace Ark.Server.ExtensionMethods
 {
     public static class ServiceRegistration
     {

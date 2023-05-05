@@ -1,4 +1,4 @@
-﻿namespace ArkServer.ExtensionMethods
+﻿namespace Ark.Server.ExtensionMethods
 {
     public static class MiddlewarePipeline
     {

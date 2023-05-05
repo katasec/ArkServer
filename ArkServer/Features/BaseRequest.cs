@@ -1,7 +1,7 @@
 ﻿using PulumiApi.Models;
 using System.Text.Json;
 
-namespace ArkServer.Features;
+namespace Ark.Server.Features;
 
 public class BaseRequest
 {

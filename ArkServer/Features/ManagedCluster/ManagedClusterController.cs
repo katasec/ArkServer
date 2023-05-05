@@ -1,12 +1,11 @@
-﻿using ArkServer.Services;
+﻿using Ark.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using ArkServer.Entities;
+using Ark.Server.Entities;
 using ServiceStack.OrmLite;
 using PulumiApi;
 using Azure.Messaging.ServiceBus;
-using ArkServer.Config;
 
-namespace ArkServer.Features.ManagedCluster;
+namespace Ark.Server.Features.ManagedCluster;
 
 [ApiController]
 public class ManagedClusterController : ControllerBase
@@ -57,7 +56,7 @@ public class ManagedClusterController : ControllerBase
         }
 
         var client = new ApiClient();
-        var arkConfig = ArkConfig.Read();
+        var arkConfig = Config.Read();
         var orgName = arkConfig.PulumiDefaultOrg;
         var projectName = "azurecloudspace";
         var stackName = "dev";

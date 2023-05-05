@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Text.Json.Serialization;
 
-namespace ArkServer.Features.ManagedCluster;
+namespace Ark.Server.Features.ManagedCluster;
 
 public class CreateManagedClusterRequest
 {

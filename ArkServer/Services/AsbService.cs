@@ -1,7 +1,6 @@
-﻿using ArkServer.Config;
-using Azure.Messaging.ServiceBus;
+﻿using Azure.Messaging.ServiceBus;
 
-namespace ArkServer.Services;
+namespace Ark.Server.Services;
 
 public class AsbService
 {
@@ -19,7 +18,7 @@ public class AsbService
     public AsbService()
     {
         // Read Ark Config
-        var config = ArkConfig.Read();
+        var config = Config.Read();
 
         // Create ASB client from credentials in config
         var client = new ServiceBusClient(config.AzureConfig.MqConfig.MqConnectionString, new ServiceBusClientOptions()

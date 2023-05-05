@@ -1,12 +1,12 @@
 ﻿using Ark.ServiceModel.Cloudspace;
-using ArkServer.Entities;
-using ArkServer.Services;
+using Ark.Server.Entities;
+using Ark.Server.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.Legacy;
 
-namespace ArkServer.Features.Cloudspace;
+namespace Ark.Server.Features.Cloudspace;
 
 [ApiController]
 public class AzureCloudspaceController : ControllerBase

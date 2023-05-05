@@ -1,15 +1,12 @@
-using ArkServer.Features.Cloudspace;
 using ArkServer.Repositories;
 using ArkServer.Services;
-using ArkServer.Features.ManagedCluster;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PulumiApi;
 using PulumiApi.Models;
 using ServiceStack;
-using ArkServer.Entities.Azure;
-using ArkServer.Entities;
-using ArkServer.Config;
+using Ark.Server.Entities;
+using Ark.Server.Features.ManagedCluster;
 
 namespace ArkServer.Test;
 
@@ -87,7 +84,7 @@ public class ScratchPad
     [Test]
     public void ReadYamlConfig()
     {
-        var arkConfig = ArkConfig.Read();
+        var arkConfig = Ark.Server.Config.Read();
         Console.WriteLine(arkConfig.AzureConfig.MqConfig.MqName);
     }
 

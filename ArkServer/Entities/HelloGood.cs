@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ArkServer.Entities
+namespace Ark.Server.Entities
 {
     public class HelloSuccess : BaseEntity
     {

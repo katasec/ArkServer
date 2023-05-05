@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ArkServer.Entities;
+namespace Ark.Server.Entities;
 
 //public record VNetSpec(string Name,  string AddressPrefix, IEnumerable<SubnetInfo> SubnetsInfo)
 //{

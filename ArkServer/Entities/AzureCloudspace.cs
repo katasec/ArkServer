@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using ServiceStack.DataAnnotations;
 
-namespace ArkServer.Entities;
+namespace Ark.Server.Entities;
 
 /// <summary>
 /// An Azure Cloudspace has one hub and one or more 'Environments' or VNETs

@@ -1,10 +1,10 @@
-﻿using ArkServer.Services;
+﻿using Ark.Server.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
-using ArkServer.Entities;
+using Ark.Server.Entities;
 
-namespace ArkServer.Features.Hello;
+namespace Ark.Server.Features.Hello;
 
 [ApiController]
 public class HelloSuccessController

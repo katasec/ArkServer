@@ -1,8 +1,9 @@
-﻿using ArkServer.ExtensionMethods;
+﻿using Ark.Server.ExtensionMethods;
 using Pulumi.AzureNative.Logic.Outputs;
 using Serilog;
+using System.ComponentModel.DataAnnotations;
 
-namespace ArkServer;
+namespace Ark.Server;
 
 public class Server
 {
@@ -28,13 +29,24 @@ public class Server
         // Configure Middleware pipelines
         App.ConfigureMiddlewarePipeline();
 
+
     }
 
 
 
     public void Start()
     {
+        CheckConfig();
         App.Run();
+    }
+
+    public void CheckConfig()
+    {
+        var config = Config.Read();
+        var validator = new ConfigValidator();
+
+        Console.WriteLine("Validating Config\n");
+        validator.Validate(config);
     }
 }
 

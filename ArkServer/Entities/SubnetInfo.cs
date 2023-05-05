@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace ArkServer.Entities;
+namespace Ark.Server.Entities;
 
 //public record SubnetInfo(
 //    string Name, string AddressPrefix, string Description,

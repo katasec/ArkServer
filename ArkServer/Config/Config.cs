@@ -1,9 +1,9 @@
 ﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ArkServer.Config;
+namespace Ark.Server;
 
-public struct ArkConfig
+public struct Config
 {
     [YamlMember(Alias = "cloudid")]
     public string CloudId { get; set; }
@@ -25,7 +25,7 @@ public struct ArkConfig
     public static readonly string ConfigFile = Path.Join(ArkHome, "config");
 
 
-    public static ArkConfig Read()
+    public static Config Read()
     {
 
         var deserializer = new DeserializerBuilder()
@@ -35,7 +35,7 @@ public struct ArkConfig
 
         var configTxt = File.ReadAllText(ConfigFile);
 
-        var config = deserializer.Deserialize<ArkConfig>(configTxt);
+        var config = deserializer.Deserialize<Config>(configTxt);
 
         return config;
     }

@@ -1,7 +1,10 @@
 ﻿using Ark.Server.ExtensionMethods;
 using Pulumi.AzureNative.Logic.Outputs;
 using Serilog;
+using ServiceStack;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation;
+using ServiceStack.Script;
 
 namespace Ark.Server;
 
@@ -42,11 +45,21 @@ public class Server
 
     public void CheckConfig()
     {
+        
         var config = Config.Read();
         var validator = new ConfigValidator();
 
-        Console.WriteLine("Validating Config\n");
-        validator.Validate(config);
+        var results = validator.Validate(config);
+
+        if (!results.IsValid)
+        {
+            Console.WriteLine("Config errors:");
+            foreach (var result in results.InList())
+            {
+                Console.WriteLine(result.ToString("\n"));
+            }
+            Environment.Exit(0);
+        }
     }
 }
 

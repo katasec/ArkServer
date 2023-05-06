@@ -54,10 +54,6 @@
 	  <ProjectReference Include="..\Ark.ServiceModel\Ark.ServiceModel.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Repositories\" />
-	</ItemGroup>
-
 
 
 </Project>

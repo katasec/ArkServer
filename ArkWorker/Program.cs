@@ -4,9 +4,10 @@ using Ark.ServiceModel.Cloudspace;
 using Azure.Messaging.ServiceBus;
 using Katasec.PulumiRunner;
 using System.Text.Json;
+using YamlDotNet;
+using YamlDotNet.Serialization;
 
-
-//var x = new RemoteProgramArgs("aa", "aa", "aa");
+var x = new RemoteProgramArgs("aa", "aa", "aa");
 //x.PulumiUp();
 
 var c = Config.Read();
@@ -35,8 +36,13 @@ while (true)
     Console.WriteLine($"Received: {body}");
 
     var x = JsonSerializer.Deserialize<AzureCloudspace>(body);
-    Console.WriteLine($"Hub Name: {x.Hub.Name}");
-    Console.WriteLine($"Name: {x.Hub.AddressPrefix}");
+
+    var serializer = new SerializerBuilder().Build();
+    var yaml = serializer.Serialize(x);
+
+    //Console.WriteLine($"Hub Name: {x.Hub.Name}");
+    //Console.WriteLine($"Name: {x.Hub.AddressPrefix}");
+    Console.WriteLine(yaml.ToString());
     // complete the message. messages is deleted from the queue. 
     await receiver.CompleteMessageAsync(receivedMessage);
 }

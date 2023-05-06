@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Katasec.PulumiRunner" Version="0.1.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.13.1" />
+    <PackageReference Include="Katasec.PulumiRunner" Version="0.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ark.Config\Ark.Base.csproj" />
     <ProjectReference Include="..\Ark.ServiceModel\Ark.ServiceModel.csproj" />
+    <ProjectReference Include="..\ArkServer\Ark.Server.csproj" />
   </ItemGroup>
 
 </Project>

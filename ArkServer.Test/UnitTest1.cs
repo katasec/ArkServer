@@ -1,7 +1,3 @@
-using ArkServer.Repositories;
-using ArkServer.Services;
-using Microsoft.Extensions.Logging;
-using Moq;
 using PulumiApi;
 using PulumiApi.Models;
 using ServiceStack;
@@ -20,17 +16,11 @@ public class ScratchPad
     private string? stackName;
 
     private readonly Entities.Azure.Ark ark;
-    private readonly ICloudspaceRepo db;
-    private readonly ArkService svc;
 
     public ScratchPad()
     {
-        ILogger<CloudspaceJsonRepo> ArkJsonRepoLogger = (new Mock<ILogger<CloudspaceJsonRepo>>()).Object;
-        ILogger<ArkService> ArkServiceLogger = (new Mock<ILogger<ArkService>>()).Object;
-
         ark = new Entities.Azure.Ark();
-        db = new CloudspaceJsonRepo(ArkJsonRepoLogger);
-        svc = new ArkService(db,ark,ArkServiceLogger);
+        
     }
     [SetUp]
     public async Task Setup()

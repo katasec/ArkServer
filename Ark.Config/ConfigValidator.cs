@@ -1,7 +1,6 @@
-﻿using Ark.ServiceModel.Cloudspace;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Ark.Server;
+namespace Ark.Base;
 
 public class ConfigValidator : AbstractValidator<Config>
 {

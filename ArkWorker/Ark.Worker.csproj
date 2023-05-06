@@ -8,7 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArkServer\Ark.Server.csproj" />
+    <PackageReference Include="Katasec.PulumiRunner" Version="0.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ark.Config\Ark.Base.csproj" />
+    <ProjectReference Include="..\Ark.ServiceModel\Ark.ServiceModel.csproj" />
   </ItemGroup>
 
 </Project>

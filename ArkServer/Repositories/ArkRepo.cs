@@ -1,7 +1,7 @@
 ﻿using Ark.Server.Entities;
 //using Ark.Server.Entities.Azure;
 using System.Text.Json;
-using Ark;
+using Ark.Base;
 
 namespace ArkServer.Repositories;
 
@@ -22,7 +22,7 @@ public class CloudspaceJsonRepo : ICloudspaceRepo
         _logger = logger;
 
         // Define DB path & File
-        DbDir = Path.Join(Ark.Server.Config.ArkHome, "db");
+        DbDir = Path.Join(Config.ArkHome, "db");
         if (!Directory.Exists(DbDir))
         {
             Directory.CreateDirectory(DbDir);

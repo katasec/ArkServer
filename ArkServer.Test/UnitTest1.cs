@@ -7,6 +7,7 @@ using PulumiApi.Models;
 using ServiceStack;
 using Ark.Server.Entities;
 using Ark.Server.Features.ManagedCluster;
+using Ark.Base;
 
 namespace ArkServer.Test;
 
@@ -84,7 +85,7 @@ public class ScratchPad
     [Test]
     public void ReadYamlConfig()
     {
-        var arkConfig = Ark.Server.Config.Read();
+        var arkConfig = Config.Read();
         Console.WriteLine(arkConfig.AzureConfig.MqConfig.MqName);
     }
 

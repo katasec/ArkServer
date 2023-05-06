@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkServer.Test", "ArkServer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ark.Worker", "ArkWorker\Ark.Worker.csproj", "{5EDBD2C3-AF5E-4589-8929-D29C61B2B85F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ark.ServiceModel", "Ark.ServiceModel\Ark.ServiceModel.csproj", "{C5211E57-447E-4EBC-A9E2-D3CACFB50D61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ark.ServiceModel", "Ark.ServiceModel\Ark.ServiceModel.csproj", "{C5211E57-447E-4EBC-A9E2-D3CACFB50D61}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ark.Base", "Ark.Config\Ark.Base.csproj", "{A958EA0F-A51E-4716-A777-1EB693098A2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{C5211E57-447E-4EBC-A9E2-D3CACFB50D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5211E57-447E-4EBC-A9E2-D3CACFB50D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5211E57-447E-4EBC-A9E2-D3CACFB50D61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A958EA0F-A51E-4716-A777-1EB693098A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A958EA0F-A51E-4716-A777-1EB693098A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A958EA0F-A51E-4716-A777-1EB693098A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A958EA0F-A51E-4716-A777-1EB693098A2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

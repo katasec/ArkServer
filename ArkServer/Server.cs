@@ -5,6 +5,7 @@ using ServiceStack;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using ServiceStack.Script;
+using Ark.Base;
 
 namespace Ark.Server;
 

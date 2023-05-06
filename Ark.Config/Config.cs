@@ -1,7 +1,7 @@
 ﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Ark.Server;
+namespace Ark.Base;
 
 public struct Config
 {

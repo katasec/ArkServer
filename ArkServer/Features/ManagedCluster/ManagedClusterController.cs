@@ -4,6 +4,7 @@ using Ark.Server.Entities;
 using ServiceStack.OrmLite;
 using PulumiApi;
 using Azure.Messaging.ServiceBus;
+using Ark.Base;
 
 namespace Ark.Server.Features.ManagedCluster;
 

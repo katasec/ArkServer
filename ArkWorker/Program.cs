@@ -8,6 +8,12 @@ using YamlDotNet;
 using YamlDotNet.Serialization;
 
 using Pulumi.Automation;
+using Serilog;
+
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var p = new RemoteProgram("dev", "https://github.com/katasec/library", "azurecloudspace-handler");
 //p.PulumiUp();
@@ -21,7 +27,9 @@ await using var client = new ServiceBusClient(connectionString);
 
 ServiceBusReceiver receiver = client.CreateReceiver(queueName);
 
-Console.WriteLine("Listening");
+logger.Information("Listening");
+
+
 
 while (true)
 {
@@ -32,7 +40,8 @@ while (true)
     {
         // Log subject
         string body = receivedMessage.Body.ToString();
-        Console.WriteLine($"Subject: {receivedMessage.Subject}");
+        
+        logger.Information($"Subject: {receivedMessage.Subject}");
 
         // Convert message to AzureCloudspace object
         var acs = JsonSerializer.Deserialize<AzureCloudspace>(body);
@@ -48,13 +57,11 @@ while (true)
             
         } catch (Exception ex)
         {
-            Console.WriteLine($"Failed to deserialize {ex.Message}");
+            logger.Information($"Failed to deserialize {ex.Message}");
         }
 
         // complete the message. messages is deleted from the queue. 
         await receiver.CompleteMessageAsync(receivedMessage);
-    } else
-    {
-        Console.WriteLine("Error, received null message");
     }
+    logger.Information("Listening for messages");
 }

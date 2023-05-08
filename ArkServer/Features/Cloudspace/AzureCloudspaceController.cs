@@ -27,15 +27,22 @@ public class AzureCloudspaceController : ControllerBase
     [Route("/azure/cloudspace")]
     public async Task<IResult> CreateCloudSpace(CreateAzureCloudspaceRequest req)
     {
+
+        Console.WriteLine($"The kind was: {req.Kind}");
+
         // Generate new cloudspace model    
-        var acs = new AzureCloudspace();
+        var acs = new AzureCloudspace
+        {
+            Kind = req.Kind,
+            Name = req.Name
+        };
 
         // Add vnets to cloudspace
         req.Environments.ForEach(spoke => acs.AddSpoke(spoke));
 
         // Queue request with worker
         var subject = req.GetType().Name;
-        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.ToString()) { Subject = subject });
+        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = subject });
 
         // Respond with an Id
         return Results.Accepted("ok",new CreateAzureCloudspaceResponse

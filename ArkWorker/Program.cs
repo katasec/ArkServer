@@ -7,16 +7,15 @@ using System.Text.Json;
 using YamlDotNet;
 using YamlDotNet.Serialization;
 
-var x = new RemoteProgramArgs("aa", "aa", "aa");
-//x.PulumiUp();
+using Pulumi.Automation;
+
+var p = new RemoteProgram("dev", "https://github.com/katasec/library", "azurecloudspace-handler");
+//p.PulumiUp();
 
 var c = Config.Read();
 
 string connectionString = c.AzureConfig.MqConfig.MqConnectionString;
 string queueName = c.AzureConfig.MqConfig.MqName;
-
-Console.WriteLine($"Connection string:{connectionString}");
-Console.WriteLine($"Queue Name:{queueName}");
 
 await using var client = new ServiceBusClient(connectionString);
 
@@ -29,20 +28,33 @@ while (true)
     // receive a message
     ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync();
 
-    // get the message body as a string
-    string body = receivedMessage.Body.ToString();
+    if (receivedMessage !=null)
+    {
+        // Log subject
+        string body = receivedMessage.Body.ToString();
+        Console.WriteLine($"Subject: {receivedMessage.Subject}");
 
-    Console.WriteLine($"Subject: {receivedMessage.Subject}");
-    Console.WriteLine($"Received: {body}");
+        // Convert message to AzureCloudspace object
+        var acs = JsonSerializer.Deserialize<AzureCloudspace>(body);
 
-    var x = JsonSerializer.Deserialize<AzureCloudspace>(body);
+        try
+        {
+            // Generate yaml config for Pulumi.yaml from AzureCloudspace object
+            var ser = new SerializerBuilder().Build();
+            var arkdata = ser.Serialize(acs);
 
-    var serializer = new SerializerBuilder().Build();
-    var yaml = serializer.Serialize(x);
+            // Inject yaml config into configfile
+            p.InjectArkData(arkdata);
+            
+        } catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to deserialize {ex.Message}");
+        }
 
-    //Console.WriteLine($"Hub Name: {x.Hub.Name}");
-    //Console.WriteLine($"Name: {x.Hub.AddressPrefix}");
-    Console.WriteLine(yaml.ToString());
-    // complete the message. messages is deleted from the queue. 
-    await receiver.CompleteMessageAsync(receivedMessage);
+        // complete the message. messages is deleted from the queue. 
+        await receiver.CompleteMessageAsync(receivedMessage);
+    } else
+    {
+        Console.WriteLine("Error, received null message");
+    }
 }

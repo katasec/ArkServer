@@ -5,6 +5,7 @@ namespace Ark.ServiceModel.Cloudspace;
 
 public class CreateAzureCloudspaceRequest : BaseRequest
 {
+
     [YamlMember(Alias = "name")]
     public string  Name { get; init; } = "default";
 

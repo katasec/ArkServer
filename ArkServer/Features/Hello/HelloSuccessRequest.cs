@@ -1,4 +1,6 @@
-﻿namespace Ark.Server.Features.Hello;
+﻿using Ark.ServiceModel;
+
+namespace Ark.Server.Features.Hello;
 
 public class HelloSuccessRequest : BaseRequest
 {

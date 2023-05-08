@@ -5,7 +5,9 @@ namespace Ark.Server.Entities;
 public class BaseEntity
 {
 
-    //[JsonPropertyName("Id")]
+    [JsonPropertyName("Kind")]
+    public string Kind { get; set; }
+    
     public string Id { get; set; }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using ServiceStack.DataAnnotations;
+using YamlDotNet.Serialization;
 
 namespace Ark.Server.Entities;
 
@@ -14,6 +15,7 @@ public class AzureCloudspace : BaseEntity
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
     [JsonPropertyName("name")]
+    [YamlMember(Alias = "name")]
     [PrimaryKey]
     public string Name { get; set; } = "default";
 
@@ -21,18 +23,21 @@ public class AzureCloudspace : BaseEntity
     /// One hub per cloudspace
     /// </summary>
     [JsonPropertyName("hub")]
+    [YamlMember(Alias = "hub")]
     public VNetSpec Hub { get; set; }
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
     /// </summary>
     [JsonPropertyName("spokes")]
+    [YamlMember(Alias = "spokes")]
     public HashSet<VNetSpec> Spokes { get; set; } = new HashSet<VNetSpec>();
 
     /// <summary>
     /// Creation status
     /// </summary>
     [JsonPropertyName("status")]
+    [YamlMember(Alias = "status")]
     public string? Status { get; set; }
 
     // Defult Octets
@@ -64,10 +69,6 @@ public class AzureCloudspace : BaseEntity
     /// </summary>
     internal int SpokeOctet2Start { get; init; }
 
-    public override string ToString()
-    {
-        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-    }
 
     /// <summary>
     /// DO NOT REMOVE the JsonConstructor. Removing will cause issues with reading DB which 

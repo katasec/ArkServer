@@ -1,4 +1,6 @@
-﻿namespace Ark.Server.ExtensionMethods
+﻿using Serilog;
+
+namespace Ark.Server.ExtensionMethods
 {
     public static class MiddlewarePipeline
     {

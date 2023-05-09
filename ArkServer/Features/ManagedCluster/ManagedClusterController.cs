@@ -74,9 +74,8 @@ public class ManagedClusterController : ControllerBase
         string targetRg = "";
         if (targetEnv != null)
         {
-
-            targetVnet = result.Deployment.GetAzureVnet(targetEnv);
-            targetRg = result.Deployment.GetAzureVnetRg(targetEnv);
+                targetVnet = result.Deployment.GetAzureVnet(targetEnv) ?? "";
+                targetRg = result.Deployment.GetAzureVnetRg(targetEnv) ?? "";
         }
 
 

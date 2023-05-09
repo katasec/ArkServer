@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using ServiceStack.Script;
 using Ark.Base;
+using Serilog.Events;
 
 namespace Ark.Server;
 
@@ -17,6 +18,8 @@ public class Server
     {
 
         Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
             .WriteTo.Console()
             .CreateLogger();
 

@@ -20,6 +20,9 @@ public struct Config
     [YamlMember(Alias = "pulumidefultorg")]
     public string PulumiDefaultOrg { get; set; }
 
+    [YamlMember(Alias = "apiserver")]
+    public ApiServer ApiServer { get; set; }
+
     public static readonly string UserHomeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     public static readonly string ArkHome = Path.Join(UserHomeDir, ".ark");
     public static readonly string ConfigFile = Path.Join(ArkHome, "config");
@@ -40,6 +43,15 @@ public struct Config
         return config;
     }
 
+}
+
+public class ApiServer
+{
+    [YamlMember(Alias = "host")]
+    public string Host { get; set; } = "";
+
+    [YamlMember(Alias = "port")]
+    public string Port { get; set; } = "";
 }
 
 public struct AwsConfig

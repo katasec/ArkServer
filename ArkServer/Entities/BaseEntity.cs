@@ -6,7 +6,7 @@ public class BaseEntity
 {
 
     [JsonPropertyName("Kind")]
-    public string Kind { get; set; }
+    public string Kind { get; set; } = "";
     
     public string Id { get; set; }
 

@@ -5,6 +5,7 @@ using YamlDotNet.Serialization;
 using System.Text.Json;
 using Ark.Entities;
 using static ServiceStack.Diagnostics.Events;
+using Katasec.PulumiRunner;
 
 namespace Ark.Worker;
 
@@ -16,6 +17,7 @@ public class Worker
     Config c;
     ServiceBusClient _client;
     ServiceBusReceiver _receiver;
+    private static readonly string gitUrl = "https://github.com/katasec/library";
 
     public Worker()
     {
@@ -69,28 +71,36 @@ public class Worker
         string body = message.Body.ToString();
         _logger.Information($"Subject: {message.Subject}");
 
-        // Convert message to AzureCloudspace object
+        // Convert message to entity of  type "T" retrieved from the subject
         var T = Type.GetType($"{message.Subject}, Ark.Entities");
-
         if ( T == null)
         {
+            _logger.Error($"Could not serialize message with subkject: {message.Subject}");
             return;
         }
+        _logger.Information($"Serializing message Type {T.FullName}");
 
-        _logger.Information($"T was not null :) !! {T.FullName}");
+        // Determnine handler name from Entity Type
+        var handlername = $"{T.Name.ToLower()}-handler";
+        _logger.Information($"Handler name: {handlername}");
+
         try
         {
+            // Create resource of Type "T"
             var resource = JsonSerializer.Deserialize(body, T);
 
             // Generate yaml config for Pulumi.yaml for resource
-
             var ser = new SerializerBuilder().Build();
             var arkdata = ser.Serialize(resource);
 
-            _logger.Information(arkdata);
             // Inject yaml config into configfile
-            //p.InjectArkData(arkdata);
-
+            var pulumiProgram = new RemoteProgram(
+                stackName: "dev",
+                gitUrl: gitUrl,
+                projectPath: handlername
+            );
+            pulumiProgram.InjectArkData(arkdata);
+            await pulumiProgram.Up();
         }
         catch (Exception ex)
         {

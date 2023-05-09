@@ -87,6 +87,7 @@ public class Worker
             var ser = new SerializerBuilder().Build();
             var arkdata = ser.Serialize(resource);
 
+            _logger.Information(arkdata);
             // Inject yaml config into configfile
             //p.InjectArkData(arkdata);
 

@@ -28,7 +28,7 @@ public class AzureCloudspaceController : ControllerBase
     public async Task<IResult> CreateCloudSpace(CreateAzureCloudspaceRequest req)
     {
 
-        Console.WriteLine($"The kind was: {req.Kind}");
+        _logger.LogInformation($"The kind was: {req.Kind}");
 
         // Generate new cloudspace model    
         var acs = new AzureCloudspace

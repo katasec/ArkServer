@@ -1,10 +1,10 @@
 ﻿using Ark.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using Ark.Server.Entities;
 using ServiceStack.OrmLite;
 using PulumiApi;
 using Azure.Messaging.ServiceBus;
 using Ark.Base;
+using Ark.Entities;
 
 namespace Ark.Server.Features.ManagedCluster;
 

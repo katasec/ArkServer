@@ -2,7 +2,7 @@
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
-using Ark.Server.Entities;
+using Ark.Entities;
 
 namespace Ark.Server.Features.Hello;
 

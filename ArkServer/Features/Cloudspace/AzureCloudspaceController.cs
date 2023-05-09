@@ -1,10 +1,10 @@
 ﻿using Ark.ServiceModel.Cloudspace;
-using Ark.Server.Entities;
 using Ark.Server.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.Legacy;
+using Ark.Entities;
 
 namespace Ark.Server.Features.Cloudspace;
 
@@ -41,7 +41,9 @@ public class AzureCloudspaceController : ControllerBase
         req.Environments.ForEach(spoke => acs.AddSpoke(spoke));
 
         // Queue request with worker
-        var subject = req.GetType().Name;
+        
+        var subject = acs.GetType().FullName;
+        _logger.LogInformation($"The type was {subject}");
         await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = subject });
 
         // Respond with an Id

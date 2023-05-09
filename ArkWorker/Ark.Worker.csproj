@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ark.Config\Ark.Base.csproj" />
+    <ProjectReference Include="..\Ark.Entities\Ark.Entities.csproj" />
     <ProjectReference Include="..\Ark.ServiceModel\Ark.ServiceModel.csproj" />
-    <ProjectReference Include="..\ArkServer\Ark.Server.csproj" />
   </ItemGroup>
 
 </Project>

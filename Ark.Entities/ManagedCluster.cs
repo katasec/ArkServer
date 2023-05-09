@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Ark.Server.Entities;
+﻿namespace Ark.Entities;
 
 public class AzureManagedCluster : BaseEntity
 {

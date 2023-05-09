@@ -1,9 +1,4 @@
-﻿using System.Text.Json;
-using YamlDotNet;
-using YamlDotNet.Serialization;
-
-
-namespace Ark.Server.Entities;
+﻿namespace Ark.Entities;
 
 
 public static class BaseEntityExtensions

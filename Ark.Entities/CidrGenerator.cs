@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Ark.Server.Entities;
+﻿namespace Ark.Entities;
 
 internal static class CidrGenerator
 {

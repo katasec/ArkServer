@@ -1,9 +1,7 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using ServiceStack.DataAnnotations;
-using YamlDotNet.Serialization;
+﻿using ServiceStack.DataAnnotations;
 
-namespace Ark.Server.Entities;
+namespace Ark.Entities;
+
 
 /// <summary>
 /// An Azure Cloudspace has one hub and one or more 'Environments' or VNETs
@@ -54,20 +52,20 @@ public class AzureCloudspace : BaseEntity
     /// all the hubs and spokes. This defaults to the value of DefaultOctet1 
     /// unless overridden via the constructor
     /// </summary>
-    internal int Octet1 { get; init; }
+    internal int Octet1 { get; private set; }
 
     /// <summary>
     /// Used to generate the CIDRs for hub. This defaults to the value 
     /// of DefaultOctet2 unless overridden via the constructor
     /// </summary>
-    internal int HubOctet2 { get; init; }
+    internal int HubOctet2 { get; private set; }
 
     /// <summary>
     /// SpokeOctet2Start is used to generate the CIDRs for the spokes. The second Octet of the first 
     /// spoke will be SpokeOctet2Start (Calculated from HubOctet2 + 1). Every subsequent spoke will 
     /// have a 2nd Octet >  SpokeOctet2Start
     /// </summary>
-    internal int SpokeOctet2Start { get; init; }
+    internal int SpokeOctet2Start { get; private set; }
 
 
     /// <summary>

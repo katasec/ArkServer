@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Ark.Server.Entities;
+﻿namespace Ark.Entities;
 
 public class BaseEntity
 {

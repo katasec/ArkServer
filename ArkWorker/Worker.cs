@@ -3,7 +3,7 @@ using Azure.Messaging.ServiceBus;
 using Serilog;
 using YamlDotNet.Serialization;
 using System.Text.Json;
-using Ark.Server.Entities;
+using Ark.Entities;
 using static ServiceStack.Diagnostics.Events;
 
 namespace Ark.Worker;
@@ -44,17 +44,17 @@ public class Worker
         Console.CancelKeyPress += new ConsoleCancelEventHandler(Cleanup);
         AppDomain.CurrentDomain.ProcessExit += Cleanup;
 
+        _logger.Information($"Local ark server: http://{c.ApiServer.Host}:{c.ApiServer.Port}");
+
         while (true)
         {
             // receive a message
-            _logger.Information($"Local ark server: http://{c.ApiServer.Host}:{c.ApiServer.Port}");
             _logger.Information("Listening for messages...");
             ServiceBusReceivedMessage receivedMessage = await _receiver.ReceiveMessageAsync();
 
             // Handle Message
             await Handle(receivedMessage);
 
-            Thread.Sleep(5000);
         }
     }
     public async Task Handle(ServiceBusReceivedMessage message)
@@ -70,13 +70,22 @@ public class Worker
         _logger.Information($"Subject: {message.Subject}");
 
         // Convert message to AzureCloudspace object
-        var acs = JsonSerializer.Deserialize<AzureCloudspace>(body);
+        var T = Type.GetType($"{message.Subject}, Ark.Entities");
 
+        if ( T == null)
+        {
+            return;
+        }
+
+        _logger.Information($"T was not null :) !! {T.FullName}");
         try
         {
-            // Generate yaml config for Pulumi.yaml from AzureCloudspace object
+            var resource = JsonSerializer.Deserialize(body, T);
+
+            // Generate yaml config for Pulumi.yaml for resource
+
             var ser = new SerializerBuilder().Build();
-            var arkdata = ser.Serialize(acs);
+            var arkdata = ser.Serialize(resource);
 
             // Inject yaml config into configfile
             //p.InjectArkData(arkdata);
@@ -86,7 +95,6 @@ public class Worker
         {
             _logger.Information($"Failed to deserialize {ex.Message}");
         }
-
         // complete the message. messages is deleted from the queue. 
         await _receiver.CompleteMessageAsync(message);
     }

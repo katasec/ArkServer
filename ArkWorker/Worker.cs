@@ -6,6 +6,7 @@ using System.Text.Json;
 using Ark.Entities;
 using static ServiceStack.Diagnostics.Events;
 using Katasec.PulumiRunner;
+using ServiceStack.Messaging;
 
 namespace Ark.Worker;
 
@@ -50,32 +51,45 @@ public class Worker
 
         while (true)
         {
-            // receive a message
-            _logger.Information("Listening for messages...");
-            ServiceBusReceivedMessage receivedMessage = await _receiver.ReceiveMessageAsync();
+            try
+            {
+                // receive a message
+                _logger.Information("Listening for messages...");
+                _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions
+                {
+                    ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete  
+                });
+                ServiceBusReceivedMessage receivedMessage = await _receiver.ReceiveMessageAsync();
 
-            // Handle Message
-            await Handle(receivedMessage);
+                // Skip null messages
+                if (receivedMessage == null)
+                {
+                    _logger.Information("Received null message, contnuing...");
+                    continue;
+                }
 
+                // Handle message
+                _logger.Information($"Handling message with subject: {receivedMessage.Subject}");
+                await Handle(receivedMessage.Subject, receivedMessage.Body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+            }
         }
     }
-    public async Task Handle(ServiceBusReceivedMessage message)
+    public async Task Handle(string subject, string body)
     {
-        if (message == null)
-        {
-            _logger.Information("Skipping null message");
-            return;
-        }
-
         // Log subject
-        string body = message.Body.ToString();
-        _logger.Information($"Subject: {message.Subject}");
+        _logger.Information($"Subject: {subject}");
+        var action = subject.Split(';')[0];
+        var messageType = subject.Split(';')[1];
 
         // Convert message to entity of  type "T" retrieved from the subject
-        var T = Type.GetType($"{message.Subject}, Ark.Entities");
+        var T = Type.GetType($"{messageType}, Ark.Entities");
         if ( T == null)
         {
-            _logger.Error($"Could not serialize message with subkject: {message.Subject}");
+            _logger.Error($"Could not serialize message with type: {messageType}");
             return;
         }
         _logger.Information($"Serializing message Type {T.FullName}");
@@ -100,14 +114,23 @@ public class Worker
                 projectPath: handlername
             );
             pulumiProgram.InjectArkData(arkdata);
-            await pulumiProgram.Up();
+            switch (action)
+            {
+                case "create":
+                    await pulumiProgram.Up();
+                    break;
+                case "delete":
+                    await pulumiProgram.Destroy();
+                    break;
+                default:
+                    _logger.Error($"Unknown action: {action}");
+                    break;
+            }
         }
         catch (Exception ex)
         {
             _logger.Information($"Failed to deserialize {ex.Message}");
         }
-        // complete the message. messages is deleted from the queue. 
-        await _receiver.CompleteMessageAsync(message);
     }
 
     public void Cleanup(object? sender, EventArgs args)

@@ -3,7 +3,6 @@ using Ark.Server.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.Legacy;
 using Ark.Entities;
 
 namespace Ark.Server.Features.Cloudspace;
@@ -42,9 +41,10 @@ public class AzureCloudspaceController : ControllerBase
 
         // Queue request with worker
         
-        var subject = acs.GetType().FullName;
-        _logger.LogInformation($"The type was {subject}");
-        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = subject });
+        var messageType = acs.GetType().FullName;
+        var subject = $"create;{messageType}";
+        _logger.LogInformation($"The type was {messageType}");
+        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = messageType });
 
         // Respond with an Id
         return Results.Accepted("ok",new CreateAzureCloudspaceResponse
@@ -59,6 +59,8 @@ public class AzureCloudspaceController : ControllerBase
     [Route("/azure/cloudspace")]
     public async Task<IResult> Delete(DeleteAzureCloudspaceRequest req)
     {
+        _logger.LogInformation($"Delete cloudspace:" + req.Name);
+
         var uri = $"https://{ApiHost}/azure/cloudspace/{req.Name.ToLower()}";
 
         //// Return if not exists
@@ -73,10 +75,17 @@ public class AzureCloudspaceController : ControllerBase
 
         //var acs = cs[0];
 
+       var acs = new AzureCloudspace
+       {
+            Kind = req.Kind,
+            Name = req.Name
+        };
+
 
         // Send Message to queue
-        var subject = req.GetType().Name;
-        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(req.ToString()) { Subject = subject });
+        var messageType = acs.GetType().FullName;
+        var subject = $"delete;{messageType}";
+        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = subject });
 
         // Send message to worker to run the pulumi handler program & return a 202 (Accepted)
         return Results.Accepted();

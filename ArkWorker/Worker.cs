@@ -54,7 +54,7 @@ public class Worker
             try
             {
                 // receive a message
-                _logger.Information("Listening for messages...");
+                _logger.Information("Waiting for messages...");
                 _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions
                 {
                     ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete  
@@ -126,6 +126,8 @@ public class Worker
                     _logger.Error($"Unknown action: {action}");
                     break;
             }
+
+            _logger.Information($"Finished handling message with subject: {subject}");
         }
         catch (Exception ex)
         {

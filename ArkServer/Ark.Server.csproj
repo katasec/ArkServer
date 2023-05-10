@@ -6,8 +6,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OutputType>Exe</OutputType>
 		<PlatformTarget>AnyCPU</PlatformTarget>
+		<ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:7.0-alpine</ContainerBaseImage>
 		<ContainerImageName>ghcr.io/katasec/arkserver</ContainerImageName>
-		<ContainerImageTag>v0.0.1</ContainerImageTag>
+		<ContainerImageTag>v0.0.5</ContainerImageTag>
 	</PropertyGroup>
 
 	<ItemGroup>

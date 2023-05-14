@@ -1,6 +1,0 @@
-<Project>
-    <PropertyGroup>
-        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-        <PublishProfile>DefaultContainer<PublishProfile>
-    </PropertyGroup>
-</Project>

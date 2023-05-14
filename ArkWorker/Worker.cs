@@ -3,10 +3,7 @@ using Azure.Messaging.ServiceBus;
 using Serilog;
 using YamlDotNet.Serialization;
 using System.Text.Json;
-using Ark.Entities;
-using static ServiceStack.Diagnostics.Events;
 using Katasec.PulumiRunner;
-using ServiceStack.Messaging;
 
 namespace Ark.Worker;
 

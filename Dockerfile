@@ -14,4 +14,4 @@ RUN dotnet publish --no-self-contained -c Release -o out -r linux-x64
 FROM mcr.microsoft.com/dotnet/nightly/aspnet:7.0-jammy-chiseled
 WORKDIR /App
 COPY --from=build-env /App/out .
-ENTRYPOINT ["/App/ArkServer"]
+ENTRYPOINT ["/App/Ark.Server"]

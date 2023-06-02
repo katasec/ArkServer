@@ -8,7 +8,7 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:7.0-alpine</ContainerBaseImage>
 		<ContainerImageName>ghcr.io/katasec/arkserver</ContainerImageName>
-		<ContainerImageTag>v0.0.5</ContainerImageTag>
+		<ContainerImageTag>v0.0.6</ContainerImageTag>
 	</PropertyGroup>
 
 	<ItemGroup>

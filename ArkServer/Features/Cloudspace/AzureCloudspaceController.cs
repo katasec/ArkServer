@@ -44,7 +44,7 @@ public class AzureCloudspaceController : ControllerBase
         var messageType = acs.GetType().FullName;
         var subject = $"create;{messageType}";
         _logger.LogInformation($"The type was {messageType}");
-        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = messageType });
+        await _asbService.Sender.SendMessageAsync(new ServiceBusMessage(acs.JsonString()) { Subject = subject });
 
         // Respond with an Id
         return Results.Accepted("ok",new CreateAzureCloudspaceResponse

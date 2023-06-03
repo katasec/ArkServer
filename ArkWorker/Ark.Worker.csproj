@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.13.1" />
-    <PackageReference Include="Katasec.PulumiRunner" Version="0.7.0" />
+    <PackageReference Include="Katasec.PulumiRunner" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>

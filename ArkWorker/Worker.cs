@@ -4,6 +4,7 @@ using Serilog;
 using YamlDotNet.Serialization;
 using System.Text.Json;
 using Katasec.PulumiRunner;
+using static Katasec.PulumiRunner.RemoteProgram;
 
 namespace Ark.Worker;
 
@@ -108,7 +109,10 @@ public class Worker
             var pulumiProgram = new RemoteProgram(
                 stackName: "dev",
                 gitUrl: gitUrl,
-                projectPath: handlername
+                projectPath: handlername,
+                plugins: new List<Plugin> { 
+                    new Plugin("pulumi-azure", "v1.102.0"),
+                }
             );
             pulumiProgram.InjectArkData(arkdata);
             switch (action)

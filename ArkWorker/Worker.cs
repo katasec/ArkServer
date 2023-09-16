@@ -111,7 +111,7 @@ public class Worker
                 gitUrl: gitUrl,
                 projectPath: handlername,
                 plugins: new List<Plugin> { 
-                    new Plugin("pulumi-azure", "v1.102.0"),
+                    new Plugin("azure-native", "2.6.0"),
                 }
             );
             pulumiProgram.InjectArkData(arkdata);

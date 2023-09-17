@@ -55,14 +55,14 @@ public class Worker
                 _logger.Information("Waiting for messages...");
                 _receiver = _client.CreateReceiver(queueName, new ServiceBusReceiverOptions
                 {
-                    ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete  
+                    ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete 
                 });
                 ServiceBusReceivedMessage receivedMessage = await _receiver.ReceiveMessageAsync();
 
                 // Skip null messages
                 if (receivedMessage == null)
                 {
-                    _logger.Information("Received null message, contnuing...");
+                    //_logger.Information("Received null message, contnuing...");
                     continue;
                 }
 
@@ -114,7 +114,7 @@ public class Worker
                     new Plugin("azure-native", "2.6.0"),
                 }
             );
-            pulumiProgram.InjectArkData(arkdata);
+            pulumiProgram.InjectArkData(body);
             switch (action)
             {
                 case "create":

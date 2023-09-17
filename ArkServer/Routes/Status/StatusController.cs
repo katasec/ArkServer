@@ -5,7 +5,7 @@ using System.Diagnostics;
 using YamlDotNet.Core;
 using System.Text.Json.Serialization;
 
-namespace Ark.Server.Features.Status;
+namespace Ark.Server.Routes.Status;
 
 
 

@@ -2,7 +2,7 @@ using PulumiApi;
 using PulumiApi.Models;
 using ServiceStack;
 using Ark.Entities;
-using Ark.Server.Features.ManagedCluster;
+using Ark.Server.Routes.ManagedCluster;
 using Ark.Base;
 
 namespace ArkServer.Test;
@@ -15,11 +15,11 @@ public class ScratchPad
     private string? projectName;
     private string? stackName;
 
-    private readonly Entities.Azure.Ark ark;
+    
 
     public ScratchPad()
     {
-        ark = new Entities.Azure.Ark();
+        
         
     }
     [SetUp]
@@ -33,7 +33,7 @@ public class ScratchPad
     [Test]
     public void CheckHub()
     {
-        var acs = new Entities.Azure.AzureCloudspace()
+        var acs = new Ark.Entities.AzureCloudspace()
                     .AddSpoke("ameer")
                     .AddSpoke("egal");
 
@@ -82,14 +82,14 @@ public class ScratchPad
     [Test]
     public void HashsetStuff()
     {
-        var nets = new HashSet<Entities.Azure.VNetSpec>();
+        var nets = new HashSet<Ark.Entities.VNetSpec>();
 
-        var spoke1 = new Entities.Azure.VNetSpec{
+        var spoke1 = new Ark.Entities.VNetSpec{
             Name= "hi",
             AddressPrefix="1.1.1.1",
-            SubnetsInfo= new List<Entities.Azure.SubnetInfo>
+            SubnetsInfo= new List<Ark.Entities.SubnetInfo>
             {
-                new Entities.Azure.SubnetInfo{
+                new Ark.Entities.SubnetInfo{
                     Name="subnet1",
                     AddressPrefix="10.0.0.0",
                     Description="cool subet" 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
 using Ark.Entities;
 
-namespace Ark.Server.Features.Cloudspace;
+namespace Ark.Server.Routes.Cloudspace;
 
 [ApiController]
 public class AzureCloudspaceController : ControllerBase

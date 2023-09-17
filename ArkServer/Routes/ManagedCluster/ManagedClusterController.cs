@@ -6,7 +6,7 @@ using Azure.Messaging.ServiceBus;
 using Ark.Base;
 using Ark.Entities;
 
-namespace Ark.Server.Features.ManagedCluster;
+namespace Ark.Server.Routes.ManagedCluster;
 
 [ApiController]
 public class ManagedClusterController : ControllerBase

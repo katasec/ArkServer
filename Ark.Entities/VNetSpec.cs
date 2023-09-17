@@ -4,15 +4,15 @@
 public class VNetSpec
 {
     [JsonPropertyName("name")]
-    [YamlMember(Alias = "name")]
+    [YamlMember(Alias = "Name")]
     public string Name { get; set; } = "";
 
     [JsonPropertyName("addressprefix")]
-    [YamlMember(Alias = "addressprefix")]
+    [YamlMember(Alias = "Addressprefix")]
     public string AddressPrefix { get; set; } = "";
 
     [JsonPropertyName("subnetsInfo")]
-    [YamlMember(Alias = "subnetsInfo")]
+    [YamlMember(Alias = "SubnetsInfo")]
     public IEnumerable<SubnetInfo> SubnetsInfo { get; set; } = new List<SubnetInfo>();
 
     [JsonPropertyName("Octet2")]

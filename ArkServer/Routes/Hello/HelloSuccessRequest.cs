@@ -1,6 +1,6 @@
 ﻿using Ark.ServiceModel;
 
-namespace Ark.Server.Features.Hello;
+namespace Ark.Server.Routes.Hello;
 
 public class HelloSuccessRequest : BaseRequest
 {

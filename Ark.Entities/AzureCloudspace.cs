@@ -13,7 +13,7 @@ public class AzureCloudspace : BaseEntity
     /// Name of cloudspace. Defaulting to 'default'
     /// </summary>
     [JsonPropertyName("name")]
-    [YamlMember(Alias = "name")]
+    [YamlMember(Alias = "Name")]
     [PrimaryKey]
     public string Name { get; set; } = "default";
 
@@ -21,21 +21,21 @@ public class AzureCloudspace : BaseEntity
     /// One hub per cloudspace
     /// </summary>
     [JsonPropertyName("hub")]
-    [YamlMember(Alias = "hub")]
+    [YamlMember(Alias = "Hub")]
     public VNetSpec Hub { get; set; }
 
     /// <summary>
     /// One or more Environments or VNETs per cloudspace
     /// </summary>
     [JsonPropertyName("spokes")]
-    [YamlMember(Alias = "spokes")]
+    [YamlMember(Alias = "Spokes")]
     public HashSet<VNetSpec> Spokes { get; set; } = new HashSet<VNetSpec>();
 
     /// <summary>
     /// Creation status
     /// </summary>
     [JsonPropertyName("status")]
-    [YamlMember(Alias = "status")]
+    [YamlMember(Alias = "Status")]
     public string? Status { get; set; }
 
     // Defult Octets

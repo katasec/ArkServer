@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceStack.OrmLite;
 using Ark.Entities;
 
-namespace Ark.Server.Features.Hello;
+namespace Ark.Server.Routes.Hello;
 
 [ApiController]
 public class HelloSuccessController

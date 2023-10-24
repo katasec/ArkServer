@@ -8,7 +8,7 @@ public class SubnetInfo
     public string Name { get; set; } = "";
 
     [JsonPropertyName("addressprefix")]
-    [YamlMember(Alias = "Addressprefix")]
+    [YamlMember(Alias = "AddressPrefix")]
     public string AddressPrefix { get; set; } = "";
 
     [JsonPropertyName("description")]

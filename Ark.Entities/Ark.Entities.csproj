@@ -6,7 +6,7 @@
         <AssemblyName>Ark.Entities</AssemblyName>
         <LangVersion>11.0</LangVersion>
         <PackageId>ArkServer.Entities</PackageId>
-        <Version>0.0.4</Version>
+        <Version>0.0.7</Version>
         <Authors>Katasec</Authors>
         <Company>Katasec</Company>
   </PropertyGroup>
